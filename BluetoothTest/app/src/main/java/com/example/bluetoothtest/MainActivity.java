@@ -8,8 +8,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
-import java.io.DataOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 
@@ -17,6 +17,9 @@ import java.net.Socket;
 public class MainActivity extends AppCompatActivity {
 
     private Button q,w;
+
+    public static String message="";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,12 +32,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    MessageSender messageSender=new MessageSender();
-                    messageSender.execute("Q down");
+                    message+="Q down|";
                 }
                 else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    MessageSender messageSender=new MessageSender();
-                    messageSender.execute("Q up");
+                    message+="Q up|";
                 }
                 return true;
             }
@@ -44,15 +45,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    MessageSender messageSender=new MessageSender();
-                    messageSender.execute("W down");
+                    message+="W down|";
                 }
                 else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    MessageSender messageSender=new MessageSender();
-                    messageSender.execute("W up");
+                    message+="W up|";
                 }
                 return true;
             }
         });
+
+        DataSender ds=new DataSender();
+        ds.start();
     }
 }
