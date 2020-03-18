@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">BluetoothTest</string>
+
+
+    <!-- menu bar name-->
+    <string name="title_settings">Settings</string>
+
+
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Preference Titles -->
+    <string name="networking_header">Networking</string>
+
+    <!-- Networking Preferences -->
+    <string name="IP_title">Set Computer\'s IP</string>
+    <string name="port_title">Change Port</string>
+    <string name="default_port">2764</string>
 </resources>

@@ -20,16 +20,23 @@ def control(cmd):
 
 def main():
    #making pyautogui faster but more unsafety
-   pyautogui.PAUSE=0
+   pyautogui.PAUSE = 0
    pyautogui.FAILSAFE = False
    
-   s = socket.socket()          
-   print ("Socket successfully created")
-     
-   port = 7800 #why did i choose 7800            
+   s = socket.socket()      
+   print ("socket successfully created")
 
-   s.bind(('', port))         
-   print ("socket binded to %s" %(port))
+
+   while True:
+      try:
+         print("enter port: ",end="")
+         port = int(input())      
+
+         s.bind(('', port))         
+         print ("socket binded to %s" %(port))
+         break
+      except:
+         print ("error connecting to port")
      
    s.listen(5)      
    print ("socket is listening")           
