@@ -3,20 +3,25 @@ import pyautogui
 
 
 def control(cmd):
-   #print("DEBUG "+cmd);
+   print("DEBUG "+cmd);
 
    #python does not have a switch statement lol
    #time for some epic spqghatti coding
 
-   if cmd=="Q down":
-      pyautogui.keyDown('q')
-   elif cmd=="Q up":
-      pyautogui.keyUp('q')
-   elif cmd=="W down":
-      pyautogui.keyDown('w')
+   cmd=cmd.split(" ")
+   if (cmd[0]=="D"):
+      pyautogui.keyDown(cmd[1])
    else:
-      pyautogui.keyUp('w')
+      pyautogui.keyUp(cmd[1])
 
+   #mouse movement handling (WIP)
+   """
+   x, y = pyautogui.position()
+   print("curr pos: ",x," ",y)
+   if (cmd.startswith("velocity")):
+      cmd=cmd.split(" ")
+      pyautogui.move(float(cmd[1]),-float(cmd[2]))
+   """
 
 def main():
    #making pyautogui faster but more unsafety

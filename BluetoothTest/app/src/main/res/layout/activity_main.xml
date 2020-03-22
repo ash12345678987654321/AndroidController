@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -18,18 +19,54 @@
 
 
     <Button
-        android:id="@+id/q"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:text="Q" />
+        android:id="@+id/w"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:text="W"
+        app:layout_constraintBottom_toTopOf="@+id/d"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.84"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/w"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:text="W" />
+        android:id="@+id/a"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:text="A"
+        app:layout_constraintBottom_toTopOf="@+id/w"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/s"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:text="S"
+        app:layout_constraintBottom_toTopOf="@+id/d"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.15"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/d"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="240dp"
+        android:text="D"
+        app:layout_constraintBottom_toTopOf="@+id/space"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/space"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="20dp"
+        android:text="space"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
-
-
-</androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.constraintlayout.widget.ConstraintLayout>
