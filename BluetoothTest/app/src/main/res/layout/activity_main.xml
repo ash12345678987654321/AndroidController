@@ -17,56 +17,15 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
-
     <Button
-        android:id="@+id/w"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:text="W"
-        app:layout_constraintBottom_toTopOf="@+id/d"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.84"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/a"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:text="A"
-        app:layout_constraintBottom_toTopOf="@+id/w"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/s"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:text="S"
-        app:layout_constraintBottom_toTopOf="@+id/d"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.15"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/d"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginBottom="240dp"
-        android:text="D"
-        app:layout_constraintBottom_toTopOf="@+id/space"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/space"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginBottom="20dp"
-        android:text="space"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="start"
+        android:text="start"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/toolbar" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

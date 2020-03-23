@@ -16,14 +16,16 @@ public class DataSender extends Thread {
     @Override
     public void run(){
         while (true){
-            if (MainActivity.cmd !=""){
+            if (ControllerActivity.cmd !=""){
+                //Log.d("ZZZ","Command: "+MainActivity.cmd);
                 try {
-                    //Log.d("ZZZ","Sending data to: "+ip+" "+port);
                     s = new Socket(ip,port);
                     pw=new PrintWriter(s.getOutputStream());
 
-                    pw.write(MainActivity.cmd);
-                    MainActivity.cmd = "";
+                    synchronized (this) { //in case we send too many commands because of bad threading
+                        pw.write(ControllerActivity.cmd);
+                        ControllerActivity.cmd = "";
+                    }
 
                     pw.flush();
                     pw.close();
