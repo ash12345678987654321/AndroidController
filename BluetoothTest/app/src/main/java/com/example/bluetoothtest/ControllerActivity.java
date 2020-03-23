@@ -6,6 +6,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +15,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
+
+import java.io.File;
+import java.util.Scanner;
 
 public class ControllerActivity extends AppCompatActivity implements SensorEventListener {
     public static String cmd ="";
@@ -45,16 +49,30 @@ public class ControllerActivity extends AppCompatActivity implements SensorEvent
             accel=sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
         }
 
-        //Btn("W","w",250,250,450,400);
-        //Btn("A","a",250,250,250,200);
-        //Btn("S","s",250,250,50,400);
-        //Btn("D","d",250,250,250,600);
+        String preset=getIntent().getStringExtra("preset");
+        Log.d("ZZZ",preset);
+        try{
+            File file=new File(getFilesDir()+"/"+preset);
+            Scanner scanner=new Scanner(file);
 
-        //Btn("Z","z",300,300,20,1200);
-        Btn("X","space",500,500,20,1400 );
+            while (scanner.hasNext()){
+                switch(scanner.next()){
+                    case "Btn":
+                        Btn(scanner.next(),scanner.next(),scanner.nextInt(),scanner.nextInt(),scanner.nextInt(),scanner.nextInt());
+                        break;
 
-        Dpad("up","down","left","right",600,0,0);
+                    case "Dpad":
+                        Dpad(scanner.next(),scanner.next(),scanner.next(),scanner.next(),scanner.nextInt(),scanner.nextInt(),scanner.nextInt());
+                        break;
+                }
+            }
 
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        //code to make app bigger
         decorView=getWindow().getDecorView();
         decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
             @Override
@@ -199,31 +217,39 @@ public class ControllerActivity extends AppCompatActivity implements SensorEvent
                 if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction()==MotionEvent.ACTION_MOVE) {
                     double x=event.getX()-diam[0]/2,y=event.getY()-diam[0]/2;
                     double dist=Math.sqrt(x*x+y*y);
-                    x /= dist;
-                    y /= dist;
-
-                    double angle = Math.acos(x);
-                    if (y < 0) angle = 2*Math.PI-angle;
-
-                    boolean[] curr=new boolean[4];
-
-                    curr[0]=(6.5/4*Math.PI<angle || angle<1.5/4*Math.PI);
-                    curr[1]=(0.5/4*Math.PI <angle && angle<3.5/4*Math.PI);
-                    curr[2]=(2.5/4*Math.PI <angle && angle<5.5/4*Math.PI);
-                    curr[3]=(4.5/4*Math.PI <angle && angle<7.5/4*Math.PI);
-
-                    for (int i=0;i<4;i++){
-                        if (curr[i]!=triggered[i]){
-                            triggered[i]=curr[i];
+                    if (dist<diam[0]/6){
+                        for (int i=0;i<4;i++){
                             if (triggered[i]){
-                                cmd+="D "+out[i]+"|";
-                            }
-                            else{
+                                triggered[i]=false;
                                 cmd+="U "+out[i]+"|";
                             }
                         }
                     }
+                    else {
+                        x /= dist;
+                        y /= dist;
 
+                        double angle = Math.acos(x);
+                        if (y < 0) angle = 2 * Math.PI - angle;
+
+                        boolean[] curr = new boolean[4];
+
+                        curr[0] = (6.5 / 4 * Math.PI < angle || angle < 1.5 / 4 * Math.PI);
+                        curr[1] = (0.5 / 4 * Math.PI < angle && angle < 3.5 / 4 * Math.PI);
+                        curr[2] = (2.5 / 4 * Math.PI < angle && angle < 5.5 / 4 * Math.PI);
+                        curr[3] = (4.5 / 4 * Math.PI < angle && angle < 7.5 / 4 * Math.PI);
+
+                        for (int i = 0; i < 4; i++) {
+                            if (curr[i] != triggered[i]) {
+                                triggered[i] = curr[i];
+                                if (triggered[i]) {
+                                    cmd += "D " + out[i] + "|";
+                                } else {
+                                    cmd += "U " + out[i] + "|";
+                                }
+                            }
+                        }
+                    }
                 }
                 else if (event.getAction() == MotionEvent.ACTION_UP) {
                     for (int i=0;i<4;i++){

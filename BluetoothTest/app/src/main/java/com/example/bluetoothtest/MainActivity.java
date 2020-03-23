@@ -12,11 +12,20 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Scanner;
 
 
 public class MainActivity extends AppCompatActivity {
+    private Spinner spinner;
+    private ArrayList<String> presets;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +36,21 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setTitle("");
+
+        spinner=findViewById(R.id.preset);
+
+        File path=this.getFilesDir();
+        presets=new ArrayList<>();
+        Log.d("ZZZ",path.toString());
+        for (File i:path.listFiles()){
+            Log.d("ZZZ","File found: "+i.getName());
+            presets.add(i.getName());
+        }
+
+        Collections.sort(presets);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, presets);
+        spinner.setAdapter(adapter);
     }
 
     @Override
@@ -72,6 +96,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void start(View view){
-        startActivity(new Intent(this,ControllerActivity.class));
+        Intent intent=new Intent(this,ControllerActivity.class);
+        intent.putExtra("preset",presets.get(spinner.getSelectedItemPosition()));
+        startActivity(intent);
     }
 }
