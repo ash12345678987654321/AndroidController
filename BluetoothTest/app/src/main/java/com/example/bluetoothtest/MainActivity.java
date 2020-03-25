@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("ZZZ",path.toString());
         for (File i:path.listFiles()){
             Log.d("ZZZ","File found: "+i.getName());
-            presets.add(i.getName());
+            presets.add(i.getName().substring(0,i.getName().length()-4));
         }
 
         Collections.sort(presets);
@@ -97,6 +98,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void start(View view){
         Intent intent=new Intent(this,ControllerActivity.class);
+        intent.putExtra("preset",presets.get(spinner.getSelectedItemPosition()));
+        startActivity(intent);
+    }
+
+    public void edit(View view) {
+        Intent intent=new Intent(this, EditActivity.class);
         intent.putExtra("preset",presets.get(spinner.getSelectedItemPosition()));
         startActivity(intent);
     }
