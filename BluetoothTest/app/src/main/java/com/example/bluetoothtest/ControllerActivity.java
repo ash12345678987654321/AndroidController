@@ -14,16 +14,17 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
 
 import java.io.File;
 import java.util.Scanner;
+
+import static java.lang.Math.min;
 
 public class ControllerActivity extends AppCompatActivity implements SensorEventListener {
     public static String cmd ="";
 
     private RelativeLayout layout;
+    private RelativeLayout.LayoutParams layoutParams;
     private View decorView;
 
     private SensorManager sensorManager;
@@ -168,12 +169,9 @@ public class ControllerActivity extends AppCompatActivity implements SensorEvent
 
 
     //controller setups (adding them programmically)
-    private void Btn (String label,String output,int height,int width,int marginTop,int marginLeft){
-        final String[] out={output}; //what the fuck
-
+    private void Btn (String label,final String output,int height,int width,int marginTop,int marginLeft){
         Button btn=new Button(this);
 
-        btn.setId(View.generateViewId());
         btn.setHeight(height);
         btn.setWidth(width);
         btn.setMinimumHeight(0);
@@ -184,31 +182,51 @@ public class ControllerActivity extends AppCompatActivity implements SensorEvent
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    cmd +="D "+out[0]+"|";
+                    cmd +="D "+output+"|";
+                    v.setBackgroundResource(R.drawable.button_down);
+                    ((Button) v).setTextColor(getResources().getColor(R.color.background));
                 }
                 else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    cmd +="U "+out[0]+"|";
+                    cmd +="U "+output+"|";
+                    v.setBackgroundResource(R.drawable.button_up);
+                    ((Button) v).setTextColor(getResources().getColor(R.color.colorPrimary));
                 }
                 return true;
             }
         });
 
+        btn.setBackgroundResource(R.drawable.button_up);
+
         layout.addView(btn);
 
-        RelativeLayout.LayoutParams layoutParams=(RelativeLayout.LayoutParams) btn.getLayoutParams();
+        layoutParams=(RelativeLayout.LayoutParams) btn.getLayoutParams();
         layoutParams.leftMargin=marginLeft;
         layoutParams.topMargin=marginTop;
         btn.setLayoutParams(layoutParams);
     }
 
-    private void Dpad(String up,String down,String left,String right,int diameter,int marginTop,int marginLeft){
+    private void Dpad(String up,String down,String left,String right,int diameter,final int marginTop,final int marginLeft){
         final String[] out={right,down,left,up};
         final boolean[] triggered={false,false,false,false};
-        final double[] diam={diameter};
+        final int[] diam={diameter,diameter/4};
 
         Button btn=new Button(this);
+        final Button pointer=new Button(this);
 
-        btn.setId(View.generateViewId());
+        pointer.setHeight(diam[1]);
+        pointer.setWidth(diam[1]);
+        pointer.setMinimumHeight(0);
+        pointer.setMinimumWidth(0);
+
+        pointer.setBackgroundResource(R.drawable.dpad_pointer);
+
+        layout.addView(pointer);
+
+        layoutParams=(RelativeLayout.LayoutParams) pointer.getLayoutParams();
+        layoutParams.leftMargin=marginLeft+(diam[0]-diam[1])/2;
+        layoutParams.topMargin=marginTop+(diam[0]-diam[1])/2;
+        pointer.setLayoutParams(layoutParams);
+
         btn.setHeight(diameter);
         btn.setWidth(diameter);
         btn.setMinimumHeight(0);
@@ -218,9 +236,20 @@ public class ControllerActivity extends AppCompatActivity implements SensorEvent
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction()==MotionEvent.ACTION_MOVE) {
-                    double x=event.getX()-diam[0]/2,y=event.getY()-diam[0]/2;
+                    double x=event.getX()-(double)diam[0]/2,y=event.getY()-(double)diam[0]/2;
                     double dist=Math.sqrt(x*x+y*y);
-                    if (dist<diam[0]/6){
+                    x /= dist;
+                    y /= dist;
+
+                    dist=min(dist,(double)diam[0]/3);
+
+                    layoutParams=(RelativeLayout.LayoutParams) pointer.getLayoutParams();
+                    layoutParams.leftMargin=(int)(marginLeft+x*dist)+(diam[0]-diam[1])/2;
+                    layoutParams.topMargin=(int)(marginTop+y*dist)+(diam[0]-diam[1])/2;
+                    pointer.setLayoutParams(layoutParams);
+
+
+                    if (dist<(double)diam[0]/10){
                         for (int i=0;i<4;i++){
                             if (triggered[i]){
                                 triggered[i]=false;
@@ -229,9 +258,6 @@ public class ControllerActivity extends AppCompatActivity implements SensorEvent
                         }
                     }
                     else {
-                        x /= dist;
-                        y /= dist;
-
                         double angle = Math.acos(x);
                         if (y < 0) angle = 2 * Math.PI - angle;
 
@@ -261,14 +287,21 @@ public class ControllerActivity extends AppCompatActivity implements SensorEvent
                             cmd+="U "+out[i]+"|";
                         }
                     }
+
+                    layoutParams=(RelativeLayout.LayoutParams) pointer.getLayoutParams();
+                    layoutParams.leftMargin=marginLeft+(diam[0]-diam[1])/2;
+                    layoutParams.topMargin=marginTop+(diam[0]-diam[1])/2;
+                    pointer.setLayoutParams(layoutParams);
                 }
                 return true;
             }
         });
 
+        btn.setBackgroundResource(R.drawable.dpad);
+
         layout.addView(btn);
 
-        RelativeLayout.LayoutParams layoutParams=(RelativeLayout.LayoutParams) btn.getLayoutParams();
+        layoutParams=(RelativeLayout.LayoutParams) btn.getLayoutParams();
         layoutParams.leftMargin=marginLeft;
         layoutParams.topMargin=marginTop;
         btn.setLayoutParams(layoutParams);

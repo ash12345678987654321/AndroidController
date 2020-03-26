@@ -1,13 +1,7 @@
 package com.example.bluetoothtest;
 
-import android.content.Context;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -15,8 +9,9 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
+
+import com.example.bluetoothtest.controllerData.Btn;
+import com.example.bluetoothtest.controllerData.Dpad;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -98,19 +93,15 @@ public class EditActivity extends AppCompatActivity {
             File file=new File(getFilesDir()+"/"+preset+".txt");
             PrintWriter pw=new PrintWriter(file);
 
-            for (int x=0;x<layout.getChildCount();x++){
-                Button v=(Button) layout.getChildAt(x);
-                String[] args=v.getTag().toString().split(" ");
-                RelativeLayout.LayoutParams layoutParams=(RelativeLayout.LayoutParams) v.getLayoutParams();
+            for (int x=0;x<layout.getChildCount();x++) {
+                Button v = (Button) layout.getChildAt(x);
+                Object args = v.getTag();
+                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
 
-                switch (args[0]){
-                    case "Btn":
-                        pw.write("Btn "+v.getText().toString()+" "+args[1]+" "+v.getHeight()+" "+v.getWidth()+" "+layoutParams.topMargin+" "+layoutParams.leftMargin+"\n");
-                        break;
-
-                    case "Dpad":
-                        pw.write("Dpad "+args[1]+" "+args[2]+" "+args[3]+" "+args[4]+" "+v.getHeight()+" "+layoutParams.topMargin+" "+layoutParams.leftMargin+"\n");
-                        break;
+                if (args instanceof Btn) {
+                    pw.write("Btn " + " "+v.getText().toString()+" "+((Btn) args).getOutput()  + " " + v.getHeight() + " " + v.getWidth() + " " + layoutParams.topMargin + " " + layoutParams.leftMargin + "\n");
+                } else if (args instanceof Dpad) {
+                    pw.write("Dpad " + ((Dpad) args).getDir() + " " + v.getHeight() + " " + layoutParams.topMargin + " " + layoutParams.leftMargin + "\n");
                 }
             }
 
@@ -129,14 +120,13 @@ public class EditActivity extends AppCompatActivity {
     private void Btn (String label, String output, int height, int width, int marginTop, int marginLeft){
         Button btn=new Button(this);
 
-        btn.setId(View.generateViewId());
         btn.setHeight(height);
         btn.setWidth(width);
         btn.setMinimumHeight(0);
         btn.setMinimumWidth(0);
         btn.setText(label);
 
-        btn.setTag("Btn "+output);
+        btn.setTag(new Btn(output));
 
         btn.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -152,6 +142,8 @@ public class EditActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        btn.setBackgroundResource(R.drawable.button_up);
 
         layout.addView(btn);
 
@@ -164,13 +156,12 @@ public class EditActivity extends AppCompatActivity {
     private void Dpad(String up,String down,String left,String right,int diameter,int marginTop,int marginLeft){
         Button btn=new Button(this);
 
-        btn.setId(View.generateViewId());
         btn.setHeight(diameter);
         btn.setWidth(diameter);
         btn.setMinimumHeight(0);
         btn.setMinimumWidth(0);
 
-        btn.setTag("Dpad "+up+" "+down+" "+left+" "+right);
+        btn.setTag(new Dpad(up,down,left,right));
 
         btn.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -186,6 +177,8 @@ public class EditActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        btn.setBackgroundResource(R.drawable.dpad);
 
         layout.addView(btn);
 
