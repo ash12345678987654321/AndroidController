@@ -27,6 +27,7 @@ public class EditActivity extends AppCompatActivity {
     private View decorView;
 
     private LinearLayout add_pane;
+    private LinearLayout edit_pane;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,7 @@ public class EditActivity extends AppCompatActivity {
 
         layout=findViewById(R.id.layout_controller_tag);
         add_pane=findViewById(R.id.add_pane);
+        edit_pane=findViewById(R.id.edit_pane);
 
         String preset=getIntent().getStringExtra("preset");
         try{
@@ -252,6 +254,24 @@ public class EditActivity extends AppCompatActivity {
         else{
             animation = ObjectAnimator.ofFloat(add_pane, "translationX", add_pane.getWidth());
             animation2 = ObjectAnimator.ofFloat(view, "translationX", add_pane.getWidth());
+        }
+
+        animation.setDuration(300);
+        animation.start();
+        animation2.setDuration(300);
+        animation2.start();
+    }
+
+    public void expand_edit_pane(View view){
+        ObjectAnimator animation,animation2;
+
+        if (view.getTranslationX()!=0){
+            animation = ObjectAnimator.ofFloat(edit_pane, "translationX", 0);
+            animation2 = ObjectAnimator.ofFloat(view, "translationX", 0);
+        }
+        else{
+            animation = ObjectAnimator.ofFloat(edit_pane, "translationX", -edit_pane.getWidth());
+            animation2 = ObjectAnimator.ofFloat(view, "translationX", -edit_pane.getWidth());
         }
 
         animation.setDuration(300);
