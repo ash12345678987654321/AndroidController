@@ -33,6 +33,7 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/button_up"
         android:onClick="start"
         android:text="start"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -43,6 +44,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/button_up"
         android:onClick="edit"
         android:text="edit"
         app:layout_constraintBottom_toBottomOf="parent"

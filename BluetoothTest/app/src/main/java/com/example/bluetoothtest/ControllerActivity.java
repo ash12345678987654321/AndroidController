@@ -7,6 +7,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -18,17 +19,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.io.File;
 import java.util.Scanner;
 
+import static java.lang.Math.PI;
 import static java.lang.Math.min;
 
-public class ControllerActivity extends AppCompatActivity implements SensorEventListener {
+public class ControllerActivity extends AppCompatActivity {
     public static String cmd ="";
 
     private RelativeLayout layout;
     private RelativeLayout.LayoutParams layoutParams;
     private View decorView;
-
-    private SensorManager sensorManager;
-    private Sensor accel;
 
     private DataSender ds;
 
@@ -40,16 +39,6 @@ public class ControllerActivity extends AppCompatActivity implements SensorEvent
         setContentView(R.layout.activity_controller);
 
         layout=findViewById(R.id.layout_controller_tag);
-
-        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        if (sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION)==null) {
-            Toast toast= Toast.makeText(this,"Accelerometer not found :(",Toast.LENGTH_LONG);
-            toast.show();
-            finish();
-        }
-        else{
-            accel=sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
-        }
 
         String preset=getIntent().getStringExtra("preset");
         Log.d("ZZZ",preset);
@@ -112,59 +101,44 @@ public class ControllerActivity extends AppCompatActivity implements SensorEvent
     public void onResume() {
         super.onResume();
 
-        //sensorManager.registerListener(this, accel, SensorManager.SENSOR_DELAY_FASTEST);
-
         ds=new DataSender();
         ds.start();
+
+        Log.d("ZZZ","Data being sent");
     }
 
     @Override
     protected void onPause(){
         super.onPause();
-        //sensorManager.unregisterListener(this);
 
         ds.interrupt(); //stop the app from sending anything when not running
+        Log.d("ZZZ","Data stoppped being sent");
     }
 
-    //TODO make mouse work
-
-    private final static double threshold=0.15; //acceleration is treated as 0 under this limit
-    private final static double scaling=5; //amount velocity will be scaled
-    private final static int sample_size=5; //so i dont spam the port
-    private final static double alpha=0.8;
-    private double prev_x=0,prev_y=0;
-    private double vx,vy;
-    private double px=0,py=0;
-    private int samples=0;
-
     @Override
-    public void onSensorChanged(SensorEvent event){
-        double x=event.values[0],y=event.values[1];
-
-        x=alpha*x+(1-alpha)*prev_x;
-        y=alpha*y+(1-alpha)*prev_y;
-
-        prev_x=x;
-        prev_y=y;
-
-        vx += x * scaling;
-        vy += y * scaling;
-
-        px += vx;
-        py += vy;
-
-        samples++;
-
-        if (samples==sample_size){
-            cmd+="velocity "+px+" "+py+"|";
-            samples=0;
-            px=py=0;
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        int action = event.getAction();
+        int keyCode = event.getKeyCode();
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_VOLUME_UP:
+                if (action == KeyEvent.ACTION_DOWN) {
+                    cmd+="D volumeup|";
+                }
+                else if (action==KeyEvent.ACTION_UP){
+                    cmd+="U volumeup|";
+                }
+                return true;
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                if (action == KeyEvent.ACTION_DOWN) {
+                    cmd+="D volumedown|";
+                }
+                else if (action==KeyEvent.ACTION_UP){
+                    cmd+="U volumedown|";
+                }
+                return true;
+            default:
+                return super.dispatchKeyEvent(event);
         }
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
     }
 
 
@@ -177,6 +151,15 @@ public class ControllerActivity extends AppCompatActivity implements SensorEvent
         btn.setMinimumHeight(0);
         btn.setMinimumWidth(0);
         btn.setText(label);
+
+        btn.setBackgroundResource(R.drawable.button_up);
+
+        layout.addView(btn);
+
+        layoutParams=(RelativeLayout.LayoutParams) btn.getLayoutParams();
+        layoutParams.leftMargin=marginLeft;
+        layoutParams.topMargin=marginTop;
+        btn.setLayoutParams(layoutParams);
 
         btn.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -194,15 +177,6 @@ public class ControllerActivity extends AppCompatActivity implements SensorEvent
                 return true;
             }
         });
-
-        btn.setBackgroundResource(R.drawable.button_up);
-
-        layout.addView(btn);
-
-        layoutParams=(RelativeLayout.LayoutParams) btn.getLayoutParams();
-        layoutParams.leftMargin=marginLeft;
-        layoutParams.topMargin=marginTop;
-        btn.setLayoutParams(layoutParams);
     }
 
     private void Dpad(String up,String down,String left,String right,int diameter,final int marginTop,final int marginLeft){
@@ -231,6 +205,15 @@ public class ControllerActivity extends AppCompatActivity implements SensorEvent
         btn.setWidth(diameter);
         btn.setMinimumHeight(0);
         btn.setMinimumWidth(0);
+
+        btn.setBackgroundResource(R.drawable.dpad);
+
+        layout.addView(btn);
+
+        layoutParams=(RelativeLayout.LayoutParams) btn.getLayoutParams();
+        layoutParams.leftMargin=marginLeft;
+        layoutParams.topMargin=marginTop;
+        btn.setLayoutParams(layoutParams);
 
         btn.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -297,13 +280,5 @@ public class ControllerActivity extends AppCompatActivity implements SensorEvent
             }
         });
 
-        btn.setBackgroundResource(R.drawable.dpad);
-
-        layout.addView(btn);
-
-        layoutParams=(RelativeLayout.LayoutParams) btn.getLayoutParams();
-        layoutParams.leftMargin=marginLeft;
-        layoutParams.topMargin=marginTop;
-        btn.setLayoutParams(layoutParams);
     }
 }
