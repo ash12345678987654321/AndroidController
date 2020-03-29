@@ -7,12 +7,16 @@ import androidx.preference.PreferenceManager;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -26,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> layouts;
 
     private View decorView;
+
+    private PopupWindow popupWindow; //so we can access it easily
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,7 +207,49 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void rename(View view){
-        //TODO
+        LayoutInflater layoutInflater
+                = (LayoutInflater)getBaseContext()
+                .getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = layoutInflater.inflate(R.layout.popup_rename, null);
+
+
+        popupWindow = new PopupWindow(
+                popupView,
+                (int)(Resources.getSystem().getDisplayMetrics().widthPixels/3),
+                (int)(Resources.getSystem().getDisplayMetrics().heightPixels/3));
+
+        popupWindow.setFocusable(true);
+        popupWindow.update();
+        popupWindow.showAsDropDown(view,50,-100);
+    }
+
+    public void rename_cfm(View view){
+        String filename=((EditText)popupWindow.getContentView().findViewById(R.id.filename)).getText().toString();
+
+        File file=new File(getFilesDir()+"/"+filename);
+
+        if (file.exists()){
+            Toast.makeText(this,"Invalid file name",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        File file2=new File(getFilesDir()+"/"+layouts.get(spinner.getSelectedItemPosition()));
+
+        file2.renameTo(file);
+
+        for (int i=0;i<layouts.size();i++){
+            if (layouts.get(i).equals(file2.getName())) layouts.set(i,file.getName());
+        }
+
+        Collections.sort(layouts);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, layouts);
+        spinner.setAdapter(adapter);
+
+        for (int i=0;i<layouts.size();i++){
+            if (layouts.get(i).equals(file.getName())) spinner.setSelection(i);
+        }
+        popupWindow.dismiss();
     }
 }
 

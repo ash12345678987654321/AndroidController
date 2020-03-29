@@ -39,7 +39,7 @@ public class EditActivity extends AppCompatActivity {
     private LinearLayout add_pane;
     private LinearLayout edit_pane;
 
-    private PopupWindow popupWindow; //so we can close it easily
+    private PopupWindow popupWindow; //so we can access it easily
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,7 +86,7 @@ public class EditActivity extends AppCompatActivity {
 
         //add all valid keycodes
         keycodes.addAll(Arrays.asList(new String[]{
-                " ", "!", "\'", "#", "$", "%", "&", "\"", "(",
+                "!", "\'", "#", "$", "%", "&", "\"", "(",
                 ")", "*", "+", ",", "-", ".", "/", "0", "1", "2", "3", "4", "5", "6", "7",
                 "8", "9", ":", ";", "<", "=", ">", "?", "@", "[", "\\", "]", "^", "_", "`",
                 "a", "b", "c", "d", "e","f", "g", "h", "i", "j", "k", "l", "m", "n", "o",
@@ -138,7 +138,7 @@ public class EditActivity extends AppCompatActivity {
                 RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
 
                 if (args instanceof Btn) {
-                    pw.write("Btn " + " "+v.getText().toString()+" "+((Btn) args).getOutput()  + " " + v.getHeight() + " " + v.getWidth() + " " + layoutParams.topMargin + " " + layoutParams.leftMargin + "\n");
+                    pw.write("Btn " +v.getText().toString()+" "+((Btn) args).getOutput()  + " " + v.getHeight() + " " + v.getWidth() + " " + layoutParams.topMargin + " " + layoutParams.leftMargin + "\n");
                 } else if (args instanceof Dpad) {
                     pw.write("Dpad " + ((Dpad) args).getDir() + " " + v.getHeight() + " " + layoutParams.topMargin + " " + layoutParams.leftMargin + "\n");
                 }
@@ -183,8 +183,8 @@ public class EditActivity extends AppCompatActivity {
 
         popupWindow = new PopupWindow(
                 popupView,
-                700,
-                550);
+                (int)(Resources.getSystem().getDisplayMetrics().widthPixels/3),
+                (int)(Resources.getSystem().getDisplayMetrics().heightPixels/2.5));
 
         popupWindow.setFocusable(true);
         popupWindow.update();
@@ -213,8 +213,8 @@ public class EditActivity extends AppCompatActivity {
 
         popupWindow = new PopupWindow(
                 popupView,
-                700,
-                850);
+                (int)(Resources.getSystem().getDisplayMetrics().widthPixels/3),
+                (int)(Resources.getSystem().getDisplayMetrics().heightPixels/1.6));
 
         popupWindow.setFocusable(true);
         popupWindow.update();

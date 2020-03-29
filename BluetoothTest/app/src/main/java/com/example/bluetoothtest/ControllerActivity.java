@@ -122,18 +122,18 @@ public class ControllerActivity extends AppCompatActivity {
         switch (keyCode) {
             case KeyEvent.KEYCODE_VOLUME_UP:
                 if (action == KeyEvent.ACTION_DOWN) {
-                    cmd+="D volumeup|";
+                    cmd+="D volumeup\n";
                 }
                 else if (action==KeyEvent.ACTION_UP){
-                    cmd+="U volumeup|";
+                    cmd+="U volumeup\n";
                 }
                 return true;
             case KeyEvent.KEYCODE_VOLUME_DOWN:
                 if (action == KeyEvent.ACTION_DOWN) {
-                    cmd+="D volumedown|";
+                    cmd+="D volumedown\n";
                 }
                 else if (action==KeyEvent.ACTION_UP){
-                    cmd+="U volumedown|";
+                    cmd+="U volumedown\n";
                 }
                 return true;
             default:
@@ -165,12 +165,12 @@ public class ControllerActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    cmd +="D "+output+"|";
+                    cmd +="D "+output+"\n";
                     v.setBackgroundResource(R.drawable.button_down);
                     ((Button) v).setTextColor(getResources().getColor(R.color.background));
                 }
                 else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    cmd +="U "+output+"|";
+                    cmd +="U "+output+"\n";
                     v.setBackgroundResource(R.drawable.button_up);
                     ((Button) v).setTextColor(getResources().getColor(R.color.colorPrimary));
                 }
@@ -255,9 +255,9 @@ public class ControllerActivity extends AppCompatActivity {
                             if (curr[i] != triggered[i]) {
                                 triggered[i] = curr[i];
                                 if (triggered[i]) {
-                                    cmd += "D " + out[i] + "|";
+                                    cmd += "D " + out[i] + "\n";
                                 } else {
-                                    cmd += "U " + out[i] + "|";
+                                    cmd += "U " + out[i] + "\n";
                                 }
                             }
                         }
@@ -267,7 +267,7 @@ public class ControllerActivity extends AppCompatActivity {
                     for (int i=0;i<4;i++){
                         if (triggered[i]){
                             triggered[i]=false;
-                            cmd+="U "+out[i]+"|";
+                            cmd+="U "+out[i]+"\n";
                         }
                     }
 
