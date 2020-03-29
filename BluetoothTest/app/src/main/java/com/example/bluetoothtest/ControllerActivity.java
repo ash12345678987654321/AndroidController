@@ -236,7 +236,7 @@ public class ControllerActivity extends AppCompatActivity {
                         for (int i=0;i<4;i++){
                             if (triggered[i]){
                                 triggered[i]=false;
-                                cmd+="U "+out[i]+"|";
+                                cmd+="U "+out[i]+"\n";
                             }
                         }
                     }
