@@ -1,6 +1,26 @@
 import socket
 import pyautogui
 
+def keyDown(cmd):
+   if (cmd=="m1"):
+      pyautogui.mouseDown()
+   elif (cmd=="m2"):
+      pyautogui.mouseDown(button="right")
+   elif (cmd=="m3"):
+      pyautogui.mouseDown(button="middle")
+   else:
+      pyautogui.keyDown(cmd)
+
+def keyUp(cmd):
+   if (cmd=="m1"):
+      pyautogui.mouseUp()
+   elif (cmd=="m2"):
+      pyautogui.mouseUp(button="right")
+   elif (cmd=="m3"):
+      pyautogui.mouseUp(button="middle")
+   else:
+      pyautogui.keyUp(cmd)
+
 
 def control(cmd):
    print("DEBUG "+cmd);
@@ -10,9 +30,9 @@ def control(cmd):
 
    cmd=cmd.split(" ")
    if (cmd[0]=="D"):
-      pyautogui.keyDown(cmd[1])
+      keyDown(cmd[1])
    else:
-      pyautogui.keyUp(cmd[1])
+      keyUp(cmd[1])
 
    #mouse movement handling (WIP)
    """
