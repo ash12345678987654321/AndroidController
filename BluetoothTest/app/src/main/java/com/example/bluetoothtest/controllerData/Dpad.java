@@ -3,7 +3,6 @@ package com.example.bluetoothtest.controllerData;
 public class Dpad {
     String up,down,left,right;
 
-
     public Dpad(String up, String down, String left, String right){
         this.up=up;
         this.down=down;
@@ -11,20 +10,28 @@ public class Dpad {
         this.right=right;
     }
 
-    public void setUp(String up) {
-        this.up = up;
+
+    public String getUp() {
+        return up;
     }
 
-    public void setDown(String down) {
-        this.down = down;
+    public String getDown() {
+        return down;
     }
 
-    public void setLeft(String left) {
-        this.left = left;
+    public String getLeft() {
+        return left;
     }
 
-    public void setRight(String right) {
-        this.right = right;
+    public String getRight() {
+        return right;
+    }
+
+    public void setDir(String up, String down, String left, String right){
+        this.up=up;
+        this.down=down;
+        this.left=left;
+        this.right=right;
     }
 
     public String getDir(){

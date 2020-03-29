@@ -47,14 +47,33 @@
 
     </LinearLayout>
 
-    <Button
+    <LinearLayout
+        android:id="@+id/linear_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Done"
-        android:textColor="#000000"
-        android:textSize="12dp"
-        android:onClick="add_btn_cfm"/>
+        android:layout_gravity="center">
+
+        <Button
+            android:id="@+id/btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="6dp"
+            android:text="Done"
+            android:textColor="#000000"
+            android:textSize="12dp" />
+
+        <Button
+            android:id="@+id/del"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="6dp"
+            android:text="Delete"
+            android:backgroundTint="#FF0000"
+            android:textColor="#FFFFFF"
+            android:textSize="12dp"
+            android:onClick="del"/>
+
+    </LinearLayout>
 
 
 </LinearLayout>

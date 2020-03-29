@@ -204,6 +204,8 @@ public class MainActivity extends AppCompatActivity {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, layouts);
         spinner.setAdapter(adapter);
+
+        spinner.setSelection(Math.max(0,index-1));
     }
 
     public void rename(View view){
