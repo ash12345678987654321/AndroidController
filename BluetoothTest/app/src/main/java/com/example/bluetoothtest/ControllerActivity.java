@@ -43,7 +43,7 @@ public class ControllerActivity extends AppCompatActivity {
         String preset=getIntent().getStringExtra("preset");
         Log.d("ZZZ",preset);
         try{
-            File file=new File(getFilesDir()+"/"+preset+".txt");
+            File file=new File(getFilesDir()+"/"+preset);
             Scanner scanner=new Scanner(file);
 
             while (scanner.hasNext()){

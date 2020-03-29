@@ -13,19 +13,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Scanner;
 
 
 public class MainActivity extends AppCompatActivity {
     private Spinner spinner;
-    private ArrayList<String> presets;
+    private ArrayList<String> layouts;
 
     private View decorView;
 
@@ -43,16 +41,27 @@ public class MainActivity extends AppCompatActivity {
         spinner=findViewById(R.id.preset);
 
         File path=this.getFilesDir();
-        presets=new ArrayList<>();
+        layouts =new ArrayList<>();
         Log.d("ZZZ",path.toString());
         for (File i:path.listFiles()){
             Log.d("ZZZ","File found: "+i.getName());
-            presets.add(i.getName().substring(0,i.getName().length()-4));
+            layouts.add(i.getName());
         }
 
-        Collections.sort(presets);
+        if (layouts.isEmpty()){
+            try{
+                File file=new File(getFilesDir()+"/"+"New layout 1");
+                file.createNewFile();
+                layouts.add(file.getName());
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+        }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, presets);
+        Collections.sort(layouts);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, layouts);
         spinner.setAdapter(adapter);
 
         //code to make app bigger
@@ -130,13 +139,69 @@ public class MainActivity extends AppCompatActivity {
 
     public void start(View view){
         Intent intent=new Intent(this,ControllerActivity.class);
-        intent.putExtra("preset",presets.get(spinner.getSelectedItemPosition()));
+        intent.putExtra("preset", layouts.get(spinner.getSelectedItemPosition()));
         startActivity(intent);
     }
 
     public void edit(View view) {
         Intent intent=new Intent(this, EditActivity.class);
-        intent.putExtra("preset",presets.get(spinner.getSelectedItemPosition()));
+        intent.putExtra("preset", layouts.get(spinner.getSelectedItemPosition()));
         startActivity(intent);
     }
+
+
+    public void add(View view){
+        String path=this.getFilesDir().toString()+"/";
+        int index=1;
+        while (true){
+            File file=new File(path+"New layout "+index);
+
+            if (!file.exists()){
+                try {
+                    file.createNewFile();
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+
+                layouts.add(file.getName());
+                Collections.sort(layouts);
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, layouts);
+                spinner.setAdapter(adapter);
+                for (int i=0;i<layouts.size();i++) {
+                    if (layouts.get(i).equals(file.getName())) spinner.setSelection(i);
+                }
+                return;
+            }
+
+            index++;
+        }
+    }
+
+    public void del(View view){
+        if (layouts.size()==1){
+            Toast.makeText(this,"Must always have at least 1 layout!",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        int index=spinner.getSelectedItemPosition();
+
+        try{
+            File file=new File(getFilesDir()+"/"+layouts.get(index));
+            file.delete();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        layouts.remove(index);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, layouts);
+        spinner.setAdapter(adapter);
+    }
+
+    public void rename(View view){
+        //TODO
+    }
 }
+

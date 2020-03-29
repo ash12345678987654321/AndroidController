@@ -52,7 +52,7 @@ public class EditActivity extends AppCompatActivity {
 
         String preset=getIntent().getStringExtra("preset");
         try{
-            File file=new File(getFilesDir()+"/"+preset+".txt");
+            File file=new File(getFilesDir()+"/"+preset);
             Scanner scanner=new Scanner(file);
 
             while (scanner.hasNext()){
@@ -129,7 +129,7 @@ public class EditActivity extends AppCompatActivity {
 
         String preset=getIntent().getStringExtra("preset");
         try{
-            File file=new File(getFilesDir()+"/"+preset+".txt");
+            File file=new File(getFilesDir()+"/"+preset);
             PrintWriter pw=new PrintWriter(file);
 
             for (int x=0;x<layout.getChildCount();x++) {
