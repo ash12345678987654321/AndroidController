@@ -202,7 +202,7 @@ public class EditActivity extends AppCompatActivity {
                     return;
                 }
 
-                Btn(label,key,300,300,0,0);
+                Btn(label,key,300,300,Resources.getSystem().getDisplayMetrics().heightPixels/2-150,Resources.getSystem().getDisplayMetrics().widthPixels/2-150);
                 popupWindow.dismiss();
             }
         });
@@ -251,7 +251,7 @@ public class EditActivity extends AppCompatActivity {
                     return;
                 }
 
-                Dpad(up,down,left,right,300,0,0);
+                Dpad(up,down,left,right,300,Resources.getSystem().getDisplayMetrics().heightPixels/2-150,Resources.getSystem().getDisplayMetrics().widthPixels/2-150);
                 popupWindow.dismiss();
             }
         });
@@ -404,8 +404,12 @@ public class EditActivity extends AppCompatActivity {
             );
 
             //Log.d("ZZZ","Current scale: "+scaleFactor);
-            btn.setHeight((int)(height*scaleFactor));
-            btn.setWidth((int)(width*scaleFactor));
+            int height=(int)(this.height*scaleFactor),width=(int)(this.width*scaleFactor);
+            layoutParams.topMargin+=(btn.getHeight()-height)/2;
+            layoutParams.leftMargin+=(btn.getWidth()-width)/2;
+            btn.setHeight(height);
+            btn.setWidth(width);
+            btn.setLayoutParams(layoutParams);
             return true;
         }
     }

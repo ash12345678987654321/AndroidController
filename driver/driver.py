@@ -73,7 +73,8 @@ def main():
       #print ('Got connection from', addr)
 
       message=c.recv(256).decode("utf-8"); #message comes in byte array so change it to string first
-      message=message.split("\n") #i use \m to differtiate commands
+
+      message=message.split("\n") #i use \n to differtiate commands
       
       #print("DEBUG: ",message)
       

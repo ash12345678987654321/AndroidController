@@ -48,9 +48,9 @@ public class MainActivity extends AppCompatActivity {
 
         File path=this.getFilesDir();
         layouts =new ArrayList<>();
-        Log.d("ZZZ",path.toString());
+        //Log.d("ZZZ",path.toString());
         for (File i:path.listFiles()){
-            Log.d("ZZZ","File found: "+i.getName());
+            //Log.d("ZZZ","File found: "+i.getName());
             layouts.add(i.getName());
         }
 
@@ -99,30 +99,6 @@ public class MainActivity extends AppCompatActivity {
                 View.SYSTEM_UI_FLAG_HIDE_NAVIGATION|
                 View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
         );
-    }
-
-    @Override
-    protected void onResume(){
-        super.onResume();
-
-        SharedPreferences sharedPreferences =
-                PreferenceManager.getDefaultSharedPreferences(this);
-
-        try{
-            String ip = sharedPreferences.getString("ip", "");
-            int port= Integer.parseInt(sharedPreferences.getString("port", "2764"));
-
-            Log.d("ZZZ",ip+" "+port);
-
-            DataSender.setIP(ip);
-            DataSender.setPort(port);
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            DataSender.setInvalid();
-            Toast.makeText(this,"Could not parse port",Toast.LENGTH_LONG).show();
-        }
-
     }
 
     @Override

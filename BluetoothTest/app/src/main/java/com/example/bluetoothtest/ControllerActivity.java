@@ -1,6 +1,7 @@
 package com.example.bluetoothtest;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -15,8 +16,10 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
 import static java.lang.Math.PI;
@@ -31,17 +34,62 @@ public class ControllerActivity extends AppCompatActivity {
 
     private DataSender ds;
 
-
+    //for networking to tell other threads what the client is
+    public static String ip;
+    public static int port;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_controller);
 
+        //set up TCP with computer to check if it exists
+        SharedPreferences sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(this);
+
+
+        //check if client exists
+
+        ip = sharedPreferences.getString("ip", "");
+
+        if (!ip.matches("(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])")){
+            Toast.makeText(this,"IP is in wrong format",Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+        try {
+            String port_raw=sharedPreferences.getString("port", "2764");
+            port = Integer.parseInt(port_raw);
+        }
+        catch (NumberFormatException e){
+            Toast.makeText(this,"port must be an integer",Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
+        Ping ping=new Ping();
+        long start=System.currentTimeMillis();
+        ping.start();
+
+        while (true){
+            long end=System.currentTimeMillis();
+            if (!ping.isAlive()){
+                Toast.makeText(this,"Connection succesful. ping: "+(end-start)+"ms",Toast.LENGTH_SHORT).show();
+                break; //ok now the port and ip is good
+            }
+            else if (end-start>1000){ //is 1 seconds enough time?
+                ping.interrupt();
+                Toast.makeText(this,"network error or computer not responding",Toast.LENGTH_SHORT).show();
+                finish();
+                return;
+            }
+        }
+
+
         layout=findViewById(R.id.layout_controller_tag);
 
         String preset=getIntent().getStringExtra("preset");
-        Log.d("ZZZ",preset);
+        Log.d("ZZZ","Current layout: "+preset);
         try{
             File file=new File(getFilesDir()+"/"+preset);
             Scanner scanner=new Scanner(file);
@@ -104,7 +152,7 @@ public class ControllerActivity extends AppCompatActivity {
         ds=new DataSender();
         ds.start();
 
-        Log.d("ZZZ","Data being sent");
+        //Log.d("ZZZ","Data being sent");
     }
 
     @Override
@@ -112,7 +160,7 @@ public class ControllerActivity extends AppCompatActivity {
         super.onPause();
 
         ds.interrupt(); //stop the app from sending anything when not running
-        Log.d("ZZZ","Data stoppped being sent");
+        //Log.d("ZZZ","Data stoppped being sent");
     }
 
     @Override
