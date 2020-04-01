@@ -7,9 +7,9 @@ import java.net.Socket;
 
 public class Ping extends Thread {
     @Override
-    public void run(){
+    public void run() {
         try {
-            Log.d("ZZZ",ControllerActivity.ip+" "+ControllerActivity.port);
+            Log.d("ZZZ", ControllerActivity.ip + " " + ControllerActivity.port);
             Socket socket = new Socket(ControllerActivity.ip, ControllerActivity.port);
             PrintWriter printWriter = new PrintWriter(socket.getOutputStream());
             printWriter.write("PING!");
@@ -17,8 +17,7 @@ public class Ping extends Thread {
             printWriter.close();
 
             //Log.d("ZZZ","worked");
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             try {
                 Thread.sleep(1000); //waste time

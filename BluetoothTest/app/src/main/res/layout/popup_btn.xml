@@ -22,7 +22,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textColor="@color/text"
-            android:textSize="12dp"/>
+            android:textSize="12dp"
+            android:inputType="text"/>
 
     </LinearLayout>
 
@@ -43,7 +44,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textColor="@color/text"
-            android:textSize="12dp"/>
+            android:textSize="12dp"
+            android:inputType="text"/>
 
     </LinearLayout>
 
