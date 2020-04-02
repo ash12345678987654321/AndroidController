@@ -3,7 +3,6 @@ package com.example.bluetoothtest;
 import android.animation.ObjectAnimator;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Pair;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -21,7 +20,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bluetoothtest.controllerData.Btn;
 import com.example.bluetoothtest.controllerData.Dpad;
-import com.example.bluetoothtest.controllerData.KeyCode;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -46,11 +44,11 @@ public class EditActivity extends AppCompatActivity {
 
         String preset = getIntent().getStringExtra("preset");
         try {
-            File file = new File(getFilesDir() + "/" + preset);
+            File file = new File(getFilesDir() + "/layouts/" + preset);
             Scanner scanner = new Scanner(file);
 
             while (scanner.hasNextLine()) {
-                String[] args=scanner.nextLine().split("\0");
+                String[] args = scanner.nextLine().split("\0");
 
                 switch (args[0]) {
                     case "Btn":
@@ -172,8 +170,8 @@ public class EditActivity extends AppCompatActivity {
                 String label = ((EditText) popupWindow.getContentView().findViewById(R.id.label)).getText().toString();
                 String key = ((EditText) popupWindow.getContentView().findViewById(R.id.key)).getText().toString();
 
-                Btn btn=new Btn();
-                Pair<Boolean,String> res=btn.setOutput(key);
+                Btn btn = new Btn();
+                Pair<Boolean, String> res = btn.setOutput(key);
 
                 if (res.first) {
                     Toast.makeText(getApplicationContext(), res.second + " is not a valid key code", Toast.LENGTH_SHORT).show();
@@ -212,10 +210,10 @@ public class EditActivity extends AppCompatActivity {
                 String left = ((EditText) popupWindow.getContentView().findViewById(R.id.left)).getText().toString();
                 String right = ((EditText) popupWindow.getContentView().findViewById(R.id.right)).getText().toString();
 
-                Dpad dpad=new Dpad();
-                Pair<Boolean,String> res=dpad.setDir(up,down,left,right);
+                Dpad dpad = new Dpad();
+                Pair<Boolean, String> res = dpad.setDir(up, down, left, right);
 
-                if (res.first){
+                if (res.first) {
                     Toast.makeText(getApplicationContext(), res.second + " is not a valid key code", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -420,7 +418,7 @@ public class EditActivity extends AppCompatActivity {
                         String label = ((EditText) popupWindow.getContentView().findViewById(R.id.label)).getText().toString();
                         String key = ((EditText) popupWindow.getContentView().findViewById(R.id.key)).getText().toString();
 
-                        Pair<Boolean,String> res=args.setOutput(key);
+                        Pair<Boolean, String> res = args.setOutput(key);
 
                         if (res.first) {
                             Toast.makeText(getApplicationContext(), res.second + " is not a valid key code", Toast.LENGTH_SHORT).show();
@@ -470,9 +468,9 @@ public class EditActivity extends AppCompatActivity {
                         String left = ((EditText) popupWindow.getContentView().findViewById(R.id.left)).getText().toString();
                         String right = ((EditText) popupWindow.getContentView().findViewById(R.id.right)).getText().toString();
 
-                        Pair<Boolean,String> res=args.setDir(up,down,left,right);
+                        Pair<Boolean, String> res = args.setDir(up, down, left, right);
 
-                        if (res.first){
+                        if (res.first) {
                             Toast.makeText(getApplicationContext(), res.second + " is not a valid key code", Toast.LENGTH_SHORT).show();
                             return;
                         }

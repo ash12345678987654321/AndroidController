@@ -1,57 +1,58 @@
 package com.example.bluetoothtest.controllerData;
 
-import android.util.Log;
 import android.util.Pair;
 
 public class Btn {
     private String[] output;
 
-    public Btn(){}
+    public Btn() {
+    }
+
     public Btn(String output) {
         this();
         setOutput(output);
     }
 
-    public String down(){
-        String res="";
+    public String down() {
+        String res = "";
 
-        for (int x=0;x<output.length;x++){
-            res+="D "+output[x]+"\n";
+        for (int x = 0; x < output.length; x++) {
+            res += "D " + output[x] + "\n";
         }
 
         return res;
     }
 
-    public String up(){
-        String res="";
+    public String up() {
+        String res = "";
 
-        for (int x=output.length-1;x>=0;x--){
-            res+="U "+output[x]+"\n";
+        for (int x = output.length - 1; x >= 0; x--) {
+            res += "U " + output[x] + "\n";
         }
 
         return res;
     }
 
-    public Pair<Boolean,String> setOutput(String output) {
-        String[] temp=output.trim().split(" ");
+    public Pair<Boolean, String> setOutput(String output) {
+        String[] temp = output.trim().split(" ");
 
-        for (String i:temp){
-            if (KeyCode.invalid(i)) return new Pair<>(true,i);
+        for (String i : temp) {
+            if (KeyCode.invalid(i)) return new Pair<>(true, i);
         }
 
         //success
-        this.output=temp;
-        return new Pair<>(false,null);
+        this.output = temp;
+        return new Pair<>(false, null);
     }
 
     public String getOutput() {
-        String res="";
+        String res = "";
 
-        for (String i:output){
-            res+=i;
-            res+=" ";
+        for (String i : output) {
+            res += i;
+            res += " ";
         }
 
-        return res.substring(0,res.length()-1);
+        return res.substring(0, res.length() - 1);
     }
 }

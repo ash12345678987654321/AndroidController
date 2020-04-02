@@ -85,11 +85,11 @@ public class ControllerActivity extends AppCompatActivity {
         String preset = getIntent().getStringExtra("preset");
         Log.d("ZZZ", "Current layout: " + preset);
         try {
-            File file = new File(getFilesDir() + "/" + preset);
+            File file = new File(getFilesDir() + "/layouts/" + preset);
             Scanner scanner = new Scanner(file);
 
             while (scanner.hasNextLine()) {
-                String[] args=scanner.nextLine().split("\0");
+                String[] args = scanner.nextLine().split("\0");
 
                 switch (args[0]) {
                     case "Btn":
@@ -97,7 +97,7 @@ public class ControllerActivity extends AppCompatActivity {
                         break;
 
                     case "Dpad":
-                        Dpad(new Dpad(args[1],args[2],args[3],args[4]), Integer.parseInt(args[5]), Integer.parseInt(args[6]), Integer.parseInt(args[7]));
+                        Dpad(new Dpad(args[1], args[2], args[3], args[4]), Integer.parseInt(args[5]), Integer.parseInt(args[6]), Integer.parseInt(args[7]));
                         break;
                 }
             }
@@ -141,6 +141,8 @@ public class ControllerActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+
+        cmd = "";
 
         ds = new DataSender();
         ds.start();
@@ -266,10 +268,10 @@ public class ControllerActivity extends AppCompatActivity {
                     pointer.setLayoutParams(layoutParams);
 
 
-                    if (dist < (double) diameter / 10) cmd+=output.setPos(0,0);
-                    else  cmd+=output.setPos(x,y);
+                    if (dist < (double) diameter / 10) cmd += output.setPos(0, 0);
+                    else cmd += output.setPos(x, y);
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    cmd+=output.setPos(0,0);
+                    cmd += output.setPos(0, 0);
 
                     layoutParams = (RelativeLayout.LayoutParams) pointer.getLayoutParams();
                     layoutParams.leftMargin = marginLeft + (diameter - diameter / 4) / 2;

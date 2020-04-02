@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
         spinner = findViewById(R.id.preset);
 
-        File path = this.getFilesDir();
+        File path = new File(getFilesDir() + "/layouts/");
         layouts = new ArrayList<>();
         //Log.d("ZZZ",path.toString());
         for (File i : path.listFiles()) {
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (layouts.isEmpty()) {
             try {
-                File file = new File(getFilesDir() + "/" + "New layout 1");
+                File file = new File(getFilesDir() + "/layouts/" + "New layout 1");
                 file.createNewFile();
                 layouts.add(file.getName());
             } catch (Exception e) {
@@ -123,6 +123,11 @@ public class MainActivity extends AppCompatActivity {
     public void edit(View view) {
         Intent intent = new Intent(this, EditActivity.class);
         intent.putExtra("preset", layouts.get(spinner.getSelectedItemPosition()));
+        startActivity(intent);
+    }
+
+    public void macro(View view) {
+        Intent intent = new Intent(this, MacroActivity.class);
         startActivity(intent);
     }
 
