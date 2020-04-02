@@ -13,6 +13,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
+import com.example.bluetoothtest.controllerData.Btn;
+
 import java.io.File;
 import java.util.Scanner;
 
@@ -86,13 +88,15 @@ public class ControllerActivity extends AppCompatActivity {
             Scanner scanner = new Scanner(file);
 
             while (scanner.hasNextLine()) {
-                switch (scanner.nextLine()) {
+                String[] args=scanner.nextLine().split("\0");
+
+                switch (args[0]) {
                     case "Btn":
-                        Btn(scanner.nextLine(), scanner.nextLine(), scanner.nextInt(), scanner.nextInt(), scanner.nextInt(), scanner.nextInt());
+                        Btn(args[1], new Btn(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]), Integer.parseInt(args[5]), Integer.parseInt(args[6]));
                         break;
 
                     case "Dpad":
-                        Dpad(scanner.nextLine(), scanner.nextLine(), scanner.nextLine(), scanner.nextLine(), scanner.nextInt(), scanner.nextInt(), scanner.nextInt());
+                        Dpad(args[1], args[2], args[3], args[4], Integer.parseInt(args[5]), Integer.parseInt(args[6]), Integer.parseInt(args[7]));
                         break;
                 }
             }
@@ -177,7 +181,7 @@ public class ControllerActivity extends AppCompatActivity {
 
 
     //controller setups (adding them programmically)
-    private void Btn(String label, final String output, int height, int width, int marginTop, int marginLeft) {
+    private void Btn(String label, final Btn output, int height, int width, int marginTop, int marginLeft) {
         Button btn = new Button(this);
 
         btn.setHeight(height);
@@ -199,11 +203,11 @@ public class ControllerActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    cmd += "D " + output + "\n";
+                    cmd += output.down();
                     v.setBackgroundResource(R.drawable.button_down);
                     ((Button) v).setTextColor(getResources().getColor(R.color.background));
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    cmd += "U " + output + "\n";
+                    cmd += output.up();
                     v.setBackgroundResource(R.drawable.button_up);
                     ((Button) v).setTextColor(getResources().getColor(R.color.colorPrimary));
                 }

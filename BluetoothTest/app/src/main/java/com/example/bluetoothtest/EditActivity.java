@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bluetoothtest.controllerData.Btn;
 import com.example.bluetoothtest.controllerData.Dpad;
+import com.example.bluetoothtest.controllerData.KeyCode;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -29,9 +30,6 @@ import java.util.Scanner;
 import java.util.Set;
 
 public class EditActivity extends AppCompatActivity {
-    private static final Set<String> keycodes = new HashSet<>();
-
-
     private RelativeLayout layout;
 
     private View decorView;
@@ -54,13 +52,15 @@ public class EditActivity extends AppCompatActivity {
             Scanner scanner = new Scanner(file);
 
             while (scanner.hasNextLine()) {
-                switch (scanner.nextLine()) {
+                String[] args=scanner.nextLine().split("\0");
+
+                switch (args[0]) {
                     case "Btn":
-                        Btn(scanner.nextLine(), scanner.nextLine(), scanner.nextInt(), scanner.nextInt(), scanner.nextInt(), scanner.nextInt());
+                        Btn(args[1], new Btn(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]), Integer.parseInt(args[5]), Integer.parseInt(args[6]));
                         break;
 
                     case "Dpad":
-                        Dpad(scanner.nextLine(), scanner.nextLine(), scanner.nextLine(), scanner.nextLine(), scanner.nextInt(), scanner.nextInt(), scanner.nextInt());
+                        Dpad(args[1], args[2], args[3], args[4], Integer.parseInt(args[5]), Integer.parseInt(args[6]), Integer.parseInt(args[7]));
                         break;
                 }
             }
@@ -80,23 +80,6 @@ public class EditActivity extends AppCompatActivity {
                 }
             }
         });
-
-        //add all valid keycodes
-        keycodes.addAll(Arrays.asList("!", "\'", "#", "$", "%", "&", "\"", "(",
-                ")", "*", "+", ",", "-", ".", "/", "0", "1", "2", "3", "4", "5", "6", "7",
-                "8", "9", ":", ";", "<", "=", ">", "?", "@", "[", "\\", "]", "^", "_", "`",
-                "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o",
-                "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "{", "|", "}", "~",
-                "up", "down", "left", "right",
-                "add", "subtract", "multiply", "divide",
-                "home", "end", "insert", "delete", "pagedown", "pageup", "pgdn", "pgup", "printscreen", "prntscrn",
-                "fn", "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10",
-                "f11", "f12", "f13", "f14", "f15", "f16", "f17", "f18", "f19", "f20",
-                "f21", "f22", "f23", "f24",
-                "num0", "num1", "num2", "num3", "num4", "num5", "num6", "num7", "num8", "num9", "numlock",
-                "prtsc", "prtscr", "return", "scrolllock",
-                "alt", "backspace", "capslock", "ctrl", "enter", "esc", "shift", "space", "tab", "volumedown", "volumemute", "volumeup", "win",
-                "m1", "m2", "m3"));
     }
 
     @Override
@@ -133,9 +116,9 @@ public class EditActivity extends AppCompatActivity {
                 RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
 
                 if (args instanceof Btn) {
-                    pw.write("Btn\n" + v.getText().toString() + "\n" + ((Btn) args).getOutput() + "\n" + v.getHeight() + "\n" + v.getWidth() + "\n" + layoutParams.topMargin + "\n" + layoutParams.leftMargin + "\n");
+                    pw.write("Btn\0" + v.getText().toString() + "\0" + ((Btn) args).getOutput() + "\0" + v.getHeight() + "\0" + v.getWidth() + "\0" + layoutParams.topMargin + "\0" + layoutParams.leftMargin + "\n");
                 } else if (args instanceof Dpad) {
-                    pw.write("Dpad\n" + ((Dpad) args).getDir() + "\n" + v.getHeight() + "\n" + layoutParams.topMargin + "\n" + layoutParams.leftMargin + "\n");
+                    pw.write("Dpad\0" + ((Dpad) args).getDir() + "\0" + v.getHeight() + "\0" + layoutParams.topMargin + "\0" + layoutParams.leftMargin + "\n");
                 }
             }
 
@@ -191,12 +174,15 @@ public class EditActivity extends AppCompatActivity {
                 String label = ((EditText) popupWindow.getContentView().findViewById(R.id.label)).getText().toString();
                 String key = ((EditText) popupWindow.getContentView().findViewById(R.id.key)).getText().toString();
 
-                if (!keycodes.contains(key)) {
-                    Toast.makeText(getApplicationContext(), key + " is not a valid key code", Toast.LENGTH_SHORT).show();
+                Btn btn=new Btn();
+                String res=btn.setOutput(key);
+
+                if (!res.equals("\0")) {
+                    Toast.makeText(getApplicationContext(), res + " is not a valid key code", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                Btn(label, key, 300, 300, Resources.getSystem().getDisplayMetrics().heightPixels / 2 - 150, Resources.getSystem().getDisplayMetrics().widthPixels / 2 - 150);
+                Btn(label, btn, 300, 300, Resources.getSystem().getDisplayMetrics().heightPixels / 2 - 150, Resources.getSystem().getDisplayMetrics().widthPixels / 2 - 150);
                 popupWindow.dismiss();
             }
         });
@@ -228,19 +214,19 @@ public class EditActivity extends AppCompatActivity {
                 String left = ((EditText) popupWindow.getContentView().findViewById(R.id.left)).getText().toString();
                 String right = ((EditText) popupWindow.getContentView().findViewById(R.id.right)).getText().toString();
 
-                if (!keycodes.contains(up)) {
+                if (!KeyCode.valid(up)) {
                     Toast.makeText(getApplicationContext(), up + " is not a valid key code", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (!keycodes.contains(down)) {
+                if (!KeyCode.valid(down)) {
                     Toast.makeText(getApplicationContext(), down + " is not a valid key code", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (!keycodes.contains(left)) {
+                if (!KeyCode.valid(left)) {
                     Toast.makeText(getApplicationContext(), left + " is not a valid key code", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (!keycodes.contains(right)) {
+                if (!KeyCode.valid(right)) {
                     Toast.makeText(getApplicationContext(), right + " is not a valid key code", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -252,7 +238,7 @@ public class EditActivity extends AppCompatActivity {
     }
 
     //controller setups (adding them programmically)
-    private void Btn(String label, String output, int height, int width, int marginTop, int marginLeft) {
+    private void Btn(String label, Btn tag, int height, int width, int marginTop, int marginLeft) {
         Button btn = new Button(this);
 
         btn.setHeight(height);
@@ -261,7 +247,7 @@ public class EditActivity extends AppCompatActivity {
         btn.setMinimumWidth(0);
         btn.setText(label);
 
-        btn.setTag(new Btn(output));
+        btn.setTag(tag);
 
         btn.setBackgroundResource(R.drawable.button_up);
 
@@ -445,13 +431,14 @@ public class EditActivity extends AppCompatActivity {
                         String label = ((EditText) popupWindow.getContentView().findViewById(R.id.label)).getText().toString();
                         String key = ((EditText) popupWindow.getContentView().findViewById(R.id.key)).getText().toString();
 
-                        if (!keycodes.contains(key)) {
-                            Toast.makeText(getApplicationContext(), key + " is not a valid key code", Toast.LENGTH_SHORT).show();
+                        String res=args.setOutput(key);
+
+                        if (!res.equals("\0")) {
+                            Toast.makeText(getApplicationContext(), res + " is not a valid key code", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
                         btn.setText(label);
-                        args.setOutput(key);
                         popupWindow.dismiss();
                     }
                 });
@@ -494,19 +481,19 @@ public class EditActivity extends AppCompatActivity {
                         String left = ((EditText) popupWindow.getContentView().findViewById(R.id.left)).getText().toString();
                         String right = ((EditText) popupWindow.getContentView().findViewById(R.id.right)).getText().toString();
 
-                        if (!keycodes.contains(up)) {
+                        if (!KeyCode.valid(up)) {
                             Toast.makeText(getApplicationContext(), up + " is not a valid key code", Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        if (!keycodes.contains(down)) {
+                        if (!KeyCode.valid(down)) {
                             Toast.makeText(getApplicationContext(), down + " is not a valid key code", Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        if (!keycodes.contains(left)) {
+                        if (!KeyCode.valid(left)) {
                             Toast.makeText(getApplicationContext(), left + " is not a valid key code", Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        if (!keycodes.contains(right)) {
+                        if (!KeyCode.valid(right)) {
                             Toast.makeText(getApplicationContext(), right + " is not a valid key code", Toast.LENGTH_SHORT).show();
                             return;
                         }
