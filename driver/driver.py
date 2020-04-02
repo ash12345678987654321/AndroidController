@@ -24,6 +24,7 @@ def keyUp(cmd):
 
 def control(cmd):
    print("DEBUG "+cmd);
+   return
 
    #python does not have a switch statement lol
    #time for some epic spqghatti coding
@@ -76,7 +77,7 @@ def main():
 
       message=message.split("\n") #i use \n to differtiate commands
       
-      #print("DEBUG: ",message)
+      print("DEBUG: ",message)
       
       for i in range(0,len(message)-1):
          control(message[i])

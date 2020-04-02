@@ -1,11 +1,10 @@
 package com.example.bluetoothtest.controllerData;
 
 import android.util.Log;
-
-import java.util.ArrayList;
+import android.util.Pair;
 
 public class Btn {
-    String[] output;
+    private String[] output;
 
     public Btn(){}
     public Btn(String output) {
@@ -33,18 +32,16 @@ public class Btn {
         return res;
     }
 
-    public String setOutput(String output) {
-        String[] temp=output.split(" ");
-
-        Log.d("ZZZ",output);
+    public Pair<Boolean,String> setOutput(String output) {
+        String[] temp=output.trim().split(" ");
 
         for (String i:temp){
-            if (!KeyCode.valid(i)) return i;
+            if (KeyCode.invalid(i)) return new Pair<>(true,i);
         }
 
         //success
         this.output=temp;
-        return "\0";
+        return new Pair<>(false,null);
     }
 
     public String getOutput() {

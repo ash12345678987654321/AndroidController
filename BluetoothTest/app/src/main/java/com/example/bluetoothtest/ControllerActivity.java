@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
 import com.example.bluetoothtest.controllerData.Btn;
+import com.example.bluetoothtest.controllerData.Dpad;
 
 import java.io.File;
 import java.util.Scanner;
@@ -96,7 +97,7 @@ public class ControllerActivity extends AppCompatActivity {
                         break;
 
                     case "Dpad":
-                        Dpad(args[1], args[2], args[3], args[4], Integer.parseInt(args[5]), Integer.parseInt(args[6]), Integer.parseInt(args[7]));
+                        Dpad(new Dpad(args[1],args[2],args[3],args[4]), Integer.parseInt(args[5]), Integer.parseInt(args[6]), Integer.parseInt(args[7]));
                         break;
                 }
             }
@@ -216,16 +217,12 @@ public class ControllerActivity extends AppCompatActivity {
         });
     }
 
-    private void Dpad(String up, String down, String left, String right, int diameter, final int marginTop, final int marginLeft) {
-        final String[] out = {right, down, left, up};
-        final boolean[] triggered = {false, false, false, false};
-        final int[] diam = {diameter, diameter / 4};
-
+    private void Dpad(final Dpad output, final int diameter, final int marginTop, final int marginLeft) {
         Button btn = new Button(this);
         final Button pointer = new Button(this);
 
-        pointer.setHeight(diam[1]);
-        pointer.setWidth(diam[1]);
+        pointer.setHeight(diameter / 4);
+        pointer.setWidth(diameter / 4);
         pointer.setMinimumHeight(0);
         pointer.setMinimumWidth(0);
 
@@ -234,8 +231,8 @@ public class ControllerActivity extends AppCompatActivity {
         layout.addView(pointer);
 
         layoutParams = (RelativeLayout.LayoutParams) pointer.getLayoutParams();
-        layoutParams.leftMargin = marginLeft + (diam[0] - diam[1]) / 2;
-        layoutParams.topMargin = marginTop + (diam[0] - diam[1]) / 2;
+        layoutParams.leftMargin = marginLeft + (diameter - diameter / 4) / 2;
+        layoutParams.topMargin = marginTop + (diameter - diameter / 4) / 2;
         pointer.setLayoutParams(layoutParams);
 
         btn.setHeight(diameter);
@@ -256,59 +253,27 @@ public class ControllerActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
-                    double x = event.getX() - (double) diam[0] / 2, y = event.getY() - (double) diam[0] / 2;
+                    double x = event.getX() - (double) diameter / 2, y = event.getY() - (double) diameter / 2;
                     double dist = Math.sqrt(x * x + y * y);
                     x /= dist;
                     y /= dist;
 
-                    dist = min(dist, (double) diam[0] / 3);
+                    dist = min(dist, (double) diameter / 3);
 
                     layoutParams = (RelativeLayout.LayoutParams) pointer.getLayoutParams();
-                    layoutParams.leftMargin = (int) (marginLeft + x * dist) + (diam[0] - diam[1]) / 2;
-                    layoutParams.topMargin = (int) (marginTop + y * dist) + (diam[0] - diam[1]) / 2;
+                    layoutParams.leftMargin = (int) (marginLeft + x * dist) + (diameter - diameter / 4) / 2;
+                    layoutParams.topMargin = (int) (marginTop + y * dist) + (diameter - diameter / 4) / 2;
                     pointer.setLayoutParams(layoutParams);
 
 
-                    if (dist < (double) diam[0] / 10) {
-                        for (int i = 0; i < 4; i++) {
-                            if (triggered[i]) {
-                                triggered[i] = false;
-                                cmd += "U " + out[i] + "\n";
-                            }
-                        }
-                    } else {
-                        double angle = Math.acos(x);
-                        if (y < 0) angle = 2 * Math.PI - angle;
-
-                        boolean[] curr = new boolean[4];
-
-                        curr[0] = (6.5 / 4 * Math.PI < angle || angle < 1.5 / 4 * Math.PI);
-                        curr[1] = (0.5 / 4 * Math.PI < angle && angle < 3.5 / 4 * Math.PI);
-                        curr[2] = (2.5 / 4 * Math.PI < angle && angle < 5.5 / 4 * Math.PI);
-                        curr[3] = (4.5 / 4 * Math.PI < angle && angle < 7.5 / 4 * Math.PI);
-
-                        for (int i = 0; i < 4; i++) {
-                            if (curr[i] != triggered[i]) {
-                                triggered[i] = curr[i];
-                                if (triggered[i]) {
-                                    cmd += "D " + out[i] + "\n";
-                                } else {
-                                    cmd += "U " + out[i] + "\n";
-                                }
-                            }
-                        }
-                    }
+                    if (dist < (double) diameter / 10) cmd+=output.setPos(0,0);
+                    else  cmd+=output.setPos(x,y);
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    for (int i = 0; i < 4; i++) {
-                        if (triggered[i]) {
-                            triggered[i] = false;
-                            cmd += "U " + out[i] + "\n";
-                        }
-                    }
+                    cmd+=output.setPos(0,0);
 
                     layoutParams = (RelativeLayout.LayoutParams) pointer.getLayoutParams();
-                    layoutParams.leftMargin = marginLeft + (diam[0] - diam[1]) / 2;
-                    layoutParams.topMargin = marginTop + (diam[0] - diam[1]) / 2;
+                    layoutParams.leftMargin = marginLeft + (diameter - diameter / 4) / 2;
+                    layoutParams.topMargin = marginTop + (diameter - diameter / 4) / 2;
                     pointer.setLayoutParams(layoutParams);
                 }
                 return true;

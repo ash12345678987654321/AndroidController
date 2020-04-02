@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -24,10 +25,7 @@ import com.example.bluetoothtest.controllerData.KeyCode;
 
 import java.io.File;
 import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Scanner;
-import java.util.Set;
 
 public class EditActivity extends AppCompatActivity {
     private RelativeLayout layout;
@@ -60,7 +58,7 @@ public class EditActivity extends AppCompatActivity {
                         break;
 
                     case "Dpad":
-                        Dpad(args[1], args[2], args[3], args[4], Integer.parseInt(args[5]), Integer.parseInt(args[6]), Integer.parseInt(args[7]));
+                        Dpad(new Dpad(args[1], args[2], args[3], args[4]), Integer.parseInt(args[5]), Integer.parseInt(args[6]), Integer.parseInt(args[7]));
                         break;
                 }
             }
@@ -175,10 +173,10 @@ public class EditActivity extends AppCompatActivity {
                 String key = ((EditText) popupWindow.getContentView().findViewById(R.id.key)).getText().toString();
 
                 Btn btn=new Btn();
-                String res=btn.setOutput(key);
+                Pair<Boolean,String> res=btn.setOutput(key);
 
-                if (!res.equals("\0")) {
-                    Toast.makeText(getApplicationContext(), res + " is not a valid key code", Toast.LENGTH_SHORT).show();
+                if (res.first) {
+                    Toast.makeText(getApplicationContext(), res.second + " is not a valid key code", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -214,24 +212,15 @@ public class EditActivity extends AppCompatActivity {
                 String left = ((EditText) popupWindow.getContentView().findViewById(R.id.left)).getText().toString();
                 String right = ((EditText) popupWindow.getContentView().findViewById(R.id.right)).getText().toString();
 
-                if (!KeyCode.valid(up)) {
-                    Toast.makeText(getApplicationContext(), up + " is not a valid key code", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (!KeyCode.valid(down)) {
-                    Toast.makeText(getApplicationContext(), down + " is not a valid key code", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (!KeyCode.valid(left)) {
-                    Toast.makeText(getApplicationContext(), left + " is not a valid key code", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (!KeyCode.valid(right)) {
-                    Toast.makeText(getApplicationContext(), right + " is not a valid key code", Toast.LENGTH_SHORT).show();
+                Dpad dpad=new Dpad();
+                Pair<Boolean,String> res=dpad.setDir(up,down,left,right);
+
+                if (res.first){
+                    Toast.makeText(getApplicationContext(), res.second + " is not a valid key code", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                Dpad(up, down, left, right, 300, Resources.getSystem().getDisplayMetrics().heightPixels / 2 - 150, Resources.getSystem().getDisplayMetrics().widthPixels / 2 - 150);
+                Dpad(dpad, 300, Resources.getSystem().getDisplayMetrics().heightPixels / 2 - 150, Resources.getSystem().getDisplayMetrics().widthPixels / 2 - 150);
                 popupWindow.dismiss();
             }
         });
@@ -297,7 +286,7 @@ public class EditActivity extends AppCompatActivity {
     }
 
 
-    private void Dpad(String up, String down, String left, String right, int diameter, int marginTop, int marginLeft) {
+    private void Dpad(Dpad tag, int diameter, int marginTop, int marginLeft) {
         Button btn = new Button(this);
 
         btn.setHeight(diameter);
@@ -305,7 +294,7 @@ public class EditActivity extends AppCompatActivity {
         btn.setMinimumHeight(0);
         btn.setMinimumWidth(0);
 
-        btn.setTag(new Dpad(up, down, left, right));
+        btn.setTag(tag);
 
         btn.setBackgroundResource(R.drawable.dpad);
 
@@ -431,10 +420,10 @@ public class EditActivity extends AppCompatActivity {
                         String label = ((EditText) popupWindow.getContentView().findViewById(R.id.label)).getText().toString();
                         String key = ((EditText) popupWindow.getContentView().findViewById(R.id.key)).getText().toString();
 
-                        String res=args.setOutput(key);
+                        Pair<Boolean,String> res=args.setOutput(key);
 
-                        if (!res.equals("\0")) {
-                            Toast.makeText(getApplicationContext(), res + " is not a valid key code", Toast.LENGTH_SHORT).show();
+                        if (res.first) {
+                            Toast.makeText(getApplicationContext(), res.second + " is not a valid key code", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
@@ -481,24 +470,13 @@ public class EditActivity extends AppCompatActivity {
                         String left = ((EditText) popupWindow.getContentView().findViewById(R.id.left)).getText().toString();
                         String right = ((EditText) popupWindow.getContentView().findViewById(R.id.right)).getText().toString();
 
-                        if (!KeyCode.valid(up)) {
-                            Toast.makeText(getApplicationContext(), up + " is not a valid key code", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        if (!KeyCode.valid(down)) {
-                            Toast.makeText(getApplicationContext(), down + " is not a valid key code", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        if (!KeyCode.valid(left)) {
-                            Toast.makeText(getApplicationContext(), left + " is not a valid key code", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        if (!KeyCode.valid(right)) {
-                            Toast.makeText(getApplicationContext(), right + " is not a valid key code", Toast.LENGTH_SHORT).show();
+                        Pair<Boolean,String> res=args.setDir(up,down,left,right);
+
+                        if (res.first){
+                            Toast.makeText(getApplicationContext(), res.second + " is not a valid key code", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
-                        args.setDir(up, down, left, right);
                         popupWindow.dismiss();
                     }
                 });

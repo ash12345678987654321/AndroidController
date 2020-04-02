@@ -21,7 +21,7 @@ public class KeyCode {
             "alt", "backspace", "capslock", "ctrl", "enter", "esc", "shift", "space", "tab", "volumedown", "volumemute", "volumeup", "win",
             "m1", "m2", "m3"));
 
-    public static boolean valid(String s){
-        return keycodes.contains(s);
+    public static boolean invalid(String s){
+        return !keycodes.contains(s);
     }
 }
