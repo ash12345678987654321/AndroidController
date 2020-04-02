@@ -35,7 +35,7 @@ public class Dpad {
     }
 
     public String getDir() {
-        return up + "\n" + down + "\n" + left + "\n" + right;
+        return up + "\0" + down + "\0" + left + "\0" + right;
     }
 
 }
