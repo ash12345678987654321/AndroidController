@@ -22,10 +22,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.bluetoothtest.R;
-import com.example.bluetoothtest.activities.ControllerActivity;
-import com.example.bluetoothtest.activities.EditActivity;
-import com.example.bluetoothtest.activities.MacroActivity;
-import com.example.bluetoothtest.activities.SettingsActivity;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -44,15 +40,15 @@ public class MainActivity extends AppCompatActivity {
 
     private View decorView;
 
-    private PopupWindow popupWindow=new PopupWindow(); //so we can access it easily
+    private PopupWindow popupWindow = new PopupWindow(); //so we can access it easily
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        editText=findViewById(R.id.editText);
-        rename_btn=findViewById(R.id.rename_btn);
+        editText = findViewById(R.id.editText);
+        rename_btn = findViewById(R.id.rename_btn);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -89,10 +85,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        relativeLayout=findViewById(R.id.relative_layout);
-        LinearLayout.LayoutParams layoutParams=(LinearLayout.LayoutParams) relativeLayout.getLayoutParams();
-        layoutParams.height=Resources.getSystem().getDisplayMetrics().heightPixels/2+40;
-        layoutParams.width=Resources.getSystem().getDisplayMetrics().widthPixels/2+40;
+        relativeLayout = findViewById(R.id.relative_layout);
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) relativeLayout.getLayoutParams();
+        layoutParams.height = Resources.getSystem().getDisplayMetrics().heightPixels / 2 + 40;
+        layoutParams.width = Resources.getSystem().getDisplayMetrics().widthPixels / 2 + 40;
         relativeLayout.setLayoutParams(layoutParams);
 
         //code to make app bigger
@@ -127,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         fillPreview();
     }
@@ -162,15 +158,15 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void macro(View view) {
+    public void macros(View view) {
         Intent intent = new Intent(this, MacroActivity.class);
         startActivity(intent);
     }
 
-    public void inflate(View view){
+    public void inflate(View view) {
         if (editText.isFocusable()) return; //dont open if user is trying to rename a file
 
-        if (popupWindow.isShowing()){
+        if (popupWindow.isShowing()) {
             LinearLayout linearLayout = popupWindow.getContentView().findViewById(R.id.linear_layout);
             linearLayout.removeAllViews();
             for (int i = 0; i < layouts.size(); i++) {
@@ -182,8 +178,7 @@ public class MainActivity extends AppCompatActivity {
 
                 linearLayout.addView(textView, 0);
             }
-        }
-        else{
+        } else {
             LayoutInflater layoutInflater
                     = (LayoutInflater) getBaseContext()
                     .getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -202,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
                 textView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        editText.setText(((TextView)v).getText().toString());
+                        editText.setText(((TextView) v).getText().toString());
                         fillPreview();
                         popupWindow.dismiss();
                     }
@@ -224,19 +219,18 @@ public class MainActivity extends AppCompatActivity {
 
     public void add(View view) {
         File file;
-        int index=1;
+        int index = 1;
 
-        while (true){
-            file=new File(getFilesDir()+"/layouts/New Layout "+index);
+        while (true) {
+            file = new File(getFilesDir() + "/layouts/New Layout " + index);
             if (!file.exists()) break;
             index++;
         }
 
-        try{
+        try {
             file.createNewFile();
-        }
-        catch (Exception e){
-            Toast.makeText(this,"Something went wrong",Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -244,44 +238,45 @@ public class MainActivity extends AppCompatActivity {
         Collections.sort(layouts);
 
         editText.setText(file.getName());
+        fillPreview();
     }
 
     public void del(View view) {
-        File file=new File(getFilesDir()+"/layouts/"+editText.getText());
+        File file = new File(getFilesDir() + "/layouts/" + editText.getText());
 
-        try{
+        try {
             file.delete();
-        }
-        catch (Exception e){
-            Toast.makeText(this,"Something went wrong",Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        for (int i=0;i<layouts.size();i++){
-            if (layouts.get(i).equals(file.getName())){
+        for (int i = 0; i < layouts.size(); i++) {
+            if (layouts.get(i).equals(file.getName())) {
                 layouts.remove(i);
-                editText.setText(layouts.get(Math.min(i,layouts.size()-1)));
+                editText.setText(layouts.get(Math.min(i, layouts.size() - 1)));
                 break;
             }
         }
+        fillPreview();
     }
 
-    public void rename(View view){
-        if (editText.isFocusable()){ //check if renaming is valid
-            String newName=editText.getText().toString();
+    public void rename(View view) {
+        if (editText.isFocusable()) { //check if renaming is valid
+            String newName = editText.getText().toString();
 
-            if (!newName.equals(oldName)){
-                File file=new File(getFilesDir()+"/layouts/"+newName);
+            if (!newName.equals(oldName)) {
+                File file = new File(getFilesDir() + "/layouts/" + newName);
                 if (file.exists()) {
                     Toast.makeText(this, "Invalid file name", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                for (int i=0;i<layouts.size();i++){
-                    if (layouts.get(i).equals(oldName)) layouts.set(i,newName);
+                for (int i = 0; i < layouts.size(); i++) {
+                    if (layouts.get(i).equals(oldName)) layouts.set(i, newName);
                 }
 
-                File file2=new File(getFilesDir()+"/layouts/"+oldName);
+                File file2 = new File(getFilesDir() + "/layouts/" + oldName);
                 file2.renameTo(file);
 
                 Collections.sort(layouts);
@@ -290,9 +285,8 @@ public class MainActivity extends AppCompatActivity {
             editText.setFocusable(false);
             editText.setFocusableInTouchMode(false);
             rename_btn.setImageResource(R.drawable.ic_rename);
-        }
-        else{ //allow user to edit
-            oldName=editText.getText().toString();
+        } else { //allow user to edit
+            oldName = editText.getText().toString();
 
             editText.setFocusable(true);
             editText.setFocusableInTouchMode(true);
@@ -301,7 +295,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //wow we are gonna show a preview bcas thats cool
-    private void fillPreview(){
+    private void fillPreview() {
         relativeLayout.removeAllViews();
         try {
             File file = new File(getFilesDir() + "/layouts/" + editText.getText().toString());
@@ -329,13 +323,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void Btn(int height, int width, int marginTop, int marginLeft){
-        height/=2;
-        width/=2;
-        marginTop/=2;
-        marginLeft/=2;
+    private void Btn(int height, int width, int marginTop, int marginLeft) {
+        height /= 2;
+        width /= 2;
+        marginTop /= 2;
+        marginLeft /= 2;
 
-        Button btn=new Button(this);
+        Button btn = new Button(this);
 
         btn.setHeight(height);
         btn.setWidth(width);
@@ -352,12 +346,12 @@ public class MainActivity extends AppCompatActivity {
         btn.setLayoutParams(layoutParams);
     }
 
-    private void Dpad(int diameter,int marginTop, int marginLeft){
-        diameter/=2;
-        marginTop/=2;
-        marginLeft/=2;
+    private void Dpad(int diameter, int marginTop, int marginLeft) {
+        diameter /= 2;
+        marginTop /= 2;
+        marginLeft /= 2;
 
-        Button btn=new Button(this);
+        Button btn = new Button(this);
 
         btn.setHeight(diameter);
         btn.setWidth(diameter);
