@@ -1,10 +1,12 @@
-package com.example.bluetoothtest;
+package com.example.bluetoothtest.activities;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
+
+import com.example.bluetoothtest.R;
 
 public class SettingsActivity extends AppCompatActivity {
 

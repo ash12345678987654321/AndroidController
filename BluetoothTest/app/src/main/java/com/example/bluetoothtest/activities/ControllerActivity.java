@@ -1,4 +1,4 @@
-package com.example.bluetoothtest;
+package com.example.bluetoothtest.activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,8 +13,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
+import com.example.bluetoothtest.R;
 import com.example.bluetoothtest.controllerData.Btn;
 import com.example.bluetoothtest.controllerData.Dpad;
+import com.example.bluetoothtest.networkingHandler.DataSender;
+import com.example.bluetoothtest.networkingHandler.Ping;
 
 import java.io.File;
 import java.util.Scanner;
@@ -101,6 +104,8 @@ public class ControllerActivity extends AppCompatActivity {
                         break;
                 }
             }
+
+            scanner.close();
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, "File corrupted >.<", Toast.LENGTH_SHORT).show();

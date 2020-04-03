@@ -1,4 +1,6 @@
-package com.example.bluetoothtest;
+package com.example.bluetoothtest.networkingHandler;
+
+import com.example.bluetoothtest.activities.ControllerActivity;
 
 import java.io.PrintWriter;
 import java.net.Socket;

@@ -1,4 +1,4 @@
-package com.example.bluetoothtest;
+package com.example.bluetoothtest.activities;
 
 import android.animation.ObjectAnimator;
 import android.content.res.Resources;
@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.bluetoothtest.R;
 import com.example.bluetoothtest.controllerData.Btn;
 import com.example.bluetoothtest.controllerData.Dpad;
 
@@ -60,6 +61,8 @@ public class EditActivity extends AppCompatActivity {
                         break;
                 }
             }
+
+            scanner.close();
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, "File corrupted >.<", Toast.LENGTH_SHORT).show();
@@ -103,7 +106,7 @@ public class EditActivity extends AppCompatActivity {
 
         String preset = getIntent().getStringExtra("preset");
         try {
-            File file = new File(getFilesDir() + "/" + preset);
+            File file = new File(getFilesDir() + "/layouts/" + preset);
             PrintWriter pw = new PrintWriter(file);
 
             for (int x = 0; x < layout.getChildCount(); x++) {

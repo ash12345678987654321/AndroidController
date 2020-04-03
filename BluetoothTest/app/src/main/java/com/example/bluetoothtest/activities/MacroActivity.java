@@ -1,9 +1,11 @@
-package com.example.bluetoothtest;
+package com.example.bluetoothtest.activities;
 
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.bluetoothtest.R;
 
 public class MacroActivity extends AppCompatActivity {
     private View decorView;
