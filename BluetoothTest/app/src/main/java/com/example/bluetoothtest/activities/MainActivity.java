@@ -58,6 +58,11 @@ public class MainActivity extends AppCompatActivity {
         File path = new File(getFilesDir() + "/layouts/");
         layouts = new ArrayList<>();
         //Log.d("ZZZ",path.toString());
+
+        if (!path.exists()){
+            path.mkdir();
+        }
+
         for (File i : path.listFiles()) {
             //Log.d("ZZZ","File found: "+i.getName());
             layouts.add(i.getName());
@@ -242,6 +247,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void del(View view) {
+        if (layouts.size()==1){
+            Toast.makeText(this,"There must always be at least 1 layout!",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         File file = new File(getFilesDir() + "/layouts/" + editText.getText());
 
         try {
