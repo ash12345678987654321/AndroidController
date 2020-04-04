@@ -61,7 +61,7 @@ Ability to send certain precisely timed keystrokes for certain games.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
 
 ## Acknowledgements
 I would like to thank my friends for finding bugs and giving suggestions for my app. Thanks :)
