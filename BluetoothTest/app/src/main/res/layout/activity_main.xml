@@ -151,8 +151,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:background="@drawable/button_up"
-                    android:onClick="macros"
-                    android:text="macros" />
+                    android:onClick="macro"
+                    android:text="macro" />
 
             </LinearLayout>
 

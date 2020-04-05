@@ -1,4 +1,4 @@
-package com.example.bluetoothtest.networkingHandler;
+package com.example.bluetoothtest.netwokingHandler;
 
 import com.example.bluetoothtest.activities.ControllerActivity;
 

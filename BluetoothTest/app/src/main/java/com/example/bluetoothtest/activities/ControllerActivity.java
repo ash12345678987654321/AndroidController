@@ -16,8 +16,8 @@ import androidx.preference.PreferenceManager;
 import com.example.bluetoothtest.R;
 import com.example.bluetoothtest.controllerData.Btn;
 import com.example.bluetoothtest.controllerData.Dpad;
-import com.example.bluetoothtest.networkingHandler.DataSender;
-import com.example.bluetoothtest.networkingHandler.Ping;
+import com.example.bluetoothtest.netwokingHandler.DataSender;
+import com.example.bluetoothtest.netwokingHandler.Ping;
 
 import java.io.File;
 import java.util.Scanner;

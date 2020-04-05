@@ -22,6 +22,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.bluetoothtest.R;
+import com.example.bluetoothtest.activities.ControllerActivity;
+import com.example.bluetoothtest.activities.EditActivity;
+import com.example.bluetoothtest.activities.MacroActivity;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -55,7 +58,14 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setTitle("");
 
-        File path = new File(getFilesDir() + "/layouts/");
+        File path;
+        path = new File(getFilesDir() + "/macros/");
+
+        if (!path.exists()){
+            path.mkdir();
+        }
+
+        path = new File(getFilesDir() + "/layouts/");
         layouts = new ArrayList<>();
         //Log.d("ZZZ",path.toString());
 
@@ -163,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void macros(View view) {
+    public void macro(View view) {
         Intent intent = new Intent(this, MacroActivity.class);
         startActivity(intent);
     }
@@ -300,6 +310,7 @@ public class MainActivity extends AppCompatActivity {
 
             editText.setFocusable(true);
             editText.setFocusableInTouchMode(true);
+
             rename_btn.setImageResource(R.drawable.ic_tick);
         }
     }

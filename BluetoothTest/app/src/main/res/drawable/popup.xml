@@ -7,7 +7,7 @@
         android:bottom="10dp" />
     <stroke
         android:width="1dp"
-        android:color="@color/colorAccent"/>
+        android:color="#FFFFFF"/>
 
     <corners android:bottomRightRadius="7dp"
         android:bottomLeftRadius="7dp"
@@ -15,5 +15,5 @@
         android:topRightRadius="7dp" />
 
     <solid
-        android:color="@color/background3"/>
+        android:color="@color/background2"/>
 </shape>
