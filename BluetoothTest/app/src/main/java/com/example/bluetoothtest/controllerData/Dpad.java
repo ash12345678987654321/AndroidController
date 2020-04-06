@@ -8,9 +8,6 @@ public class Dpad {
 
     final static private int UP = 3, DOWN = 1, LEFT = 2, RIGHT = 0;
 
-    public Dpad() {
-    }
-
     public Dpad(String u, String d, String l, String r) {
         btns[UP] = new Btn(u);
         btns[DOWN] = new Btn(d);
@@ -94,7 +91,7 @@ public class Dpad {
         return new Pair<>(false, null);
     }
 
-    public String getDir() {
+    public String getOutput() {
         return btns[UP].getOutput() + "\0" + btns[DOWN].getOutput() + "\0" + btns[LEFT].getOutput() + "\0" + btns[RIGHT].getOutput();
     }
 

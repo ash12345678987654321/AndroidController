@@ -5,11 +5,11 @@ import android.util.Pair;
 public class Btn {
     private String[] output;
 
-    public Btn() {
+    public Btn(){ //TODO refactor code such that we dont need this anymore
+
     }
 
     public Btn(String output) {
-        this();
         setOutput(output);
     }
 
@@ -34,7 +34,14 @@ public class Btn {
     }
 
     public Pair<Boolean, String> setOutput(String output) {
-        String[] temp = output.trim().split(" ");
+        output=output.trim();
+
+        if (output.equals("")){ //so apparently now im going to allow users to just not input anything wow
+            this.output=new String[0];
+            return new Pair<>(false, null);
+        }
+
+        String[] temp = output.split(" ");
 
         for (String i : temp) {
             if (KeyCode.invalid(i)) return new Pair<>(true, i);
@@ -46,6 +53,10 @@ public class Btn {
     }
 
     public String getOutput() {
+        if (output.length==0){
+            return "";
+        }
+
         String res = "";
 
         for (String i : output) {

@@ -115,12 +115,13 @@ public class EditActivity extends AppCompatActivity {
                 RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
 
                 if (args instanceof Btn) {
-                    pw.write("Btn\0" + v.getText().toString() + "\0" + ((Btn) args).getOutput() + "\0" + v.getHeight() + "\0" + v.getWidth() + "\0" + layoutParams.topMargin + "\0" + layoutParams.leftMargin + "\n");
+                    pw.println("Btn\0" + v.getText().toString() + "\0" + ((Btn) args).getOutput() + "\0" + v.getHeight() + "\0" + v.getWidth() + "\0" + layoutParams.topMargin + "\0" + layoutParams.leftMargin);
                 } else if (args instanceof Dpad) {
-                    pw.write("Dpad\0" + ((Dpad) args).getDir() + "\0" + v.getHeight() + "\0" + layoutParams.topMargin + "\0" + layoutParams.leftMargin + "\n");
+                    pw.println("Dpad\0" + ((Dpad) args).getOutput() + "\0" + v.getHeight() + "\0" + layoutParams.topMargin + "\0" + layoutParams.leftMargin);
                 }
             }
 
+            pw.flush();
             pw.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -150,81 +151,11 @@ public class EditActivity extends AppCompatActivity {
     }
 
     public void add_btn(View view) {
-        LayoutInflater layoutInflater
-                = (LayoutInflater) getBaseContext()
-                .getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popupView = layoutInflater.inflate(R.layout.popup_btn, null);
-
-
-        popupWindow = new PopupWindow(
-                popupView,
-                Resources.getSystem().getDisplayMetrics().widthPixels / 3,
-                (int) (Resources.getSystem().getDisplayMetrics().heightPixels / 2.5));
-
-        popupWindow.setFocusable(true);
-        popupWindow.update();
-        popupWindow.showAsDropDown(view, 50, -100);
-
-        ((LinearLayout) popupView.findViewById(R.id.linear_layout)).removeViewAt(1);
-
-        popupView.findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String label = ((EditText) popupWindow.getContentView().findViewById(R.id.label)).getText().toString();
-                String key = ((EditText) popupWindow.getContentView().findViewById(R.id.key)).getText().toString();
-
-                Btn btn = new Btn();
-                Pair<Boolean, String> res = btn.setOutput(key);
-
-                if (res.first) {
-                    Toast.makeText(getApplicationContext(), res.second + " is not a valid key code", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                Btn(label, btn, 300, 300, Resources.getSystem().getDisplayMetrics().heightPixels / 2 - 150, Resources.getSystem().getDisplayMetrics().widthPixels / 2 - 150);
-                popupWindow.dismiss();
-            }
-        });
+        Btn("", new Btn(""), 300, 300, Resources.getSystem().getDisplayMetrics().heightPixels / 2 - 150, Resources.getSystem().getDisplayMetrics().widthPixels / 2 - 150);
     }
 
     public void add_dpad(View view) {
-        LayoutInflater layoutInflater
-                = (LayoutInflater) getBaseContext()
-                .getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popupView = layoutInflater.inflate(R.layout.popup_dpad, null);
-
-
-        popupWindow = new PopupWindow(
-                popupView,
-                Resources.getSystem().getDisplayMetrics().widthPixels / 3,
-                (int) (Resources.getSystem().getDisplayMetrics().heightPixels / 1.6));
-
-        popupWindow.setFocusable(true);
-        popupWindow.update();
-        popupWindow.showAsDropDown(view, 50, -100);
-
-        ((LinearLayout) popupView.findViewById(R.id.linear_layout)).removeViewAt(1);
-
-        popupView.findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String up = ((EditText) popupWindow.getContentView().findViewById(R.id.up)).getText().toString();
-                String down = ((EditText) popupWindow.getContentView().findViewById(R.id.down)).getText().toString();
-                String left = ((EditText) popupWindow.getContentView().findViewById(R.id.left)).getText().toString();
-                String right = ((EditText) popupWindow.getContentView().findViewById(R.id.right)).getText().toString();
-
-                Dpad dpad = new Dpad();
-                Pair<Boolean, String> res = dpad.setDir(up, down, left, right);
-
-                if (res.first) {
-                    Toast.makeText(getApplicationContext(), res.second + " is not a valid key code", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                Dpad(dpad, 300, Resources.getSystem().getDisplayMetrics().heightPixels / 2 - 150, Resources.getSystem().getDisplayMetrics().widthPixels / 2 - 150);
-                popupWindow.dismiss();
-            }
-        });
+        Dpad(new Dpad("","","",""), 300, Resources.getSystem().getDisplayMetrics().heightPixels / 2 - 150, Resources.getSystem().getDisplayMetrics().widthPixels / 2 - 150);
     }
 
     //controller setups (adding them programmically)

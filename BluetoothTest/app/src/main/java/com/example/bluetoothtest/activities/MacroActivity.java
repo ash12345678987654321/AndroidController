@@ -1,6 +1,7 @@
 package com.example.bluetoothtest.activities;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,11 +18,18 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bluetoothtest.R;
+import com.example.bluetoothtest.controllerData.Command;
+import com.example.bluetoothtest.controllerData.Delay;
+import com.example.bluetoothtest.controllerData.KeyStroke;
+import com.example.bluetoothtest.controllerData.Loop;
+import com.example.bluetoothtest.controllerData.Macro;
+import com.example.bluetoothtest.controllerData.Text;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -33,6 +41,8 @@ public class MacroActivity extends AppCompatActivity {
     private ImageButton rename_btn;
 
     private RecyclerView recyclerView;
+    private Macro curr_macro=null;
+    private RecyclerViewAdapter mAdapter;
 
     private ArrayList<String> macros;
     private HashMap<String,String> fileName=new HashMap<>();
@@ -107,6 +117,13 @@ public class MacroActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+
+        saveMacro();
     }
 
     @Override
@@ -239,6 +256,7 @@ public class MacroActivity extends AppCompatActivity {
                 break;
             }
         }
+        curr_macro=null;
         updateMacro();
     }
 
@@ -298,40 +316,58 @@ public class MacroActivity extends AppCompatActivity {
     }
 
     private void updateMacro(){
-        ArrayList<String> commands = new ArrayList<>();
+        saveMacro();
+        try {
+            curr_macro=new Macro(fileName.get(editText.getText().toString()));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "File corrupted >.<", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        commands.add("Item 1");
-        commands.add("Item 2");
-        commands.add("Item 3");
-        commands.add("Item 4");
-        commands.add("Item 5");
-        commands.add("Item 6");
-        commands.add("Item 7");
-        commands.add("Item 8");
-        commands.add("Item 9");
-        commands.add("Item 10");
-        commands.add("Item 11");
-        commands.add("Item 12");
-        commands.add("Item 13");
-        commands.add("Item 14");
-        commands.add("Item 15");
-        commands.add("Item 16");
-        commands.add("Item 17");
-        commands.add("Item 18");
-        commands.add("Item 19");
-        commands.add("Item 20");
-
-        RecyclerViewAdapter mAdapter = new RecyclerViewAdapter(commands);
-
-        ItemTouchHelper.Callback callback =
-                new ItemMoveCallback(mAdapter);
-        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
-        touchHelper.attachToRecyclerView(recyclerView);
+        mAdapter = new RecyclerViewAdapter(curr_macro.getCommands());
 
         recyclerView.setAdapter(mAdapter);
     }
 
+    private void saveMacro(){
+        try {
+            if (curr_macro!=null) curr_macro.save();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "File corrupted >.<", Toast.LENGTH_SHORT).show();
+            return;
+        }
+    }
+
+    public void add_keystroke(View view){
+        mAdapter.add_keystroke();
+    }
+
+    public void add_text(View view){
+        mAdapter.add_text();
+    }
+
+    public void add_delay(View view){
+        mAdapter.add_delay();
+    }
+
+    public void add_loop(View view){
+        mAdapter.add_loop();
+    }
+
+    public void up(View view){
+        mAdapter.up();
+    }
+
+    public void down(View view){
+        mAdapter.down();
+    }
+
     private String randomFileName(){
-        return getFilesDir() + "/macros/" + UUID.randomUUID().toString();
+        while (true) {
+            String name = getFilesDir() + "/macros/" + UUID.randomUUID().toString();
+            if (!new File(name).exists()) return name;
+        }
     }
 }

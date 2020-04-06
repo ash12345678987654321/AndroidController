@@ -18,7 +18,7 @@
         <activity android:name=".activities.MacroActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".SettingsActivity"
+            android:name=".activities.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:screenOrientation="landscape" />
         <activity android:name=".activities.MainActivity"
