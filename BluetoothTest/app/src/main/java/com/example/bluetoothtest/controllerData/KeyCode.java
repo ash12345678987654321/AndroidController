@@ -30,7 +30,7 @@ public class KeyCode {
         }
 
         for (String i : s.split(" ")) {
-            if (!keycodes.contains(i)) return new Pair<>(true, i);
+            if (!keycodes.contains(i)) return new Pair<>(true, i + " is not a valid key code");
         }
 
         return new Pair<>(false, null);

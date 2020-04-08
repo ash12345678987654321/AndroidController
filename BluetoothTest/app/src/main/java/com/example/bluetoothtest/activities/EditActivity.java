@@ -355,7 +355,7 @@ public class EditActivity extends AppCompatActivity {
 
                         Pair<Boolean, String> res = KeyCode.invalid(key);
                         if (res.first) {
-                            Toast.makeText(getApplicationContext(), res.second + " is not a valid key code", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), res.second, Toast.LENGTH_SHORT).show();
                             return;
                         }
 
@@ -406,7 +406,7 @@ public class EditActivity extends AppCompatActivity {
                         for (String i : new String[]{up, down, left, right}) {
                             Pair<Boolean, String> res = KeyCode.invalid(i);
                             if (res.first) {
-                                Toast.makeText(getApplicationContext(), res.second + " is not a valid key code", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), res.second, Toast.LENGTH_SHORT).show();
                                 return;
                             }
                         }

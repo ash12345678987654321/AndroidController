@@ -28,8 +28,7 @@ import java.util.Collections;
 import java.util.Scanner;
 import java.util.Vector;
 
-//TODO allow for no macros available
-//TODO bug fix where editing filename and going into another activity causes an error
+//TODO allow for no selection available
 public class MainActivity extends AppCompatActivity {
     private EditText editText;
     private String oldName;
@@ -160,18 +159,38 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void start(View view) {
+        if (editText.isFocusable()){
+            Toast.makeText(this,"Finish editing first!",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (editText.isFocusable()){
+            Toast.makeText(this,"Finish editing first!",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Intent intent = new Intent(this, ControllerActivity.class);
         intent.putExtra("preset", editText.getText().toString());
         startActivity(intent);
     }
 
     public void edit(View view) {
+        if (editText.isFocusable()){
+            Toast.makeText(this,"Finish editing first!",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Intent intent = new Intent(this, EditActivity.class);
         intent.putExtra("preset", editText.getText().toString());
         startActivity(intent);
     }
 
     public void macro(View view) {
+        if (editText.isFocusable()){
+            Toast.makeText(this,"Finish editing first!",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Intent intent = new Intent(this, MacroActivity.class);
         startActivity(intent);
     }
@@ -231,6 +250,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void add(View view) {
+        if (editText.isFocusable()){
+            Toast.makeText(this,"Finish editing first!",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         File file;
         int index = 1;
 
@@ -255,6 +279,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void del(View view) {
+        if (editText.isFocusable()){
+            Toast.makeText(this,"Finish editing first!",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if (layouts.size() == 1) {
             Toast.makeText(this, "There must always be at least 1 layout!", Toast.LENGTH_SHORT).show();
             return;

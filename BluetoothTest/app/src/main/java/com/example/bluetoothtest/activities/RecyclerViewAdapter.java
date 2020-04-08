@@ -2,6 +2,7 @@ package com.example.bluetoothtest.activities;
 
 import android.graphics.Color;
 import android.util.Log;
+import android.util.Pair;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -27,7 +28,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private Vector<Command> macro;
     private int selected = -1;
-    private HashMap<String, Vector<Command>> table = new HashMap<>(); //this is funny lookup table to quickly update stuff of same type
+
+    private MacroActivity macroActivity; //parent so we can update parent on stuff
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
 
@@ -62,9 +64,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
     }
 
-    public RecyclerViewAdapter(Vector<Command> macro) {
+    public RecyclerViewAdapter(Vector<Command> macro, MacroActivity macroActivity) {
         this.macro = macro;
         selected = -1;
+
+        this.macroActivity=macroActivity;
     }
 
     @Override
@@ -96,8 +100,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         holder.mTitle.setText(macro.get(position).getPreview());
 
-        if (position == selected) holder.rowView.setBackgroundColor(Color.parseColor("#272727"));
-        else holder.rowView.setBackgroundColor(Color.parseColor("#00000000"));
+        if (position == selected){
+            holder.rowView.setBackgroundColor(Color.parseColor("#272727"));
+            holder.mTitle.setTextColor(holder.rowView.getResources().getColor(R.color.colorPrimary));
+        }
+        else{
+            holder.rowView.setBackgroundColor(Color.parseColor("#00000000"));
+            holder.mTitle.setTextColor(holder.rowView.getResources().getColor(R.color.text));
+        }
 
         if (macro.get(position).getChildren().isEmpty())
             holder.mTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
@@ -182,15 +192,41 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         notifyItemChanged(selected - 1);
     }
 
-    public void setSelected(int index) {
-        Log.d("ZZZ", "selected: " + index);
-        //fancy code for swapping 2 numbers
-        index ^= selected;
-        selected ^= index;
-        index ^= selected;
+    public void delete(String id){
 
-        if (index != -1) notifyItemChanged(index);
-        notifyItemChanged(selected);
+        for (int i=macro.size()-1;i>=0;i--){
+            if (macro.get(i).getId().equals(id)){
+                macro.del(i);
+                notifyItemRemoved(i);
+            }
+        }
+    }
+
+    public Pair<Boolean,String> update(String id,String arg){
+        Pair<Boolean,String> res;
+
+        for (int i=0;i<macro.size();i++){
+            if (macro.get(i).getId().equals(id)){
+                res=macro.get(i).setArg(arg);
+                if (res.first) return res;
+
+                notifyItemChanged(i);
+            }
+        }
+
+        return new Pair<>(false,null);
+    }
+
+    public void setSelected(int index) {
+        if (macroActivity.updateSelected(macro.get(index))) {
+            //fancy code for swapping 2 numbers
+            index ^= selected;
+            selected ^= index;
+            index ^= selected;
+
+            if (index != -1) notifyItemChanged(index);
+            notifyItemChanged(selected);
+        }
     }
 
     public Vector<Command> getMacros() {
@@ -198,10 +234,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     private String randomIdName() {
-        while (true) {
-            String id = UUID.randomUUID().toString();
-            if (!table.containsKey(id)) return id;
-        }
+        return UUID.randomUUID().toString();
     }
 
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
@@ -227,8 +260,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     notifyItemRangeRemoved(start, end - start);
                     notifyItemChanged(index);
                 } else { //uncollapse this
-                    Log.d("ZZZ", macro.get(index).getChildren().size() + "");
-
                     macro.addAll(index + 1, macro.get(index).getChildren());
                     notifyItemRangeInserted(index + 1, macro.get(index).getChildren().size());
 

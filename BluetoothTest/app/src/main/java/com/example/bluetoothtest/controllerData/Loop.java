@@ -16,6 +16,20 @@ public class Loop extends Command {
     }
 
     @Override
+    public String getArg(){
+        return Integer.toString(times);
+    }
+
+    @Override
+    public Pair<Boolean,String> setArg(String arg){
+        if (arg.length()>9) return new Pair<>(true,"Cannot loop more than 1 billion times");
+
+        times=Integer.parseInt(arg);
+
+        return new Pair<>(false,null);
+    }
+
+    @Override
     public String getPreview() {
         if (isStart()) {
             return "Loop start";

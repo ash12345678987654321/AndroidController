@@ -50,4 +50,8 @@ public abstract class Command {
     public void setChildren(Vector<Command> children) {
         this.children = children;
     }
+
+    public abstract String getArg();
+
+    public abstract Pair<Boolean,String> setArg(String arg);
 }

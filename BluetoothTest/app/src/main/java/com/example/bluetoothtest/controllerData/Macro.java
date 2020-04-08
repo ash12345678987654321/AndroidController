@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class Macro extends Thread {
     private Vector<Command> commands;
 
-    public Macro(String fileName) throws FileNotFoundException {
+    public Macro(String fileName) throws Exception {
         commands = Macro.getMacros(fileName);
     }
 
@@ -37,7 +37,7 @@ public class Macro extends Thread {
     }
 
     //random getters and setters from file because i have no idea where else to dump this
-    public static Vector<Command> getMacros(String fileName) throws FileNotFoundException {
+    public static Vector<Command> getMacros(String fileName) throws Exception {
         Vector<Command> res = new Vector<>();
 
         Log.d("ZZZ", fileName);
@@ -70,7 +70,7 @@ public class Macro extends Thread {
         return res;
     }
 
-    public static void save(String fileName, Vector<Command> commands) throws FileNotFoundException {
+    public static void save(String fileName, Vector<Command> commands) throws Exception {
         File file = new File(fileName);
 
         String name = new Scanner(file).nextLine();

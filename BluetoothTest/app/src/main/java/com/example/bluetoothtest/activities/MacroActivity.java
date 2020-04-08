@@ -1,10 +1,16 @@
 package com.example.bluetoothtest.activities;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.InputType;
+import android.util.Log;
+import android.util.Pair;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -16,7 +22,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bluetoothtest.R;
+import com.example.bluetoothtest.controllerData.Command;
+import com.example.bluetoothtest.controllerData.Delay;
+import com.example.bluetoothtest.controllerData.KeyStroke;
 import com.example.bluetoothtest.controllerData.Macro;
+import com.example.bluetoothtest.controllerData.Text;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -38,6 +48,12 @@ public class MacroActivity extends AppCompatActivity {
     private Vector<String> macros;
     private HashMap<String, String> fileName = new HashMap<>();
 
+    private TextView param_title;
+    private EditText param;
+    private Button btn1,btn2,btn3,btn4;
+
+    private Command command;
+
     private View decorView;
 
     private PopupWindow popupWindow = new PopupWindow(); //so we can access it easily
@@ -50,6 +66,13 @@ public class MacroActivity extends AppCompatActivity {
         editText = findViewById(R.id.editText);
         rename_btn = findViewById(R.id.rename_btn);
         recyclerView = findViewById(R.id.recycler_view);
+
+        param_title=findViewById(R.id.param_title);
+        param=findViewById(R.id.param);
+        btn1=findViewById(R.id.btn1);
+        btn2=findViewById(R.id.btn2);
+        btn3=findViewById(R.id.btn3);
+        btn4=findViewById(R.id.btn4);
 
         File path = new File(getFilesDir() + "/macros/");
         macros = new Vector<>();
@@ -139,6 +162,11 @@ public class MacroActivity extends AppCompatActivity {
     public void inflate(View view) {
         if (editText.isFocusable()) return; //dont open if user is trying to rename a file
 
+        if (param.isFocusable()){
+            Toast.makeText(this,"Finish editing first!",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if (popupWindow.isShowing()) {
             LinearLayout linearLayout = popupWindow.getContentView().findViewById(R.id.linear_layout);
             linearLayout.removeAllViews();
@@ -193,6 +221,11 @@ public class MacroActivity extends AppCompatActivity {
     }
 
     public void add(View view) {
+        if (editText.isFocusable() || param.isFocusable()){
+            Toast.makeText(this,"Finish editing first!",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         String name;
         int index = 1;
 
@@ -225,6 +258,11 @@ public class MacroActivity extends AppCompatActivity {
     }
 
     public void del(View view) {
+        if (editText.isFocusable() || param.isFocusable()){
+            Toast.makeText(this,"Finish editing first!",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if (macros.size() == 1) {
             Toast.makeText(this, "There must always be at least 1 macro!", Toast.LENGTH_SHORT).show();
             return;
@@ -253,6 +291,11 @@ public class MacroActivity extends AppCompatActivity {
     }
 
     public void rename(View view) {
+        if (param.isFocusable()){
+            Toast.makeText(this,"Finish editing first!",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if (editText.isFocusable()) { //check if renaming is valid
             String newName = editText.getText().toString();
 
@@ -309,20 +352,21 @@ public class MacroActivity extends AppCompatActivity {
 
     private void updateMacro() {
         try {
-            mAdapter = new RecyclerViewAdapter(Macro.getMacros(fileName.get(editText.getText().toString())));
-        } catch (FileNotFoundException e) {
+            mAdapter = new RecyclerViewAdapter(Macro.getMacros(fileName.get(editText.getText().toString())),this);
+        } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, "File corrupted >.<", Toast.LENGTH_SHORT).show();
             return;
         }
 
         recyclerView.setAdapter(mAdapter);
+        updateSelected(null);
     }
 
     private void saveMacro(String fileName) {
         try {
             Macro.save(fileName, mAdapter.getMacros());
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, "File corrupted >.<", Toast.LENGTH_SHORT).show();
             return;
@@ -330,27 +374,163 @@ public class MacroActivity extends AppCompatActivity {
     }
 
     public void add_keystroke(View view) {
+        if (editText.isFocusable() || param.isFocusable()){
+            Toast.makeText(this,"Finish editing first!",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         mAdapter.add_keystroke();
     }
 
     public void add_text(View view) {
+        if (editText.isFocusable() || param.isFocusable()){
+            Toast.makeText(this,"Finish editing first!",Toast.LENGTH_SHORT).show();
+            return;
+        }
         mAdapter.add_text();
     }
 
     public void add_delay(View view) {
+        if (editText.isFocusable() || param.isFocusable()){
+            Toast.makeText(this,"Finish editing first!",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         mAdapter.add_delay();
     }
 
     public void add_loop(View view) {
+        if (editText.isFocusable() || param.isFocusable()){
+            Toast.makeText(this,"Finish editing first!",Toast.LENGTH_SHORT).show();
+            return;
+        }
         mAdapter.add_loop();
     }
 
     public void up(View view) {
+        if (editText.isFocusable() || param.isFocusable()){
+            Toast.makeText(this,"Finish editing first!",Toast.LENGTH_SHORT).show();
+            return;
+        }
         mAdapter.up();
     }
 
     public void down(View view) {
+        if (editText.isFocusable() || param.isFocusable()){
+            Toast.makeText(this,"Finish editing first!",Toast.LENGTH_SHORT).show();
+            return;
+        }
         mAdapter.down();
+    }
+
+    public boolean updateSelected(Command command){
+        if (editText.isFocusable() || param.isFocusable()){
+            Toast.makeText(this,"Finish editing first!",Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        this.command=command;
+
+        if (command==null){
+            param_title.setVisibility(View.INVISIBLE);
+            param.setVisibility(View.INVISIBLE);
+            btn1.setVisibility(View.INVISIBLE);
+            btn2.setVisibility(View.INVISIBLE);
+        }
+        else{
+            param_title.setVisibility(View.VISIBLE);
+            param.setVisibility(View.VISIBLE);
+            btn1.setVisibility(View.VISIBLE);
+            btn2.setVisibility(View.VISIBLE);
+            param.setText(command.getArg());
+
+            if (command instanceof KeyStroke){
+                param_title.setText("Key Code");
+                param.setInputType(InputType.TYPE_CLASS_TEXT);
+                param.setMinLines(1);
+                param.setMaxLines(1);
+            }
+            else if (command instanceof Text){
+                param_title.setText("Text");
+                param.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+                param.setMinLines(3);
+                param.setMaxLines(3);
+            }
+            else if (command instanceof Delay){
+                param_title.setText("Delay Time (ms)");
+                param.setInputType(InputType.TYPE_CLASS_NUMBER);
+                param.setMinLines(1);
+                param.setMaxLines(1);
+            }
+            else{
+                param_title.setText("Loop Times");
+                param.setInputType(InputType.TYPE_CLASS_NUMBER);
+                param.setMinLines(1);
+                param.setMaxLines(1);
+            }
+        }
+
+        return true;
+    }
+
+    public void edit(View view){
+        if (editText.isFocusable() || param.isFocusable()){
+            Toast.makeText(this,"Finish editing first!",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        btn1.setVisibility(View.INVISIBLE);
+        btn2.setVisibility(View.INVISIBLE);
+        btn3.setVisibility(View.VISIBLE);
+        btn4.setVisibility(View.VISIBLE);
+
+        param.setFocusable(true);
+        param.setFocusableInTouchMode(true);
+    }
+
+    public void delete(View view){
+        if (editText.isFocusable() || param.isFocusable()){
+            Toast.makeText(this,"Finish editing first!",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        mAdapter.delete(command.getId());
+    }
+
+    public void save(View view){
+        if (editText.isFocusable()){
+            Toast.makeText(this,"Finish editing first!",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Pair<Boolean,String> res=mAdapter.update(command.getId(),param.getText().toString());
+        if (res.first) {
+            Toast.makeText(getApplicationContext(), res.second, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        btn1.setVisibility(View.VISIBLE);
+        btn2.setVisibility(View.VISIBLE);
+        btn3.setVisibility(View.INVISIBLE);
+        btn4.setVisibility(View.INVISIBLE);
+        param.setFocusable(false);
+        param.setFocusableInTouchMode(false);
+    }
+
+    public void cancel(View view){
+        if (editText.isFocusable()){
+            Toast.makeText(this,"Finish editing first!",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        editText.setText(command.getArg());
+
+        btn1.setVisibility(View.VISIBLE);
+        btn2.setVisibility(View.VISIBLE);
+        btn3.setVisibility(View.INVISIBLE);
+        btn4.setVisibility(View.INVISIBLE);
+        param.setFocusable(false);
+        param.setFocusableInTouchMode(false);
     }
 
     private String randomFileName() {
