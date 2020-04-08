@@ -2,20 +2,21 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
 
-    <padding android:left="20px"
+    <padding
+        android:bottom="20px"
+        android:left="20px"
         android:right="20px"
-        android:top="20px"
-        android:bottom="20px" />
+        android:top="20px" />
 
-    <corners android:bottomRightRadius="10px"
+    <corners
         android:bottomLeftRadius="10px"
+        android:bottomRightRadius="10px"
         android:topLeftRadius="10px"
         android:topRightRadius="10px" />
 
     <stroke
         android:width="1dp"
-        android:color="#FFFFFF"/>
+        android:color="#FFFFFF" />
 
-    <solid
-        android:color="@color/background2"/>
+    <solid android:color="@color/background2" />
 </shape>

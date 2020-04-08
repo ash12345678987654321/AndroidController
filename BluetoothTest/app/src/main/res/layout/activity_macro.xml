@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.MacroActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".activities.MacroActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,8 +15,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginHorizontal="10dp"
             android:layout_gravity="center"
+            android:layout_marginHorizontal="10dp"
             app:layout_constraintBottom_toTopOf="@+id/button"
             app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
@@ -25,39 +24,39 @@
                 android:id="@+id/editText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_marginRight="20dp"
-                android:drawableRight="@drawable/ic_dropdown"
+                android:layout_weight="1"
                 android:background="@drawable/dropdown"
-                android:textColor="@color/text"
-                android:textCursorDrawable="@null"
-                android:inputType="text"
+                android:drawableRight="@drawable/ic_dropdown"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
-                android:onClick="inflate"/>
+                android:inputType="text"
+                android:onClick="inflate"
+                android:textColor="@color/text"
+                android:textCursorDrawable="@null" />
 
 
             <ImageButton
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:src="@drawable/ic_add"
-                android:onClick="add"/>
+                android:onClick="add"
+                android:src="@drawable/ic_add" />
 
             <ImageButton
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:src="@drawable/ic_delete"
-                android:onClick="del"/>
+                android:onClick="del"
+                android:src="@drawable/ic_delete" />
 
             <ImageButton
                 android:id="@+id/rename_btn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:src="@drawable/ic_rename"
-                android:onClick="rename"/>
+                android:onClick="rename"
+                android:src="@drawable/ic_rename" />
 
         </LinearLayout>
 
@@ -71,8 +70,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_marginHorizontal="15dp"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <LinearLayout
@@ -87,9 +86,9 @@
                     android:background="@drawable/button"
                     android:drawableLeft="@drawable/ic_keyboard"
                     android:drawablePadding="10dp"
+                    android:onClick="add_keystroke"
                     android:text="Keystroke"
-                    android:textColor="@color/text"
-                    android:onClick="add_keystroke"/>
+                    android:textColor="@color/text" />
 
                 <Button
                     android:layout_width="wrap_content"
@@ -98,9 +97,9 @@
                     android:background="@drawable/button"
                     android:drawableLeft="@drawable/ic_text"
                     android:drawablePadding="10dp"
+                    android:onClick="add_text"
                     android:text="Text"
-                    android:textColor="@color/text"
-                    android:onClick="add_text"/>
+                    android:textColor="@color/text" />
 
                 <Button
                     android:layout_width="wrap_content"
@@ -109,9 +108,9 @@
                     android:background="@drawable/button"
                     android:drawableLeft="@drawable/ic_stopwatch"
                     android:drawablePadding="10dp"
+                    android:onClick="add_delay"
                     android:text="Delay"
-                    android:textColor="@color/text"
-                    android:onClick="add_delay"/>
+                    android:textColor="@color/text" />
 
                 <Button
                     android:layout_width="wrap_content"
@@ -120,9 +119,9 @@
                     android:background="@drawable/button"
                     android:drawableLeft="@drawable/ic_loop"
                     android:drawablePadding="10dp"
+                    android:onClick="add_loop"
                     android:text="Loop"
-                    android:textColor="@color/text"
-                    android:onClick="add_loop"/>
+                    android:textColor="@color/text" />
 
             </LinearLayout>
 
@@ -130,9 +129,9 @@
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
                 android:background="@drawable/dropdown"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         </LinearLayout>
 
@@ -145,26 +144,26 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:orientation="horizontal"
-                android:layout_gravity="right">
+                android:layout_gravity="right"
+                android:orientation="horizontal">
 
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="5dp"
                     android:background="@drawable/button"
+                    android:onClick="up"
                     android:text="up"
-                    android:textColor="@color/text"
-                    android:onClick="up"/>
+                    android:textColor="@color/text" />
 
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="5dp"
                     android:background="@drawable/button"
+                    android:onClick="down"
                     android:text="down"
-                    android:textColor="@color/text"
-                    android:onClick="down"/>
+                    android:textColor="@color/text" />
 
             </LinearLayout>
 

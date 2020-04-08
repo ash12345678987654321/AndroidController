@@ -6,6 +6,6 @@
         android:id="@+id/settingsBtn"
         android:icon="@drawable/ic_settings_24dp"
         android:title="@string/title_settings"
-        app:showAsAction="always"/>
+        app:showAsAction="always" />
 
 </menu>

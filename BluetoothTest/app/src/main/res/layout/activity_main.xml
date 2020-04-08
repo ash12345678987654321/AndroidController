@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.MainActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".activities.MainActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -15,7 +14,7 @@
         android:background="?attr/colorPrimary"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
 
     <LinearLayout
@@ -26,8 +25,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginHorizontal="10dp"
             android:layout_gravity="center"
+            android:layout_marginHorizontal="10dp"
             app:layout_constraintBottom_toTopOf="@+id/button"
             app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
@@ -35,39 +34,39 @@
                 android:id="@+id/editText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_marginRight="20dp"
-                android:drawableRight="@drawable/ic_dropdown"
+                android:layout_weight="1"
                 android:background="@drawable/dropdown"
-                android:textColor="@color/text"
-                android:textCursorDrawable="@null"
-                android:inputType="text"
+                android:drawableRight="@drawable/ic_dropdown"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
-                android:onClick="inflate"/>
+                android:inputType="text"
+                android:onClick="inflate"
+                android:textColor="@color/text"
+                android:textCursorDrawable="@null" />
 
 
             <ImageButton
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:src="@drawable/ic_add"
-                android:onClick="add"/>
+                android:onClick="add"
+                android:src="@drawable/ic_add" />
 
             <ImageButton
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:src="@drawable/ic_delete"
-                android:onClick="del"/>
+                android:onClick="del"
+                android:src="@drawable/ic_delete" />
 
             <ImageButton
                 android:id="@+id/rename_btn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:src="@drawable/ic_rename"
-                android:onClick="rename"/>
+                android:onClick="rename"
+                android:src="@drawable/ic_rename" />
 
         </LinearLayout>
 
@@ -76,10 +75,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_gravity="center"
         android:layout_marginHorizontal="30dp"
-        android:orientation="horizontal"
-        android:layout_gravity="center">
+        android:layout_weight="1"
+        android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -112,8 +111,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_gravity="center">
+                android:layout_gravity="center"
+                android:layout_weight="1">
 
                 <Button
                     android:id="@+id/button"
@@ -129,8 +128,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_gravity="center">
+                android:layout_gravity="center"
+                android:layout_weight="1">
 
                 <Button
                     android:layout_width="match_parent"
@@ -145,8 +144,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_gravity="center">
+                android:layout_gravity="center"
+                android:layout_weight="1">
 
                 <Button
                     android:layout_width="wrap_content"
