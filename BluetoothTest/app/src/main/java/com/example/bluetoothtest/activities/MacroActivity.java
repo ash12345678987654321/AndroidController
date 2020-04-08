@@ -1,7 +1,6 @@
 package com.example.bluetoothtest.activities;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,26 +13,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bluetoothtest.R;
-import com.example.bluetoothtest.controllerData.Command;
-import com.example.bluetoothtest.controllerData.Delay;
-import com.example.bluetoothtest.controllerData.KeyStroke;
-import com.example.bluetoothtest.controllerData.Loop;
 import com.example.bluetoothtest.controllerData.Macro;
-import com.example.bluetoothtest.controllerData.Text;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.Vector;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.UUID;
+import java.util.Vector;
 
 public class MacroActivity extends AppCompatActivity {
     private EditText editText;
@@ -44,7 +36,7 @@ public class MacroActivity extends AppCompatActivity {
     private RecyclerViewAdapter mAdapter;
 
     private Vector<String> macros;
-    private HashMap<String,String> fileName=new HashMap<>();
+    private HashMap<String, String> fileName = new HashMap<>();
 
     private View decorView;
 
@@ -66,9 +58,9 @@ public class MacroActivity extends AppCompatActivity {
         for (File i : path.listFiles()) {
             //Log.d("ZZZ","File found: "+i.getName());
             try {
-                Scanner scanner=new Scanner(i);
-                String temp=scanner.nextLine();
-                fileName.put(temp,i.toString());
+                Scanner scanner = new Scanner(i);
+                String temp = scanner.nextLine();
+                fileName.put(temp, i.toString());
                 macros.add(temp);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -80,12 +72,12 @@ public class MacroActivity extends AppCompatActivity {
                 File file = new File(randomFileName());
                 file.createNewFile();
 
-                PrintWriter pw=new PrintWriter(file);
+                PrintWriter pw = new PrintWriter(file);
                 pw.println("Macro 1");
                 pw.flush();
                 pw.close();
 
-                fileName.put("Macro 1",file.toString());
+                fileName.put("Macro 1", file.toString());
                 macros.add("Macro 1");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -119,7 +111,7 @@ public class MacroActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
 
         saveMacro(fileName.get(editText.getText().toString()));
@@ -205,16 +197,16 @@ public class MacroActivity extends AppCompatActivity {
         int index = 1;
 
         while (true) {
-            name="Macro "+index;
+            name = "Macro " + index;
             if (!macros.contains(name)) break;
             index++;
         }
 
-        File file=new File(randomFileName());
+        File file = new File(randomFileName());
 
         try {
             file.createNewFile();
-            PrintWriter pw=new PrintWriter(file);
+            PrintWriter pw = new PrintWriter(file);
             pw.println(name);
             pw.flush();
             pw.close();
@@ -223,7 +215,7 @@ public class MacroActivity extends AppCompatActivity {
             return;
         }
 
-        fileName.put(name,file.toString());
+        fileName.put(name, file.toString());
         macros.add(name);
         Collections.sort(macros);
 
@@ -233,12 +225,12 @@ public class MacroActivity extends AppCompatActivity {
     }
 
     public void del(View view) {
-        if (macros.size()==1){
-            Toast.makeText(this,"There must always be at least 1 macro!",Toast.LENGTH_SHORT).show();
+        if (macros.size() == 1) {
+            Toast.makeText(this, "There must always be at least 1 macro!", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        String name=editText.getText().toString();
+        String name = editText.getText().toString();
         File file = new File(fileName.get(name));
 
         try {
@@ -274,24 +266,24 @@ public class MacroActivity extends AppCompatActivity {
                     if (macros.get(i).equals(oldName)) macros.set(i, newName);
                 }
 
-                fileName.put(newName,fileName.get(oldName));
+                fileName.put(newName, fileName.get(oldName));
                 fileName.remove(oldName);
 
                 Collections.sort(macros);
 
                 try {
-                    Vector<String> temp=new Vector<>();
-                    File file=new File(fileName.get(newName));
-                    Scanner scanner=new Scanner(file);
-                    while (scanner.hasNextLine()){
+                    Vector<String> temp = new Vector<>();
+                    File file = new File(fileName.get(newName));
+                    Scanner scanner = new Scanner(file);
+                    while (scanner.hasNextLine()) {
                         temp.add(scanner.nextLine());
                     }
                     scanner.close();
 
-                    temp.set(0,newName);
+                    temp.set(0, newName);
 
-                    PrintWriter pw=new PrintWriter(file);
-                    for (String i:temp){
+                    PrintWriter pw = new PrintWriter(file);
+                    for (String i : temp) {
                         pw.println(i);
                     }
                     pw.flush();
@@ -315,7 +307,7 @@ public class MacroActivity extends AppCompatActivity {
         }
     }
 
-    private void updateMacro(){
+    private void updateMacro() {
         try {
             mAdapter = new RecyclerViewAdapter(Macro.getMacros(fileName.get(editText.getText().toString())));
         } catch (FileNotFoundException e) {
@@ -327,9 +319,9 @@ public class MacroActivity extends AppCompatActivity {
         recyclerView.setAdapter(mAdapter);
     }
 
-    private void saveMacro(String fileName){
+    private void saveMacro(String fileName) {
         try {
-            Macro.save(fileName,mAdapter.getMacros());
+            Macro.save(fileName, mAdapter.getMacros());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             Toast.makeText(this, "File corrupted >.<", Toast.LENGTH_SHORT).show();
@@ -337,31 +329,31 @@ public class MacroActivity extends AppCompatActivity {
         }
     }
 
-    public void add_keystroke(View view){
+    public void add_keystroke(View view) {
         mAdapter.add_keystroke();
     }
 
-    public void add_text(View view){
+    public void add_text(View view) {
         mAdapter.add_text();
     }
 
-    public void add_delay(View view){
+    public void add_delay(View view) {
         mAdapter.add_delay();
     }
 
-    public void add_loop(View view){
+    public void add_loop(View view) {
         mAdapter.add_loop();
     }
 
-    public void up(View view){
+    public void up(View view) {
         mAdapter.up();
     }
 
-    public void down(View view){
+    public void down(View view) {
         mAdapter.down();
     }
 
-    private String randomFileName(){
+    private String randomFileName() {
         while (true) {
             String name = getFilesDir() + "/macros/" + UUID.randomUUID().toString();
             if (!new File(name).exists()) return name;

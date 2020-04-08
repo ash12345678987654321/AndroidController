@@ -2,14 +2,12 @@ package com.example.bluetoothtest.controllerData;
 
 import android.util.Pair;
 
-import com.example.bluetoothtest.controllerData.Command;
-
 public class Loop extends Command {
     private int times;
 
-    public Loop(int times,boolean start,boolean end,String id){
-        super(start,end,id);
-        this.times=times;
+    public Loop(int times, boolean start, boolean end, String id) {
+        super(start, end, id);
+        this.times = times;
     }
 
     @Override
@@ -18,17 +16,16 @@ public class Loop extends Command {
     }
 
     @Override
-    public String getPreview(){
-        if (isStart()){
+    public String getPreview() {
+        if (isStart()) {
             return "Loop start";
-        }
-        else{
+        } else {
             return "Loop end";
         }
     }
 
     @Override
     public String getOutput() {
-        return "Loop\0"+times+"\0"+super.getOutput();
+        return "Loop\0" + times + "\0" + super.getOutput();
     }
 }

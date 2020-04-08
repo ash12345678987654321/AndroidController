@@ -1,7 +1,5 @@
 package com.example.bluetoothtest.controllerData;
 
-import android.util.Pair;
-
 public class Btn {
     private String[] output;
 
@@ -29,17 +27,8 @@ public class Btn {
         return res;
     }
 
-    public void setOutput(String output) {
-        if (output.equals("")){ //so apparently now im going to allow users to just not input anything wow
-            this.output=new String[0];
-        }
-        else {
-            this.output = output.split(" ");
-        }
-    }
-
     public String getOutput() {
-        if (output.length==0){
+        if (output.length == 0) {
             return "";
         }
 
@@ -51,5 +40,13 @@ public class Btn {
         }
 
         return res.substring(0, res.length() - 1);
+    }
+
+    public void setOutput(String output) {
+        if (output.equals("")) { //so apparently now im going to allow users to just not input anything wow
+            this.output = new String[0];
+        } else {
+            this.output = output.split(" ");
+        }
     }
 }

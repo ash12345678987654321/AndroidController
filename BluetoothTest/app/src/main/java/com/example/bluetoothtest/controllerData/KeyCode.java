@@ -24,8 +24,8 @@ public class KeyCode {
             "m1", "m2", "m3"));
 
 
-    public static Pair<Boolean,String> invalid(String s){
-        if (s.equals("")){ //so apparently now im going to allow users to just not input anything wow
+    public static Pair<Boolean, String> invalid(String s) {
+        if (s.equals("")) { //so apparently now im going to allow users to just not input anything wow
             return new Pair<>(false, null);
         }
 

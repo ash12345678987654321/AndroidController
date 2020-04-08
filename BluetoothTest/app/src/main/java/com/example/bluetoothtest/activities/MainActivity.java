@@ -22,14 +22,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.bluetoothtest.R;
-import com.example.bluetoothtest.activities.ControllerActivity;
-import com.example.bluetoothtest.activities.EditActivity;
-import com.example.bluetoothtest.activities.MacroActivity;
 
 import java.io.File;
-import java.util.Vector;
 import java.util.Collections;
 import java.util.Scanner;
+import java.util.Vector;
 
 //TODO allow for no macros available
 //TODO bug fix where editing filename and going into another activity causes an error
@@ -62,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         File path;
         path = new File(getFilesDir() + "/macros/");
 
-        if (!path.exists()){
+        if (!path.exists()) {
             path.mkdir();
         }
 
@@ -70,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         layouts = new Vector<>();
         //Log.d("ZZZ",path.toString());
 
-        if (!path.exists()){
+        if (!path.exists()) {
             path.mkdir();
         }
 
@@ -258,8 +255,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void del(View view) {
-        if (layouts.size()==1){
-            Toast.makeText(this,"There must always be at least 1 layout!",Toast.LENGTH_SHORT).show();
+        if (layouts.size() == 1) {
+            Toast.makeText(this, "There must always be at least 1 layout!", Toast.LENGTH_SHORT).show();
             return;
         }
 

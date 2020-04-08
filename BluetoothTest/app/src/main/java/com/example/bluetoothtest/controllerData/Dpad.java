@@ -1,12 +1,9 @@
 package com.example.bluetoothtest.controllerData;
 
-import android.util.Pair;
-
 public class Dpad {
+    final static private int UP = 3, DOWN = 1, LEFT = 2, RIGHT = 0;
     private Btn[] btns = new Btn[4]; //right, down, left, up
     private Boolean[] triggered = {false, false, false, false};
-
-    final static private int UP = 3, DOWN = 1, LEFT = 2, RIGHT = 0;
 
     public Dpad(String u, String d, String l, String r) {
         btns[UP] = new Btn(u);

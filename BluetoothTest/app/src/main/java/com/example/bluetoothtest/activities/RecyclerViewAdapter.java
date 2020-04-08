@@ -13,27 +13,27 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bluetoothtest.R;
-import com.example.bluetoothtest.dataStructures.Vector;
 import com.example.bluetoothtest.controllerData.Command;
 import com.example.bluetoothtest.controllerData.Delay;
 import com.example.bluetoothtest.controllerData.KeyStroke;
 import com.example.bluetoothtest.controllerData.Loop;
 import com.example.bluetoothtest.controllerData.Text;
+import com.example.bluetoothtest.dataStructures.Vector;
 
 import java.util.HashMap;
 import java.util.UUID;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.CustomViewHolder>{
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.CustomViewHolder> {
 
     private Vector<Command> macro;
-    private int selected=-1;
-    private HashMap<String, Vector<Command>> table=new HashMap<>(); //this is funny lookup table to quickly update stuff of same type
+    private int selected = -1;
+    private HashMap<String, Vector<Command>> table = new HashMap<>(); //this is funny lookup table to quickly update stuff of same type
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView mTitle;
-        private ImageView icon1,icon2;
         View rowView;
+        private TextView mTitle;
+        private ImageView icon1, icon2;
 
         public CustomViewHolder(View itemView) {
             super(itemView);
@@ -64,7 +64,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public RecyclerViewAdapter(Vector<Command> macro) {
         this.macro = macro;
-        selected=-1;
+        selected = -1;
     }
 
     @Override
@@ -75,23 +75,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
-        if (macro.get(position) instanceof KeyStroke){
+        if (macro.get(position) instanceof KeyStroke) {
             holder.icon1.setImageResource(R.drawable.ic_keyboard);
 
             if (macro.get(position).isStart()) holder.icon2.setImageResource(R.drawable.ic_keydown);
             else holder.icon2.setImageResource(R.drawable.ic_keyup);
-        }
-        else if (macro.get(position) instanceof Text){
+        } else if (macro.get(position) instanceof Text) {
             holder.icon1.setImageResource(R.drawable.ic_text);
 
             holder.icon2.setImageResource(0);
-        }
-        else if (macro.get(position) instanceof Delay){
+        } else if (macro.get(position) instanceof Delay) {
             holder.icon1.setImageResource(R.drawable.ic_stopwatch);
 
             holder.icon2.setImageResource(0);
-        }
-        else{
+        } else {
             holder.icon1.setImageResource(R.drawable.ic_loop);
 
             holder.icon2.setImageResource(0);
@@ -99,100 +96,112 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         holder.mTitle.setText(macro.get(position).getPreview());
 
-        if (position==selected) holder.rowView.setBackgroundColor(Color.parseColor("#272727"));
+        if (position == selected) holder.rowView.setBackgroundColor(Color.parseColor("#272727"));
         else holder.rowView.setBackgroundColor(Color.parseColor("#00000000"));
 
-        if (macro.get(position).getChildren().isEmpty()) holder.mTitle.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
-        else holder.mTitle.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.ic_dropdown,0); //this has collapsed shit
+        if (macro.get(position).getChildren().isEmpty())
+            holder.mTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+        else
+            holder.mTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_dropdown, 0); //this has collapsed shit
     }
-
 
     @Override
     public int getItemCount() {
         return macro.size();
     }
 
-    public void add_keystroke(){
+    public void add_keystroke() {
         int start;
-        if (selected==-1) start=macro.size();
-        else start=selected+1;
+        if (selected == -1) start = macro.size();
+        else start = selected + 1;
 
-        String id=randomIdName();
+        String id = randomIdName();
 
-        macro.add(start,new KeyStroke("",true,false,id));
-        macro.add(start+1,new KeyStroke("",false,true,id));
+        macro.add(start, new KeyStroke("", true, false, id));
+        macro.add(start + 1, new KeyStroke("", false, true, id));
 
-        notifyItemRangeInserted(start,2);
+        notifyItemRangeInserted(start, 2);
     }
 
-    public void add_text(){
+    public void add_text() {
         int start;
-        if (selected==-1) start=macro.size();
-        else start=selected+1;
+        if (selected == -1) start = macro.size();
+        else start = selected + 1;
 
-        String id=randomIdName();
+        String id = randomIdName();
 
-        macro.add(start,new Text("",false,false,id));
+        macro.add(start, new Text("", false, false, id));
 
         notifyItemInserted(start);
     }
 
-    public void add_delay(){
+    public void add_delay() {
         int start;
-        if (selected==-1) start=macro.size();
-        else start=selected+1;
+        if (selected == -1) start = macro.size();
+        else start = selected + 1;
 
-        String id=randomIdName();
+        String id = randomIdName();
 
-        macro.add(start,new Delay(0,false,false,id));
+        macro.add(start, new Delay(0, false, false, id));
 
         notifyItemInserted(start);
     }
 
-    public void add_loop(){
+    public void add_loop() {
         int start;
-        if (selected==-1) start=macro.size();
-        else start=selected+1;
+        if (selected == -1) start = macro.size();
+        else start = selected + 1;
 
-        String id=randomIdName();
+        String id = randomIdName();
 
-        macro.add(start,new Loop(1,true,false,id));
-        macro.add(start+1,new Loop(1,false,true,id));
+        macro.add(start, new Loop(1, true, false, id));
+        macro.add(start + 1, new Loop(1, false, true, id));
 
-        notifyItemRangeInserted(start,2);
+        notifyItemRangeInserted(start, 2);
     }
 
-    public void up(){
-        if (selected==-1 || selected==0) return;
+    public void up() {
+        if (selected == -1 || selected == 0) return;
 
-        if (macro.get(selected).isSwappable() || macro.get(selected-1).isSwappable()) {
-            selected--;
-            macro.swap(selected, selected + 1);
-            notifyItemChanged(selected);
-            notifyItemChanged(selected + 1);
-        }
-    }
+        if (macro.get(selected).notSwappable() && macro.get(selected - 1).notSwappable()) return;
 
-    public void down(){
-        if (selected==-1 || selected==macro.size()-1) return;
-
-        if (macro.get(selected).isSwappable() || macro.get(selected+1).isSwappable()) {
-            selected++;
-            macro.swap(selected, selected - 1);
-            notifyItemChanged(selected);
-            notifyItemChanged(selected - 1);
-        }
-    }
-
-    public void setSelected(int index){
-        Log.d("ZZZ","selected: "+index);
-        //fancy code for swapping 2 numbers
-        index^=selected;
-        selected^=index;
-        index^=selected;
-
-        if (index!=-1) notifyItemChanged(index);
+        selected--;
+        macro.swap(selected, selected + 1);
         notifyItemChanged(selected);
+        notifyItemChanged(selected + 1);
+    }
+
+    public void down() {
+        if (selected == -1 || selected == macro.size() - 1) return;
+
+        if (macro.get(selected).notSwappable() && macro.get(selected + 1).notSwappable()) return;
+
+        selected++;
+        macro.swap(selected, selected - 1);
+        notifyItemChanged(selected);
+        notifyItemChanged(selected - 1);
+    }
+
+    public void setSelected(int index) {
+        Log.d("ZZZ", "selected: " + index);
+        //fancy code for swapping 2 numbers
+        index ^= selected;
+        selected ^= index;
+        index ^= selected;
+
+        if (index != -1) notifyItemChanged(index);
+        notifyItemChanged(selected);
+    }
+
+    public Vector<Command> getMacros() {
+        return macro;
+    }
+
+    private String randomIdName() {
+        while (true) {
+            String id = UUID.randomUUID().toString();
+            if (!table.containsKey(id)) return id;
+        }
     }
 
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
@@ -205,24 +214,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         // event when double tap occurs
         @Override
         public boolean onDoubleTap(MotionEvent e) {
-            int index=holder.getAdapterPosition();
-            if (macro.get(index) instanceof Loop && macro.get(index).isStart()){
-                if (macro.get(index).getChildren().isEmpty()){ //collapse this
-                    int start=index+1,end=index+1;
+            int index = holder.getAdapterPosition();
+            if (macro.get(index) instanceof Loop && macro.get(index).isStart()) {
+                if (macro.get(index).getChildren().isEmpty()) { //collapse this
+                    int start = index + 1, end = index + 1;
 
                     while (!macro.get(end).getId().equals(macro.get(index).getId())) end++;
                     end++; //exclusive
 
-                    macro.get(index).setChildren(macro.splice(start,end));
+                    macro.get(index).setChildren(macro.splice(start, end));
 
-                    notifyItemRangeRemoved(start,end-start);
+                    notifyItemRangeRemoved(start, end - start);
                     notifyItemChanged(index);
-                }
-                else{ //uncollapse this
-                    Log.d("ZZZ",macro.get(index).getChildren().size()+"");
+                } else { //uncollapse this
+                    Log.d("ZZZ", macro.get(index).getChildren().size() + "");
 
-                    macro.addAll(index+1,macro.get(index).getChildren());
-                    notifyItemRangeInserted(index+1,macro.get(index).getChildren().size());
+                    macro.addAll(index + 1, macro.get(index).getChildren());
+                    notifyItemRangeInserted(index + 1, macro.get(index).getChildren().size());
 
                     macro.get(index).getChildren().clear();
                     notifyItemChanged(index);
@@ -231,16 +239,5 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             return true;
         }
 
-    }
-
-    public Vector<Command> getMacros(){
-        return macro;
-    }
-
-    private String randomIdName(){
-        while (true) {
-            String id = UUID.randomUUID().toString();
-            if (!table.containsKey(id)) return id;
-        }
     }
 }

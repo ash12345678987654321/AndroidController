@@ -27,15 +27,14 @@ import static java.lang.Math.min;
 public class ControllerActivity extends AppCompatActivity {
     public static String cmd = "";
 
-    private RelativeLayout layout;
-    private RelativeLayout.LayoutParams layoutParams;
-    private View decorView;
-
-    private DataSender ds;
-
     //for networking to tell other threads what the client is
     public static String ip;
     public static int port;
+
+    private RelativeLayout layout;
+    private RelativeLayout.LayoutParams layoutParams;
+    private View decorView;
+    private DataSender ds;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

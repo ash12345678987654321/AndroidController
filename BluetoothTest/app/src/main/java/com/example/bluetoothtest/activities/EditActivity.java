@@ -34,7 +34,7 @@ public class EditActivity extends AppCompatActivity {
 
     private LinearLayout add_pane;
 
-    private PopupWindow popupWindow=new PopupWindow(); //so we can access it easily
+    private PopupWindow popupWindow = new PopupWindow(); //so we can access it easily
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -154,7 +154,7 @@ public class EditActivity extends AppCompatActivity {
     }
 
     public void add_dpad(View view) {
-        Dpad(new Dpad("","","",""), 300, Resources.getSystem().getDisplayMetrics().heightPixels / 2 - 150, Resources.getSystem().getDisplayMetrics().widthPixels / 2 - 150);
+        Dpad(new Dpad("", "", "", ""), 300, Resources.getSystem().getDisplayMetrics().heightPixels / 2 - 150, Resources.getSystem().getDisplayMetrics().widthPixels / 2 - 150);
     }
 
     //controller setups (adding them programmically)
@@ -314,118 +314,118 @@ public class EditActivity extends AppCompatActivity {
 
     //show edit menu when double click happens
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
-            private Button btn;
+        private Button btn;
 
-            private GestureListener(Button btn) {
-                this.btn = btn;
-            }
+        private GestureListener(Button btn) {
+            this.btn = btn;
+        }
 
-            // event when double tap occurs
-            @Override
-            public boolean onDoubleTap(MotionEvent e) {
+        // event when double tap occurs
+        @Override
+        public boolean onDoubleTap(MotionEvent e) {
 
-                if (popupWindow.isShowing()) return true; //dont allow popupwindow to show 2 times
+            if (popupWindow.isShowing()) return true; //dont allow popupwindow to show 2 times
 
-                if (btn.getTag() instanceof Btn) {
-                    final Btn args = (Btn) btn.getTag();
+            if (btn.getTag() instanceof Btn) {
+                final Btn args = (Btn) btn.getTag();
 
-                    LayoutInflater layoutInflater
-                            = (LayoutInflater) getBaseContext()
-                            .getSystemService(LAYOUT_INFLATER_SERVICE);
-                    View popupView = layoutInflater.inflate(R.layout.popup_btn, null);
+                LayoutInflater layoutInflater
+                        = (LayoutInflater) getBaseContext()
+                        .getSystemService(LAYOUT_INFLATER_SERVICE);
+                View popupView = layoutInflater.inflate(R.layout.popup_btn, null);
 
 
-                    popupWindow = new PopupWindow(
-                            popupView,
-                            Resources.getSystem().getDisplayMetrics().widthPixels / 3,
-                            (int) (Resources.getSystem().getDisplayMetrics().heightPixels / 2.5));
+                popupWindow = new PopupWindow(
+                        popupView,
+                        Resources.getSystem().getDisplayMetrics().widthPixels / 3,
+                        (int) (Resources.getSystem().getDisplayMetrics().heightPixels / 2.5));
 
-                    popupWindow.setFocusable(true);
-                    popupWindow.update();
-                    popupWindow.showAsDropDown(btn, 50, -100);
+                popupWindow.setFocusable(true);
+                popupWindow.update();
+                popupWindow.showAsDropDown(btn, 50, -100);
 
-                    ((EditText) popupView.findViewById(R.id.label)).setText(btn.getText());
-                    ((EditText) popupView.findViewById(R.id.key)).setText(args.getOutput());
+                ((EditText) popupView.findViewById(R.id.label)).setText(btn.getText());
+                ((EditText) popupView.findViewById(R.id.key)).setText(args.getOutput());
 
-                    popupView.findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            String label = ((EditText) popupWindow.getContentView().findViewById(R.id.label)).getText().toString();
-                            String key = ((EditText) popupWindow.getContentView().findViewById(R.id.key)).getText().toString();
+                popupView.findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String label = ((EditText) popupWindow.getContentView().findViewById(R.id.label)).getText().toString();
+                        String key = ((EditText) popupWindow.getContentView().findViewById(R.id.key)).getText().toString();
 
-                            Pair<Boolean, String> res = KeyCode.invalid(key);
+                        Pair<Boolean, String> res = KeyCode.invalid(key);
+                        if (res.first) {
+                            Toast.makeText(getApplicationContext(), res.second + " is not a valid key code", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        args.setOutput(key);
+                        btn.setText(label);
+                        popupWindow.dismiss();
+                    }
+                });
+
+                popupView.findViewById(R.id.del).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        layout.removeView(btn);
+                        popupWindow.dismiss();
+                    }
+                });
+            } else if (btn.getTag() instanceof Dpad) {
+                final Dpad args = (Dpad) btn.getTag();
+
+                LayoutInflater layoutInflater
+                        = (LayoutInflater) getBaseContext()
+                        .getSystemService(LAYOUT_INFLATER_SERVICE);
+                View popupView = layoutInflater.inflate(R.layout.popup_dpad, null);
+
+
+                popupWindow = new PopupWindow(
+                        popupView,
+                        Resources.getSystem().getDisplayMetrics().widthPixels / 3,
+                        (int) (Resources.getSystem().getDisplayMetrics().heightPixels / 1.6));
+
+                popupWindow.setFocusable(true);
+                popupWindow.update();
+                popupWindow.showAsDropDown(btn, 50, -100);
+
+                ((EditText) popupView.findViewById(R.id.up)).setText(args.getUp());
+                ((EditText) popupView.findViewById(R.id.down)).setText(args.getDown());
+                ((EditText) popupView.findViewById(R.id.left)).setText(args.getLeft());
+                ((EditText) popupView.findViewById(R.id.right)).setText(args.getRight());
+
+                popupView.findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String up = ((EditText) popupWindow.getContentView().findViewById(R.id.up)).getText().toString();
+                        String down = ((EditText) popupWindow.getContentView().findViewById(R.id.down)).getText().toString();
+                        String left = ((EditText) popupWindow.getContentView().findViewById(R.id.left)).getText().toString();
+                        String right = ((EditText) popupWindow.getContentView().findViewById(R.id.right)).getText().toString();
+
+                        for (String i : new String[]{up, down, left, right}) {
+                            Pair<Boolean, String> res = KeyCode.invalid(i);
                             if (res.first) {
                                 Toast.makeText(getApplicationContext(), res.second + " is not a valid key code", Toast.LENGTH_SHORT).show();
                                 return;
                             }
-
-                            args.setOutput(key);
-                            btn.setText(label);
-                            popupWindow.dismiss();
                         }
-                    });
 
-                    popupView.findViewById(R.id.del).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            layout.removeView(btn);
-                            popupWindow.dismiss();
-                        }
-                    });
-                } else if (btn.getTag() instanceof Dpad) {
-                    final Dpad args = (Dpad) btn.getTag();
+                        args.setDir(up, down, left, right);
+                        popupWindow.dismiss();
+                    }
+                });
 
-                    LayoutInflater layoutInflater
-                            = (LayoutInflater) getBaseContext()
-                            .getSystemService(LAYOUT_INFLATER_SERVICE);
-                    View popupView = layoutInflater.inflate(R.layout.popup_dpad, null);
+                popupView.findViewById(R.id.del).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        layout.removeView(btn);
+                        popupWindow.dismiss();
+                    }
+                });
+            }
 
-
-                    popupWindow = new PopupWindow(
-                            popupView,
-                            Resources.getSystem().getDisplayMetrics().widthPixels / 3,
-                            (int) (Resources.getSystem().getDisplayMetrics().heightPixels / 1.6));
-
-                    popupWindow.setFocusable(true);
-                    popupWindow.update();
-                    popupWindow.showAsDropDown(btn, 50, -100);
-
-                    ((EditText) popupView.findViewById(R.id.up)).setText(args.getUp());
-                    ((EditText) popupView.findViewById(R.id.down)).setText(args.getDown());
-                    ((EditText) popupView.findViewById(R.id.left)).setText(args.getLeft());
-                    ((EditText) popupView.findViewById(R.id.right)).setText(args.getRight());
-
-                    popupView.findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            String up = ((EditText) popupWindow.getContentView().findViewById(R.id.up)).getText().toString();
-                            String down = ((EditText) popupWindow.getContentView().findViewById(R.id.down)).getText().toString();
-                            String left = ((EditText) popupWindow.getContentView().findViewById(R.id.left)).getText().toString();
-                            String right = ((EditText) popupWindow.getContentView().findViewById(R.id.right)).getText().toString();
-
-                            for (String i: new String[]{up, down, left, right}) {
-                                Pair<Boolean, String> res = KeyCode.invalid(i);
-                                if (res.first) {
-                                    Toast.makeText(getApplicationContext(), res.second + " is not a valid key code", Toast.LENGTH_SHORT).show();
-                                    return;
-                                }
-                            }
-
-                            args.setDir(up,down,left,right);
-                            popupWindow.dismiss();
-                        }
-                    });
-
-                    popupView.findViewById(R.id.del).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            layout.removeView(btn);
-                            popupWindow.dismiss();
-                        }
-                    });
-                }
-
-                return true;
+            return true;
         }
     }
 }
