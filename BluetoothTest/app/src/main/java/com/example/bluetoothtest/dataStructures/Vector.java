@@ -89,7 +89,7 @@ public class Vector<T> {
     private void expand() {
         Object[] temp = new Object[(int) (length * GROWTH_RATE)];
 
-        if (length >= 0) System.arraycopy(arr, 0, temp, 0, length);
+        System.arraycopy(arr, 0, temp, 0, length);
         arr = temp;
     }
 }

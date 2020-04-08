@@ -488,6 +488,8 @@ public class MacroActivity extends AppCompatActivity {
         }
 
         mAdapter.delete(command.getId());
+
+        updateSelected(null);
     }
 
     public void save(View view) {

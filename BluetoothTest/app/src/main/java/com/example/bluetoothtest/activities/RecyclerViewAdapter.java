@@ -190,13 +190,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public void delete(String id) {
-
         for (int i = macro.size() - 1; i >= 0; i--) {
             if (macro.get(i).getId().equals(id)) {
                 macro.del(i);
                 notifyItemRemoved(i);
             }
         }
+
+        selected = -1;
     }
 
     public Pair<Boolean, String> update(String id, String arg) {
