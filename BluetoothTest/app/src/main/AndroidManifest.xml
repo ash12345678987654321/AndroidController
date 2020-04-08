@@ -11,17 +11,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.ControllerActivity"
+        <activity
+            android:name=".activities.ControllerActivity"
             android:screenOrientation="landscape" />
-        <activity android:name=".activities.EditActivity"
+        <activity
+            android:name=".activities.EditActivity"
             android:screenOrientation="landscape" />
-        <activity android:name=".activities.MacroActivity"
+        <activity
+            android:name=".activities.MacroActivity"
             android:screenOrientation="landscape" />
         <activity
             android:name=".activities.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:screenOrientation="landscape" />
-        <activity android:name=".activities.MainActivity"
+        <activity
+            android:name=".activities.MainActivity"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

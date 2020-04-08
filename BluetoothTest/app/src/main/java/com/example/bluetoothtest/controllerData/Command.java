@@ -53,5 +53,5 @@ public abstract class Command {
 
     public abstract String getArg();
 
-    public abstract Pair<Boolean,String> setArg(String arg);
+    public abstract Pair<Boolean, String> setArg(String arg);
 }

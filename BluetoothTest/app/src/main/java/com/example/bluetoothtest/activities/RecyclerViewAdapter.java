@@ -1,7 +1,6 @@
 package com.example.bluetoothtest.activities;
 
 import android.graphics.Color;
-import android.util.Log;
 import android.util.Pair;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -21,7 +20,6 @@ import com.example.bluetoothtest.controllerData.Loop;
 import com.example.bluetoothtest.controllerData.Text;
 import com.example.bluetoothtest.dataStructures.Vector;
 
-import java.util.HashMap;
 import java.util.UUID;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.CustomViewHolder> {
@@ -68,7 +66,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         this.macro = macro;
         selected = -1;
 
-        this.macroActivity=macroActivity;
+        this.macroActivity = macroActivity;
     }
 
     @Override
@@ -100,11 +98,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         holder.mTitle.setText(macro.get(position).getPreview());
 
-        if (position == selected){
+        if (position == selected) {
             holder.rowView.setBackgroundColor(Color.parseColor("#272727"));
             holder.mTitle.setTextColor(holder.rowView.getResources().getColor(R.color.colorPrimary));
-        }
-        else{
+        } else {
             holder.rowView.setBackgroundColor(Color.parseColor("#00000000"));
             holder.mTitle.setTextColor(holder.rowView.getResources().getColor(R.color.text));
         }
@@ -192,29 +189,29 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         notifyItemChanged(selected - 1);
     }
 
-    public void delete(String id){
+    public void delete(String id) {
 
-        for (int i=macro.size()-1;i>=0;i--){
-            if (macro.get(i).getId().equals(id)){
+        for (int i = macro.size() - 1; i >= 0; i--) {
+            if (macro.get(i).getId().equals(id)) {
                 macro.del(i);
                 notifyItemRemoved(i);
             }
         }
     }
 
-    public Pair<Boolean,String> update(String id,String arg){
-        Pair<Boolean,String> res;
+    public Pair<Boolean, String> update(String id, String arg) {
+        Pair<Boolean, String> res;
 
-        for (int i=0;i<macro.size();i++){
-            if (macro.get(i).getId().equals(id)){
-                res=macro.get(i).setArg(arg);
+        for (int i = 0; i < macro.size(); i++) {
+            if (macro.get(i).getId().equals(id)) {
+                res = macro.get(i).setArg(arg);
                 if (res.first) return res;
 
                 notifyItemChanged(i);
             }
         }
 
-        return new Pair<>(false,null);
+        return new Pair<>(false, null);
     }
 
     public void setSelected(int index) {

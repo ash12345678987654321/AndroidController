@@ -16,18 +16,18 @@ public class KeyStroke extends Command {
     }
 
     @Override
-    public String getArg(){
+    public String getArg() {
         return btn.getOutput();
     }
 
     @Override
-    public Pair<Boolean,String> setArg(String arg){
-        Pair<Boolean,String> res=KeyCode.invalid(arg);
+    public Pair<Boolean, String> setArg(String arg) {
+        Pair<Boolean, String> res = KeyCode.invalid(arg);
         if (res.first) return res;
 
         btn.setOutput(arg);
 
-        return new Pair<>(false,null);
+        return new Pair<>(false, null);
     }
 
     @Override

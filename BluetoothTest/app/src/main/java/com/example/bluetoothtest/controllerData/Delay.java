@@ -16,17 +16,17 @@ public class Delay extends Command {
     }
 
     @Override
-    public String getArg(){
+    public String getArg() {
         return Integer.toString(delay);
     }
 
     @Override
-    public Pair<Boolean,String> setArg(String arg){
-        if (arg.length()>9) return new Pair<>(true,"Delay cannot be longer than 1 billion ms");
+    public Pair<Boolean, String> setArg(String arg) {
+        if (arg.length() > 9) return new Pair<>(true, "Delay cannot be longer than 1 billion ms");
 
-        delay=Integer.parseInt(arg);
+        delay = Integer.parseInt(arg);
 
-        return new Pair<>(false,null);
+        return new Pair<>(false, null);
     }
 
     @Override

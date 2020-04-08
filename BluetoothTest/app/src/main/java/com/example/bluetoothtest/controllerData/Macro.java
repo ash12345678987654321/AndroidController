@@ -7,7 +7,6 @@ import com.example.bluetoothtest.activities.ControllerActivity;
 import com.example.bluetoothtest.dataStructures.Vector;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 

@@ -159,13 +159,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void start(View view) {
-        if (editText.isFocusable()){
-            Toast.makeText(this,"Finish editing first!",Toast.LENGTH_SHORT).show();
+        if (editText.isFocusable()) {
+            Toast.makeText(this, "Finish editing first!", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (editText.isFocusable()){
-            Toast.makeText(this,"Finish editing first!",Toast.LENGTH_SHORT).show();
+        if (editText.isFocusable()) {
+            Toast.makeText(this, "Finish editing first!", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -175,8 +175,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void edit(View view) {
-        if (editText.isFocusable()){
-            Toast.makeText(this,"Finish editing first!",Toast.LENGTH_SHORT).show();
+        if (editText.isFocusable()) {
+            Toast.makeText(this, "Finish editing first!", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -186,8 +186,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void macro(View view) {
-        if (editText.isFocusable()){
-            Toast.makeText(this,"Finish editing first!",Toast.LENGTH_SHORT).show();
+        if (editText.isFocusable()) {
+            Toast.makeText(this, "Finish editing first!", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -250,8 +250,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void add(View view) {
-        if (editText.isFocusable()){
-            Toast.makeText(this,"Finish editing first!",Toast.LENGTH_SHORT).show();
+        if (editText.isFocusable()) {
+            Toast.makeText(this, "Finish editing first!", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -279,8 +279,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void del(View view) {
-        if (editText.isFocusable()){
-            Toast.makeText(this,"Finish editing first!",Toast.LENGTH_SHORT).show();
+        if (editText.isFocusable()) {
+            Toast.makeText(this, "Finish editing first!", Toast.LENGTH_SHORT).show();
             return;
         }
 

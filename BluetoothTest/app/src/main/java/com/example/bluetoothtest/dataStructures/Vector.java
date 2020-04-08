@@ -49,8 +49,8 @@ public class Vector<T> {
         length += items.length;
     }
 
-    public void del(int index){
-        System.arraycopy(arr,index+1,arr,index,length-index-1);
+    public void del(int index) {
+        System.arraycopy(arr, index + 1, arr, index, length - index - 1);
         length--;
     }
 

@@ -9,7 +9,7 @@ public class Text extends Command {
     public Text(String text, boolean start, boolean end, String id) {
         super(start, end, id);
 
-        this.text=new String(Base64.decode(text, Base64.DEFAULT));
+        this.text = new String(Base64.decode(text, Base64.DEFAULT));
     }
 
     @Override
@@ -18,17 +18,18 @@ public class Text extends Command {
     }
 
     @Override
-    public String getArg(){
+    public String getArg() {
         return text;
     }
 
     @Override
-    public Pair<Boolean,String> setArg(String arg){
-        if (arg.length()>100) return new Pair<>(true,"Text cannot be longer than 100 characters");
+    public Pair<Boolean, String> setArg(String arg) {
+        if (arg.length() > 100)
+            return new Pair<>(true, "Text cannot be longer than 100 characters");
 
-        text=arg;
+        text = arg;
 
-        return new Pair<>(false,null);
+        return new Pair<>(false, null);
     }
 
     @Override
