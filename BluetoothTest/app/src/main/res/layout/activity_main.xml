@@ -36,6 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:layout_marginRight="20dp"
                 android:drawableRight="@drawable/ic_dropdown"
                 android:background="@drawable/dropdown"
                 android:textColor="@color/text"

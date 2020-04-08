@@ -27,11 +27,12 @@ import com.example.bluetoothtest.activities.EditActivity;
 import com.example.bluetoothtest.activities.MacroActivity;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.Vector;
 import java.util.Collections;
 import java.util.Scanner;
 
-
+//TODO allow for no macros available
+//TODO bug fix where editing filename and going into another activity causes an error
 public class MainActivity extends AppCompatActivity {
     private EditText editText;
     private String oldName;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
     private RelativeLayout relativeLayout;
 
-    private ArrayList<String> layouts;
+    private Vector<String> layouts;
 
     private View decorView;
 
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         path = new File(getFilesDir() + "/layouts/");
-        layouts = new ArrayList<>();
+        layouts = new Vector<>();
         //Log.d("ZZZ",path.toString());
 
         if (!path.exists()){

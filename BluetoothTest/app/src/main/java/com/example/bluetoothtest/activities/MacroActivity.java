@@ -28,7 +28,7 @@ import com.example.bluetoothtest.controllerData.Text;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
+import java.util.Vector;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -41,10 +41,9 @@ public class MacroActivity extends AppCompatActivity {
     private ImageButton rename_btn;
 
     private RecyclerView recyclerView;
-    private Macro curr_macro=null;
     private RecyclerViewAdapter mAdapter;
 
-    private ArrayList<String> macros;
+    private Vector<String> macros;
     private HashMap<String,String> fileName=new HashMap<>();
 
     private View decorView;
@@ -61,7 +60,7 @@ public class MacroActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view);
 
         File path = new File(getFilesDir() + "/macros/");
-        macros = new ArrayList<>();
+        macros = new Vector<>();
         //Log.d("ZZZ",path.toString());
 
         for (File i : path.listFiles()) {
@@ -123,7 +122,7 @@ public class MacroActivity extends AppCompatActivity {
     public void onPause(){
         super.onPause();
 
-        saveMacro();
+        saveMacro(fileName.get(editText.getText().toString()));
     }
 
     @Override
@@ -145,7 +144,6 @@ public class MacroActivity extends AppCompatActivity {
         );
     }
 
-
     public void inflate(View view) {
         if (editText.isFocusable()) return; //dont open if user is trying to rename a file
 
@@ -162,6 +160,8 @@ public class MacroActivity extends AppCompatActivity {
                 linearLayout.addView(textView, 0);
             }
         } else {
+            saveMacro(fileName.get(editText.getText().toString()));
+
             LayoutInflater layoutInflater
                     = (LayoutInflater) getBaseContext()
                     .getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -227,6 +227,7 @@ public class MacroActivity extends AppCompatActivity {
         macros.add(name);
         Collections.sort(macros);
 
+        saveMacro(fileName.get(editText.getText().toString()));
         editText.setText(name);
         updateMacro();
     }
@@ -256,7 +257,6 @@ public class MacroActivity extends AppCompatActivity {
                 break;
             }
         }
-        curr_macro=null;
         updateMacro();
     }
 
@@ -280,7 +280,7 @@ public class MacroActivity extends AppCompatActivity {
                 Collections.sort(macros);
 
                 try {
-                    ArrayList<String> temp=new ArrayList<>();
+                    Vector<String> temp=new Vector<>();
                     File file=new File(fileName.get(newName));
                     Scanner scanner=new Scanner(file);
                     while (scanner.hasNextLine()){
@@ -316,23 +316,20 @@ public class MacroActivity extends AppCompatActivity {
     }
 
     private void updateMacro(){
-        saveMacro();
         try {
-            curr_macro=new Macro(fileName.get(editText.getText().toString()));
+            mAdapter = new RecyclerViewAdapter(Macro.getMacros(fileName.get(editText.getText().toString())));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             Toast.makeText(this, "File corrupted >.<", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        mAdapter = new RecyclerViewAdapter(curr_macro.getCommands());
-
         recyclerView.setAdapter(mAdapter);
     }
 
-    private void saveMacro(){
+    private void saveMacro(String fileName){
         try {
-            if (curr_macro!=null) curr_macro.save();
+            Macro.save(fileName,mAdapter.getMacros());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             Toast.makeText(this, "File corrupted >.<", Toast.LENGTH_SHORT).show();

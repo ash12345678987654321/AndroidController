@@ -66,29 +66,11 @@ public class Dpad {
         return btns[DOWN].getOutput();
     }
 
-    public Pair<Boolean, String> setDir(String u, String d, String l, String r) {
-        Pair<Boolean, String> res;
-
-        Btn up = new Btn(), down = new Btn(), left = new Btn(), right = new Btn();
-
-        res = up.setOutput(u);
-        if (res.first) return res;
-
-        res = down.setOutput(d);
-        if (res.first) return res;
-
-        res = left.setOutput(l);
-        if (res.first) return res;
-
-        res = right.setOutput(r);
-        if (res.first) return res;
-
-        btns[UP] = up;
-        btns[DOWN] = down;
-        btns[LEFT] = left;
-        btns[RIGHT] = right;
-
-        return new Pair<>(false, null);
+    public void setDir(String u, String d, String l, String r) {
+        btns[UP].setOutput(u);
+        btns[DOWN].setOutput(d);
+        btns[LEFT].setOutput(l);
+        btns[RIGHT].setOutput(r);
     }
 
     public String getOutput() {

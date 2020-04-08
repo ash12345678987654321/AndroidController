@@ -1,5 +1,7 @@
 package com.example.bluetoothtest.controllerData;
 
+import android.util.Pair;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -22,7 +24,15 @@ public class KeyCode {
             "m1", "m2", "m3"));
 
 
-    public static boolean invalid(String s) {
-        return !keycodes.contains(s);
+    public static Pair<Boolean,String> invalid(String s){
+        if (s.equals("")){ //so apparently now im going to allow users to just not input anything wow
+            return new Pair<>(false, null);
+        }
+
+        for (String i : s.split(" ")) {
+            if (!keycodes.contains(i)) return new Pair<>(true, i);
+        }
+
+        return new Pair<>(false, null);
     }
 }
