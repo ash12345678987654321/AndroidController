@@ -23,7 +23,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.bluetoothtest.R;
-import com.example.bluetoothtest.controllerData.Dpad;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -65,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
             path.mkdir();
         }
 
-        if (path.listFiles().length==0) createMacros();
+        if (path.listFiles().length == 0) createMacros();
 
         path = new File(getFilesDir() + "/layouts/");
         layouts = new Vector<>();
@@ -75,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             path.mkdir();
         }
 
-        if (path.listFiles().length==0) createLayouts();
+        if (path.listFiles().length == 0) createLayouts();
 
         for (File i : path.listFiles()) {
             //Log.d("ZZZ","File found: "+i.getName());
@@ -445,39 +444,37 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //someone suggested that i create presets for users
-    private void createLayouts(){
+    private void createLayouts() {
         try {
             File file = new File(getFilesDir() + "/layouts/" + "Layout");
-            PrintWriter pw=new PrintWriter(file);
+            PrintWriter pw = new PrintWriter(file);
 
-            pw.println("Dpad"+"\0"+"w"+"\0"+"s"+"\0"+"a"+"\0"+"d"+"\0"+getResources().getDisplayMetrics().heightPixels+"\0"+"0"+"\0"+"0");
-            pw.println("Btn"+"\0"+"Button"+"\0"+"space"+"\0"+getResources().getDisplayMetrics().heightPixels/2+"\0"+getResources().getDisplayMetrics().heightPixels/2+"\0"+getResources().getDisplayMetrics().heightPixels/2+"\0"+getResources().getDisplayMetrics().heightPixels);
-            pw.println("Macro"+"\0"+"Macro"+"\0"+getFilesDir()+"/macros/"+"25268206-7a75-11ea-bc55-0242ac130003"+"\0"+false+"\0"+getResources().getDisplayMetrics().heightPixels/2+"\0"+getResources().getDisplayMetrics().heightPixels/2+"\0"+"0"+"\0"+getResources().getDisplayMetrics().heightPixels);
+            pw.println("Dpad" + "\0" + "w" + "\0" + "s" + "\0" + "a" + "\0" + "d" + "\0" + getResources().getDisplayMetrics().heightPixels + "\0" + "0" + "\0" + "0");
+            pw.println("Btn" + "\0" + "Button" + "\0" + "space" + "\0" + getResources().getDisplayMetrics().heightPixels / 2 + "\0" + getResources().getDisplayMetrics().heightPixels / 2 + "\0" + getResources().getDisplayMetrics().heightPixels / 2 + "\0" + getResources().getDisplayMetrics().heightPixels);
+            pw.println("Macro" + "\0" + "Macro" + "\0" + getFilesDir() + "/macros/" + "25268206-7a75-11ea-bc55-0242ac130003" + "\0" + false + "\0" + getResources().getDisplayMetrics().heightPixels / 2 + "\0" + getResources().getDisplayMetrics().heightPixels / 2 + "\0" + "0" + "\0" + getResources().getDisplayMetrics().heightPixels);
 
             pw.flush();
             pw.close();
 
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void createMacros(){
+    private void createMacros() {
         try {
             File file = new File(getFilesDir() + "/macros/" + "25268206-7a75-11ea-bc55-0242ac130003");
-            PrintWriter pw=new PrintWriter(file);
+            PrintWriter pw = new PrintWriter(file);
 
             pw.println("Jitter click");
-            pw.println("KeyStroke"+"\0"+"m1"+"\0"+true+"\0"+false+"\0"+"367ccb0c-d582-42e0-b004-da3d9d2159e1");
-            pw.println("KeyStroke"+"\0"+"m1"+"\0"+false+"\0"+true+"\0"+"367ccb0c-d582-42e0-b004-da3d9d2159e1");
-            pw.println("Delay"+"\0"+"200"+"\0"+false+"\0"+false+"\0"+"71089e51-d764-4e28-b25c-2f2d8a8f4800");
+            pw.println("KeyStroke" + "\0" + "m1" + "\0" + true + "\0" + false + "\0" + "367ccb0c-d582-42e0-b004-da3d9d2159e1");
+            pw.println("KeyStroke" + "\0" + "m1" + "\0" + false + "\0" + true + "\0" + "367ccb0c-d582-42e0-b004-da3d9d2159e1");
+            pw.println("Delay" + "\0" + "200" + "\0" + false + "\0" + false + "\0" + "71089e51-d764-4e28-b25c-2f2d8a8f4800");
 
             pw.flush();
             pw.close();
 
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

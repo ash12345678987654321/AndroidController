@@ -350,7 +350,7 @@ public class EditActivity extends AppCompatActivity {
                 doubleDetector.onTouchEvent(event);
 
                 if (popupWindow.isShowing()) return true;
-                
+
                 if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
                     RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
 
