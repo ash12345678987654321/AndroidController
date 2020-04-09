@@ -9,9 +9,13 @@ public class MacroThread extends Thread {
     private Vector<Command> commands;
     private boolean toggle;
 
-    public MacroThread(Vector<Command> commands,boolean toggle){
-        this.commands=commands;
-        this.toggle=!toggle;
+    public MacroThread() {
+
+    }
+
+    public MacroThread(Vector<Command> commands, boolean toggle) {
+        this.commands = commands;
+        this.toggle = !toggle;
     }
 
     @Override
@@ -23,12 +27,12 @@ public class MacroThread extends Thread {
         // the loop start pushes its index into a stack and the end loop access takes from the top of the stack
         // now we need for them to have their own increments
 
-        Vector<Integer> stk=new Vector<>();
+        Vector<Integer> stk = new Vector<>();
 
         do {
             int pointer = 0;
             while (pointer < commands.size()) {
-                Pair<Integer, String> res = commands.get(pointer).run(pointer,stk);
+                Pair<Integer, String> res = commands.get(pointer).run(pointer, stk);
 
                 pointer = res.first;
                 ControllerActivity.cmd.append(res.second);
@@ -36,7 +40,7 @@ public class MacroThread extends Thread {
         } while (toggle);
     }
 
-    public void kill(){
-        toggle=false;
+    public void kill() {
+        toggle = false;
     }
 }

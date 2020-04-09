@@ -26,7 +26,7 @@ import java.util.Scanner;
 import static java.lang.Math.min;
 
 public class ControllerActivity extends AppCompatActivity {
-    public static StringBuilder cmd = new StringBuilder("");
+    public static StringBuilder cmd = new StringBuilder();
 
     //for networking to tell other threads what the client is
     public static String ip;
@@ -104,7 +104,7 @@ public class ControllerActivity extends AppCompatActivity {
                         break;
 
                     case "Macro":
-                        Macro(args[1], new Macro(args[2],Boolean.parseBoolean(args[3])), Integer.parseInt(args[4]), Integer.parseInt(args[5]), Integer.parseInt(args[6]), Integer.parseInt(args[7]));
+                        Macro(args[1], new Macro(args[2], Boolean.parseBoolean(args[3])), Integer.parseInt(args[4]), Integer.parseInt(args[5]), Integer.parseInt(args[6]), Integer.parseInt(args[7]));
                         break;
                 }
             }

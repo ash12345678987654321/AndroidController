@@ -14,8 +14,8 @@ public class KeyStroke extends Command {
 
     @Override
     public Pair<Integer, String> run(int pos, Vector<Integer> stk) {
-        if (isStart()) return new Pair<>(pos+1,btn.down());
-        else return new Pair<>(pos+1,btn.up());
+        if (isStart()) return new Pair<>(pos + 1, btn.down());
+        else return new Pair<>(pos + 1, btn.up());
     }
 
     @Override

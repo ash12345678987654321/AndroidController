@@ -2,10 +2,7 @@ package com.example.bluetoothtest.activities;
 
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.ScaleDrawable;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -26,7 +23,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.bluetoothtest.R;
-import com.example.bluetoothtest.controllerData.Macro;
 
 import java.io.File;
 import java.util.Collections;

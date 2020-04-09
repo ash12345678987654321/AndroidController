@@ -16,7 +16,7 @@ public class Text extends Command {
 
     @Override
     public Pair<Integer, String> run(int pos, Vector<Integer> stk) {
-        return new Pair<>(pos+1,"T "+text+"\0");
+        return new Pair<>(pos + 1, "T " + text + "\0");
     }
 
     @Override

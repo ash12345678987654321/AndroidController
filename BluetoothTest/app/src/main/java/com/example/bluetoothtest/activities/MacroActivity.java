@@ -43,7 +43,7 @@ public class MacroActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerViewAdapter mAdapter;
 
-    private Vector<String> macros=new Vector<>();
+    private Vector<String> macros = new Vector<>();
     private HashMap<String, String> fileName = new HashMap<>();
 
     private TextView param_title;

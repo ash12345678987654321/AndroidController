@@ -1,9 +1,7 @@
 package com.example.bluetoothtest.controllerData;
 
 import android.util.Log;
-import android.util.Pair;
 
-import com.example.bluetoothtest.activities.ControllerActivity;
 import com.example.bluetoothtest.dataStructures.Vector;
 
 import java.io.File;
@@ -15,50 +13,49 @@ public class Macro {
     private String fileName;
     private boolean once;
 
-    MacroThread macroThread=new MacroThread(new Vector<Command>(),false);
+    private MacroThread macroThread = new MacroThread();
 
-    public Macro(String fileName,boolean once) {
+    public Macro(String fileName, boolean once) {
         try {
             commands = Macro.getMacros(fileName);
-            this.fileName=fileName;
+            this.fileName = fileName;
         } catch (Exception e) {
-            commands=new Vector<>();
-            this.fileName="";
+            commands = new Vector<>();
+            this.fileName = "";
         }
 
-        this.once=once;
+        this.once = once;
     }
 
     public void setToggle(boolean toggle) {
         if (toggle) {
-            if (!macroThread.isAlive()){
-                macroThread=new MacroThread(commands,once);
+            if (!macroThread.isAlive()) {
+                macroThread = new MacroThread(commands, once);
                 macroThread.start();
             }
-        }
-        else{
+        } else {
             macroThread.kill();
         }
     }
 
-    public String getFileName(){
+    public String getFileName() {
         return fileName;
     }
 
-    public Boolean getOnce(){
+    public Boolean getOnce() {
         return once;
     }
 
-    public void setFileName(String fileName){
-        this.fileName=fileName;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
-    public void setOnce(Boolean once){
-        this.once=once;
+    public void setOnce(Boolean once) {
+        this.once = once;
     }
 
-    public String getOutput(){
-        return fileName+"\0"+once;
+    public String getOutput() {
+        return fileName + "\0" + once;
     }
 
     //random getters and setters from file because i have no idea where else to dump this

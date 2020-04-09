@@ -9,7 +9,7 @@ public class DataSender extends Thread {
     @Override
     public void run() {
         while (true) {
-            if (ControllerActivity.cmd.length()!=0) {
+            if (ControllerActivity.cmd.length() != 0) {
                 //Log.d("ZZZ","Command: "+MainActivity.cmd);
                 try {
                     Socket s = new Socket(ControllerActivity.ip, ControllerActivity.port);

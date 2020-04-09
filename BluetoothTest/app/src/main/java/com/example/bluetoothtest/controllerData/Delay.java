@@ -20,7 +20,7 @@ public class Delay extends Command {
             e.printStackTrace();
         }
 
-        return new Pair<>(pos+1,"");
+        return new Pair<>(pos + 1, "");
     }
 
     @Override

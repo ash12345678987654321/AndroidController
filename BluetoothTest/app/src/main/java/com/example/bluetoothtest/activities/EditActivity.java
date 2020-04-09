@@ -3,7 +3,6 @@ package com.example.bluetoothtest.activities;
 import android.animation.ObjectAnimator;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Pair;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -43,9 +42,9 @@ public class EditActivity extends AppCompatActivity {
 
     private ScrollView add_pane;
 
-    private Vector<String> macros=new Vector<>();
+    private Vector<String> macros = new Vector<>();
     private HashMap<String, String> fileName = new HashMap<>();
-    private HashMap<String,String> macroName=new HashMap<>();
+    private HashMap<String, String> macroName = new HashMap<>();
 
     private PopupWindow popupWindow = new PopupWindow(); //so we can access it easily
 
@@ -75,7 +74,7 @@ public class EditActivity extends AppCompatActivity {
                         break;
 
                     case "Macro":
-                        Macro(args[1], new Macro(args[2],Boolean.parseBoolean(args[3])), Integer.parseInt(args[4]), Integer.parseInt(args[5]), Integer.parseInt(args[6]), Integer.parseInt(args[7]));
+                        Macro(args[1], new Macro(args[2], Boolean.parseBoolean(args[3])), Integer.parseInt(args[4]), Integer.parseInt(args[5]), Integer.parseInt(args[6]), Integer.parseInt(args[7]));
                         break;
                 }
             }
@@ -96,14 +95,14 @@ public class EditActivity extends AppCompatActivity {
                 Scanner scanner = new Scanner(i);
                 String temp = scanner.nextLine();
                 fileName.put(temp, i.toString());
-                macroName.put(i.toString(),temp);
+                macroName.put(i.toString(), temp);
                 macros.add(temp);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
         }
 
-        macroName.put("",""); //random cornercase
+        macroName.put("", ""); //random cornercase
 
         //code to make app bigger
         decorView = getWindow().getDecorView();
@@ -195,7 +194,7 @@ public class EditActivity extends AppCompatActivity {
     }
 
     public void add_macro(View view) {
-        Macro("", new Macro("",true), 300, 300, Resources.getSystem().getDisplayMetrics().heightPixels / 2 - 150, Resources.getSystem().getDisplayMetrics().widthPixels / 2 - 150);
+        Macro("", new Macro("", true), 300, 300, Resources.getSystem().getDisplayMetrics().heightPixels / 2 - 150, Resources.getSystem().getDisplayMetrics().widthPixels / 2 - 150);
     }
 
     //controller setups (adding them programmically)
@@ -529,7 +528,7 @@ public class EditActivity extends AppCompatActivity {
                         .getSystemService(LAYOUT_INFLATER_SERVICE);
                 final View popupView = layoutInflater.inflate(R.layout.popup_macro, null);
 
-                final TextView txtView=popupView.findViewById(R.id.textView);
+                final TextView txtView = popupView.findViewById(R.id.textView);
 
                 ((EditText) popupView.findViewById(R.id.label)).setText(btn.getText());
                 txtView.setText(macroName.get(args.getFileName()));

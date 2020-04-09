@@ -49,7 +49,7 @@ public class Vector<T> {
         length += items.length;
     }
 
-    public void pop(){
+    public void pop() {
         length--;
     }
 
@@ -58,8 +58,8 @@ public class Vector<T> {
         length--;
     }
 
-    public T back(){
-        return (T) arr[length-1];
+    public T back() {
+        return (T) arr[length - 1];
     }
 
     public T get(int index) {

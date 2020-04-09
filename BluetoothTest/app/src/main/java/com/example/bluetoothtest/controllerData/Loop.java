@@ -6,6 +6,7 @@ import com.example.bluetoothtest.dataStructures.Vector;
 
 public class Loop extends Command {
     private int times;
+    private int curr = 0;
 
     public Loop(int times, boolean start, boolean end, String id) {
         super(start, end, id);
@@ -14,7 +15,17 @@ public class Loop extends Command {
 
     @Override
     public Pair<Integer, String> run(int pos, Vector<Integer> stk) {
-        return new Pair<>(pos+1,"");
+        curr++;
+        if (curr == times) return new Pair<>(pos + 1, "");
+
+        if (isStart()) {
+            stk.add(pos);
+            return new Pair<>(pos + 1, "");
+        } else {
+            int temp = stk.back();
+            stk.pop();
+            return new Pair<>(temp, "");
+        }
     }
 
     @Override
