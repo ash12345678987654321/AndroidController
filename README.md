@@ -53,9 +53,6 @@ volumedown, volumemute, volumeup, win, m1, m2, m3
 When entering keycodes, seperate them with a space.
 For example to do the copy hotkey which is `Ctrl+C`, the keycode will will `ctrl c`.
 
-
-## Future features
-
 ### Macro support
 Ability to send certain precisely timed keystrokes for certain games.
 
