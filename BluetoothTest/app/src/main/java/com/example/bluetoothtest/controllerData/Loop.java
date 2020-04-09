@@ -32,11 +32,6 @@ public class Loop extends Command {
     }
 
     @Override
-    public boolean notSwappable() {
-        return (isStart() || isEnd()) && getChildren().isEmpty();
-    }
-
-    @Override
     public String getArg() {
         return Integer.toString(times);
     }

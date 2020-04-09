@@ -25,11 +25,6 @@ public class Delay extends Command {
     }
 
     @Override
-    public boolean notSwappable() {
-        return false;
-    }
-
-    @Override
     public String getArg() {
         return Integer.toString(delay);
     }
