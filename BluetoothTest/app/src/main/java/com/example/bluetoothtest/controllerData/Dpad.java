@@ -60,7 +60,7 @@ public class Dpad {
     }
 
     public String getRight() {
-        return btns[DOWN].getOutput();
+        return btns[RIGHT].getOutput();
     }
 
     public void setDir(String u, String d, String l, String r) {

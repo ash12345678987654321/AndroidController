@@ -227,6 +227,9 @@ public class EditActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 scaleDetector.onTouchEvent(event);
                 doubleDetector.onTouchEvent(event);
+
+                if (popupWindow.isShowing()) return true;
+
                 if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
                     RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
 
@@ -284,6 +287,9 @@ public class EditActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 scaleDetector.onTouchEvent(event);
                 doubleDetector.onTouchEvent(event);
+
+                if (popupWindow.isShowing()) return true;
+
                 if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
                     RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
 
@@ -342,6 +348,9 @@ public class EditActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 scaleDetector.onTouchEvent(event);
                 doubleDetector.onTouchEvent(event);
+
+                if (popupWindow.isShowing()) return true;
+                
                 if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
                     RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
 
@@ -385,6 +394,8 @@ public class EditActivity extends AppCompatActivity {
 
         @Override
         public boolean onScale(ScaleGestureDetector detector) {
+            if (popupWindow.isShowing()) return true;
+
             RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) btn.getLayoutParams();
             //Log.d("ZZZ","extra space on x-axis: "+layoutParams.leftMargin+" "+(Resources.getSystem().getDisplayMetrics().widthPixels-layoutParams.leftMargin-btn.getWidth()));
             //Log.d("ZZZ","extra space on x-axis: "+layoutParams.topMargin+" "+(Resources.getSystem().getDisplayMetrics().heightPixels-layoutParams.topMargin-btn.getHeight()));
