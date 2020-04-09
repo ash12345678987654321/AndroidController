@@ -87,23 +87,6 @@ public class MacroActivity extends AppCompatActivity {
             }
         }
 
-        if (macros.isEmpty()) {
-            try {
-                File file = new File(randomFileName());
-                file.createNewFile();
-
-                PrintWriter pw = new PrintWriter(file);
-                pw.println("Macro 1");
-                pw.flush();
-                pw.close();
-
-                fileName.put("Macro 1", file.toString());
-                macros.add("Macro 1");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
         Collections.sort(macros);
 
         //add them to edittext
