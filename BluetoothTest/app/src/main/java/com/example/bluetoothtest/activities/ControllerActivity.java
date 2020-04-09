@@ -163,6 +163,13 @@ public class ControllerActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
+        for (int i = 0; i < layout.getChildCount(); i++) {
+            if (layout.getChildAt(i).getTag() instanceof Macro) {
+                Log.d("ZZZ", "Macro at " + i);
+                ((Macro) layout.getChildAt(i).getTag()).kill();
+            }
+        }
+
         ds.interrupt(); //stop the app from sending anything when not running
         //Log.d("ZZZ","Data stoppped being sent");
     }
@@ -202,6 +209,8 @@ public class ControllerActivity extends AppCompatActivity {
         btn.setMinimumWidth(0);
         btn.setText(label);
 
+        btn.setTag(output);
+
         btn.setBackgroundResource(R.drawable.button_up);
 
         layout.addView(btn);
@@ -236,6 +245,8 @@ public class ControllerActivity extends AppCompatActivity {
         pointer.setWidth(diameter / 4);
         pointer.setMinimumHeight(0);
         pointer.setMinimumWidth(0);
+
+        btn.setTag(output);
 
         pointer.setBackgroundResource(R.drawable.dpad_pointer);
 
@@ -301,6 +312,8 @@ public class ControllerActivity extends AppCompatActivity {
         btn.setMinimumHeight(0);
         btn.setMinimumWidth(0);
         btn.setText(label);
+
+        btn.setTag(output);
 
         btn.setBackgroundResource(R.drawable.button_up);
 

@@ -9,6 +9,7 @@ public class DataSender extends Thread {
     @Override
     public void run() {
         while (true) {
+            if (isInterrupted()) return;
             if (ControllerActivity.cmd.length() != 0) {
                 //Log.d("ZZZ","Command: "+MainActivity.cmd);
                 try {

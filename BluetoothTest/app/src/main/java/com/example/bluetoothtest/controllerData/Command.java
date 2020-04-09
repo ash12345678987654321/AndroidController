@@ -27,9 +27,7 @@ public abstract class Command {
         return res;
     }
 
-    public boolean notSwappable() {
-        return (start || end) && children.isEmpty();
-    }
+    public abstract boolean notSwappable();
 
     public boolean isStart() {
         return start;

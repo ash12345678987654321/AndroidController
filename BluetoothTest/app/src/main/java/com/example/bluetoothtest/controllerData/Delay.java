@@ -18,9 +18,15 @@ public class Delay extends Command {
             Thread.sleep(delay);
         } catch (InterruptedException e) {
             e.printStackTrace();
+            return new Pair<>(-1, "");
         }
 
         return new Pair<>(pos + 1, "");
+    }
+
+    @Override
+    public boolean notSwappable() {
+        return false;
     }
 
     @Override

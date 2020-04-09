@@ -16,7 +16,10 @@ public class Loop extends Command {
     @Override
     public Pair<Integer, String> run(int pos, Vector<Integer> stk) {
         curr++;
-        if (curr == times) return new Pair<>(pos + 1, "");
+        if (curr == times) {
+            curr = 0;
+            return new Pair<>(pos + 1, "");
+        }
 
         if (isStart()) {
             stk.add(pos);
@@ -26,6 +29,11 @@ public class Loop extends Command {
             stk.pop();
             return new Pair<>(temp, "");
         }
+    }
+
+    @Override
+    public boolean notSwappable() {
+        return (isStart() || isEnd()) && getChildren().isEmpty();
     }
 
     @Override

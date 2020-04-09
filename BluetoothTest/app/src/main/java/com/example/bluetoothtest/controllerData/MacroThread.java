@@ -34,6 +34,8 @@ public class MacroThread extends Thread {
             while (pointer < commands.size()) {
                 Pair<Integer, String> res = commands.get(pointer).run(pointer, stk);
 
+                if (res.first == -1 || isInterrupted()) return; //stop thread
+
                 pointer = res.first;
                 ControllerActivity.cmd.append(res.second);
             }

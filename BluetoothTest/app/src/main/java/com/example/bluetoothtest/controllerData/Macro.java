@@ -58,6 +58,10 @@ public class Macro {
         return fileName + "\0" + once;
     }
 
+    public void kill() {
+        if (macroThread.isAlive()) macroThread.interrupt();
+    }
+
     //random getters and setters from file because i have no idea where else to dump this
     public static Vector<Command> getMacros(String fileName) throws Exception {
         Vector<Command> res = new Vector<>();

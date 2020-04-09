@@ -20,6 +20,11 @@ public class Text extends Command {
     }
 
     @Override
+    public boolean notSwappable() {
+        return false;
+    }
+
+    @Override
     public String getArg() {
         return text;
     }

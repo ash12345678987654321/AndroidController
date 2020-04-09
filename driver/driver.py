@@ -48,7 +48,8 @@ def control(cmd):
 def main():
    #making pyautogui faster but more unsafety
    pyautogui.PAUSE = 0
-   pyautogui.FAILSAFE = False
+
+   #remember that you can slam mouse to top left corner if something goes wrong
    
    s = socket.socket()      
    print ("socket successfully created")

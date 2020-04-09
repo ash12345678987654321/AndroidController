@@ -170,7 +170,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void up() {
         if (selected == -1 || selected == 0) return;
 
-        if (macro.get(selected).notSwappable() && macro.get(selected - 1).notSwappable()) return;
+        if ((macro.get(selected).notSwappable() && macro.get(selected - 1).notSwappable() ||
+                macro.get(selected).getId().equals(macro.get(selected - 1).getId()))) return;
 
         selected--;
         macro.swap(selected, selected + 1);
@@ -181,7 +182,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void down() {
         if (selected == -1 || selected == macro.size() - 1) return;
 
-        if (macro.get(selected).notSwappable() && macro.get(selected + 1).notSwappable()) return;
+        if ((macro.get(selected).notSwappable() && macro.get(selected + 1).notSwappable() ||
+                macro.get(selected).getId().equals(macro.get(selected + 1).getId()))) return;
 
         selected++;
         macro.swap(selected, selected - 1);

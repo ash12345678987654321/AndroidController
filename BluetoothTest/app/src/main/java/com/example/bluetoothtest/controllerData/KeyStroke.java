@@ -19,6 +19,11 @@ public class KeyStroke extends Command {
     }
 
     @Override
+    public boolean notSwappable() {
+        return false;
+    }
+
+    @Override
     public String getArg() {
         return btn.getOutput();
     }
