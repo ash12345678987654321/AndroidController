@@ -10,29 +10,55 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-public class Macro extends Thread {
+public class Macro {
     private Vector<Command> commands;
+    private String fileName;
+    private boolean once;
 
-    public Macro(String fileName) throws Exception {
-        commands = Macro.getMacros(fileName);
+    MacroThread macroThread=new MacroThread(new Vector<Command>(),false);
+
+    public Macro(String fileName,boolean once) {
+        try {
+            commands = Macro.getMacros(fileName);
+            this.fileName=fileName;
+        } catch (Exception e) {
+            commands=new Vector<>();
+            this.fileName="";
+        }
+
+        this.once=once;
     }
 
-    @Override
-    public void run() {
-        //for when we are actually excuting this
-
-        //basic idea is that everyone increments pointer by 1
-        // for loops we can use a stack since they form a valid bracket sequence
-        // the loop start pushes its index into a stack and the end loop access takes from the top of the stack
-        // now we need for them to have their own increments
-
-        int pointer = 0;
-        while (pointer < commands.size()) {
-            Pair<Integer, String> res = commands.get(pointer).run(pointer);
-
-            pointer = res.first;
-            ControllerActivity.cmd += res.second;
+    public void setToggle(boolean toggle) {
+        if (toggle) {
+            if (!macroThread.isAlive()){
+                macroThread=new MacroThread(commands,once);
+                macroThread.start();
+            }
         }
+        else{
+            macroThread.kill();
+        }
+    }
+
+    public String getFileName(){
+        return fileName;
+    }
+
+    public Boolean getOnce(){
+        return once;
+    }
+
+    public void setFileName(String fileName){
+        this.fileName=fileName;
+    }
+
+    public void setOnce(Boolean once){
+        this.once=once;
+    }
+
+    public String getOutput(){
+        return fileName+"\0"+once;
     }
 
     //random getters and setters from file because i have no idea where else to dump this

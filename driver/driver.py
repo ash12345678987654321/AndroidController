@@ -28,11 +28,13 @@ def control(cmd):
    #python does not have a switch statement lol
    #time for some epic spqghatti coding
 
-   cmd=cmd.split(" ")
+   cmd=cmd.split(" ",1)
    if (cmd[0]=="D"):
       keyDown(cmd[1])
-   else:
+   elif (cmd[0]=="U"):
       keyUp(cmd[1])
+   elif (cmd[0]=="T"):
+      pyautogui.write(cmd[1])
 
    #mouse movement handling (WIP)
    """
@@ -74,7 +76,7 @@ def main():
 
       message=c.recv(256).decode("utf-8"); #message comes in byte array so change it to string first
 
-      message=message.split("\n") #i use \n to differtiate commands
+      message=message.split("\0") #i use \0 to differtiate commands
       
       #print("DEBUG: ",message)
       

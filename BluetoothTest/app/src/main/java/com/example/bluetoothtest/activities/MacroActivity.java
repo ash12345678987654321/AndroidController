@@ -22,6 +22,7 @@ import com.example.bluetoothtest.R;
 import com.example.bluetoothtest.controllerData.Command;
 import com.example.bluetoothtest.controllerData.Delay;
 import com.example.bluetoothtest.controllerData.KeyStroke;
+import com.example.bluetoothtest.controllerData.Loop;
 import com.example.bluetoothtest.controllerData.Macro;
 import com.example.bluetoothtest.controllerData.Text;
 
@@ -42,7 +43,7 @@ public class MacroActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerViewAdapter mAdapter;
 
-    private Vector<String> macros;
+    private Vector<String> macros=new Vector<>();
     private HashMap<String, String> fileName = new HashMap<>();
 
     private TextView param_title;
@@ -72,7 +73,6 @@ public class MacroActivity extends AppCompatActivity {
         btn4 = findViewById(R.id.btn4);
 
         File path = new File(getFilesDir() + "/macros/");
-        macros = new Vector<>();
         //Log.d("ZZZ",path.toString());
 
         for (File i : path.listFiles()) {
@@ -455,7 +455,7 @@ public class MacroActivity extends AppCompatActivity {
                 param.setInputType(InputType.TYPE_CLASS_NUMBER);
                 param.setMinLines(1);
                 param.setMaxLines(1);
-            } else {
+            } else if (command instanceof Loop) {
                 param_title.setText("Loop Times");
                 param.setInputType(InputType.TYPE_CLASS_NUMBER);
                 param.setMinLines(1);

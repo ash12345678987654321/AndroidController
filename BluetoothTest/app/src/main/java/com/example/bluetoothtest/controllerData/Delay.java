@@ -2,6 +2,8 @@ package com.example.bluetoothtest.controllerData;
 
 import android.util.Pair;
 
+import com.example.bluetoothtest.dataStructures.Vector;
+
 public class Delay extends Command {
     private int delay;
 
@@ -11,8 +13,14 @@ public class Delay extends Command {
     }
 
     @Override
-    public Pair<Integer, String> run(int pos) {
-        return null;
+    public Pair<Integer, String> run(int pos, Vector<Integer> stk) {
+        try {
+            Thread.sleep(delay);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return new Pair<>(pos+1,"");
     }
 
     @Override

@@ -15,7 +15,7 @@ public abstract class Command {
         this.id = id;
     }
 
-    abstract public Pair<Integer, String> run(int pos);
+    abstract public Pair<Integer, String> run(int pos,Vector<Integer> stk);
 
     public abstract String getPreview();
 

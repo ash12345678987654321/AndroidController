@@ -16,6 +16,7 @@ import androidx.preference.PreferenceManager;
 import com.example.bluetoothtest.R;
 import com.example.bluetoothtest.controllerData.Btn;
 import com.example.bluetoothtest.controllerData.Dpad;
+import com.example.bluetoothtest.controllerData.Macro;
 import com.example.bluetoothtest.netwokingHandler.DataSender;
 import com.example.bluetoothtest.netwokingHandler.Ping;
 
@@ -25,7 +26,7 @@ import java.util.Scanner;
 import static java.lang.Math.min;
 
 public class ControllerActivity extends AppCompatActivity {
-    public static String cmd = "";
+    public static StringBuilder cmd = new StringBuilder("");
 
     //for networking to tell other threads what the client is
     public static String ip;
@@ -101,6 +102,10 @@ public class ControllerActivity extends AppCompatActivity {
                     case "Dpad":
                         Dpad(new Dpad(args[1], args[2], args[3], args[4]), Integer.parseInt(args[5]), Integer.parseInt(args[6]), Integer.parseInt(args[7]));
                         break;
+
+                    case "Macro":
+                        Macro(args[1], new Macro(args[2],Boolean.parseBoolean(args[3])), Integer.parseInt(args[4]), Integer.parseInt(args[5]), Integer.parseInt(args[6]), Integer.parseInt(args[7]));
+                        break;
                 }
             }
 
@@ -146,7 +151,7 @@ public class ControllerActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
 
-        cmd = "";
+        cmd.setLength(0);
 
         ds = new DataSender();
         ds.start();
@@ -169,16 +174,16 @@ public class ControllerActivity extends AppCompatActivity {
         switch (keyCode) {
             case KeyEvent.KEYCODE_VOLUME_UP:
                 if (action == KeyEvent.ACTION_DOWN) {
-                    cmd += "D volumeup\n";
+                    cmd.append("D volumeup\0");
                 } else if (action == KeyEvent.ACTION_UP) {
-                    cmd += "U volumeup\n";
+                    cmd.append("U volumeup\0");
                 }
                 return true;
             case KeyEvent.KEYCODE_VOLUME_DOWN:
                 if (action == KeyEvent.ACTION_DOWN) {
-                    cmd += "D volumedown\n";
+                    cmd.append("D volumedown\0");
                 } else if (action == KeyEvent.ACTION_UP) {
-                    cmd += "U volumedown\n";
+                    cmd.append("U volumedown\0");
                 }
                 return true;
             default:
@@ -210,11 +215,11 @@ public class ControllerActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    cmd += output.down();
+                    cmd.append(output.down());
                     v.setBackgroundResource(R.drawable.button_down);
                     ((Button) v).setTextColor(getResources().getColor(R.color.background));
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    cmd += output.up();
+                    cmd.append(output.up());
                     v.setBackgroundResource(R.drawable.button_up);
                     ((Button) v).setTextColor(getResources().getColor(R.color.colorPrimary));
                 }
@@ -272,10 +277,10 @@ public class ControllerActivity extends AppCompatActivity {
                     pointer.setLayoutParams(layoutParams);
 
 
-                    if (dist < (double) diameter / 10) cmd += output.setPos(0, 0);
-                    else cmd += output.setPos(x, y);
+                    if (dist < (double) diameter / 10) cmd.append(output.setPos(0, 0));
+                    else cmd.append(output.setPos(x, y));
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    cmd += output.setPos(0, 0);
+                    cmd.append(output.setPos(0, 0));
 
                     layoutParams = (RelativeLayout.LayoutParams) pointer.getLayoutParams();
                     layoutParams.leftMargin = marginLeft + (diameter - diameter / 4) / 2;
@@ -286,5 +291,40 @@ public class ControllerActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void Macro(String label, final Macro output, int height, int width, int marginTop, int marginLeft) {
+        Button btn = new Button(this);
+
+        btn.setHeight(height);
+        btn.setWidth(width);
+        btn.setMinimumHeight(0);
+        btn.setMinimumWidth(0);
+        btn.setText(label);
+
+        btn.setBackgroundResource(R.drawable.button_up);
+
+        layout.addView(btn);
+
+        layoutParams = (RelativeLayout.LayoutParams) btn.getLayoutParams();
+        layoutParams.leftMargin = marginLeft;
+        layoutParams.topMargin = marginTop;
+        btn.setLayoutParams(layoutParams);
+
+        btn.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    output.setToggle(true);
+                    v.setBackgroundResource(R.drawable.button_down);
+                    ((Button) v).setTextColor(getResources().getColor(R.color.background));
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    output.setToggle(false);
+                    v.setBackgroundResource(R.drawable.button_up);
+                    ((Button) v).setTextColor(getResources().getColor(R.color.colorPrimary));
+                }
+                return true;
+            }
+        });
     }
 }

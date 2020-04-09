@@ -11,7 +11,7 @@ public class Btn {
         String res = "";
 
         for (int x = 0; x < output.length; x++) {
-            res += "D " + output[x] + "\n";
+            res += "D " + output[x] + "\0";
         }
 
         return res;
@@ -21,7 +21,7 @@ public class Btn {
         String res = "";
 
         for (int x = output.length - 1; x >= 0; x--) {
-            res += "U " + output[x] + "\n";
+            res += "U " + output[x] + "\0";
         }
 
         return res;

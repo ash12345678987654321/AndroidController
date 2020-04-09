@@ -3,6 +3,8 @@ package com.example.bluetoothtest.controllerData;
 import android.util.Base64;
 import android.util.Pair;
 
+import com.example.bluetoothtest.dataStructures.Vector;
+
 public class Text extends Command {
     private String text;
 
@@ -13,8 +15,8 @@ public class Text extends Command {
     }
 
     @Override
-    public Pair<Integer, String> run(int pos) {
-        return null;
+    public Pair<Integer, String> run(int pos, Vector<Integer> stk) {
+        return new Pair<>(pos+1,"T "+text+"\0");
     }
 
     @Override

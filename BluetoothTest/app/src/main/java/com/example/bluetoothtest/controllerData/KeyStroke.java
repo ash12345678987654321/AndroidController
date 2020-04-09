@@ -2,6 +2,8 @@ package com.example.bluetoothtest.controllerData;
 
 import android.util.Pair;
 
+import com.example.bluetoothtest.dataStructures.Vector;
+
 public class KeyStroke extends Command {
     private Btn btn;
 
@@ -11,8 +13,9 @@ public class KeyStroke extends Command {
     }
 
     @Override
-    public Pair<Integer, String> run(int pos) {
-        return null;
+    public Pair<Integer, String> run(int pos, Vector<Integer> stk) {
+        if (isStart()) return new Pair<>(pos+1,btn.down());
+        else return new Pair<>(pos+1,btn.up());
     }
 
     @Override

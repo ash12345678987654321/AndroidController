@@ -49,9 +49,17 @@ public class Vector<T> {
         length += items.length;
     }
 
+    public void pop(){
+        length--;
+    }
+
     public void del(int index) {
         System.arraycopy(arr, index + 1, arr, index, length - index - 1);
         length--;
+    }
+
+    public T back(){
+        return (T) arr[length-1];
     }
 
     public T get(int index) {

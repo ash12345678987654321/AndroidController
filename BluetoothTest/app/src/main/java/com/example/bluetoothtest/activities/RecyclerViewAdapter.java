@@ -90,7 +90,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             holder.icon1.setImageResource(R.drawable.ic_stopwatch);
 
             holder.icon2.setImageResource(0);
-        } else {
+        } else if (macro.get(position) instanceof Loop) {
             holder.icon1.setImageResource(R.drawable.ic_loop);
 
             holder.icon2.setImageResource(0);

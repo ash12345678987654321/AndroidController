@@ -2,7 +2,10 @@ package com.example.bluetoothtest.activities;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ScaleDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -22,6 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.bluetoothtest.R;
+import com.example.bluetoothtest.controllerData.Macro;
 
 import java.io.File;
 import java.util.Collections;
@@ -360,6 +365,10 @@ public class MainActivity extends AppCompatActivity {
                     case "Dpad":
                         Dpad(Integer.parseInt(args[5]), Integer.parseInt(args[6]), Integer.parseInt(args[7]));
                         break;
+
+                    case "Macro":
+                        Macro(Integer.parseInt(args[4]), Integer.parseInt(args[5]), Integer.parseInt(args[6]), Integer.parseInt(args[7]));
+                        break;
                 }
             }
 
@@ -407,6 +416,33 @@ public class MainActivity extends AppCompatActivity {
         btn.setMinimumWidth(0);
 
         btn.setBackgroundResource(R.drawable.dpad);
+
+        relativeLayout.addView(btn);
+
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) btn.getLayoutParams();
+        layoutParams.leftMargin = marginLeft;
+        layoutParams.topMargin = marginTop;
+        btn.setLayoutParams(layoutParams);
+    }
+
+    private void Macro(int height, int width, int marginTop, int marginLeft) {
+        height /= 2;
+        width /= 2;
+        marginTop /= 2;
+        marginLeft /= 2;
+
+        ImageView btn = new ImageView(this);
+
+        btn.setMaxHeight(height);
+        btn.setMaxWidth(width);
+        btn.setMinimumHeight(height);
+        btn.setMinimumWidth(width);
+
+        btn.setBackgroundResource(R.drawable.button_macro);
+
+        btn.setImageResource(R.drawable.ic_m);
+        btn.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        btn.setAdjustViewBounds(false);
 
         relativeLayout.addView(btn);
 
