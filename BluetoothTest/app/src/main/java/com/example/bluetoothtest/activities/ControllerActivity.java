@@ -1,5 +1,6 @@
 package com.example.bluetoothtest.activities;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,8 +18,8 @@ import com.example.bluetoothtest.R;
 import com.example.bluetoothtest.controllerData.Btn;
 import com.example.bluetoothtest.controllerData.Dpad;
 import com.example.bluetoothtest.controllerData.Macro;
-import com.example.bluetoothtest.netwokingHandler.DataSender;
-import com.example.bluetoothtest.netwokingHandler.Ping;
+import com.example.bluetoothtest.networkingHandler.DataSender;
+import com.example.bluetoothtest.networkingHandler.Ping;
 
 import java.io.File;
 import java.util.Scanner;
@@ -200,6 +201,7 @@ public class ControllerActivity extends AppCompatActivity {
 
 
     //controller setups (adding them programmically)
+    @SuppressLint("ClickableViewAccessibility")
     private void Btn(String label, final Btn output, int height, int width, int marginTop, int marginLeft) {
         Button btn = new Button(this);
 
@@ -220,6 +222,7 @@ public class ControllerActivity extends AppCompatActivity {
         layoutParams.topMargin = marginTop;
         btn.setLayoutParams(layoutParams);
 
+
         btn.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -235,8 +238,11 @@ public class ControllerActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void Dpad(final Dpad output, final int diameter, final int marginTop, final int marginLeft) {
         Button btn = new Button(this);
         final Button pointer = new Button(this);
@@ -304,6 +310,7 @@ public class ControllerActivity extends AppCompatActivity {
 
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void Macro(String label, final Macro output, int height, int width, int marginTop, int marginLeft) {
         Button btn = new Button(this);
 

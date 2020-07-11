@@ -1,4 +1,4 @@
-package com.example.bluetoothtest.netwokingHandler;
+package com.example.bluetoothtest.networkingHandler;
 
 import android.util.Log;
 
