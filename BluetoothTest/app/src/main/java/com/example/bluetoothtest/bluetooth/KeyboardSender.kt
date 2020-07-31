@@ -1,10 +1,9 @@
-package com.why.bluetoothtouchpad2.bluetooth
+package com.example.bluetoothtest.bluetooth
 
 
 
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothHidDevice
-import android.util.Log
 import android.view.KeyEvent
 
 @Suppress("MemberVisibilityCanBePrivate")
@@ -32,12 +31,12 @@ open class KeyboardSender(
         }
     }
 
-    protected open fun setModifiers(event: KeyEvent) {
+    /*protected open fun setModifiers(event: KeyEvent) {
         if (event.isShiftPressed) keyboardReport.leftShift = true
         if (event.isAltPressed) keyboardReport.leftAlt = true
         if (event.isCtrlPressed) keyboardReport.leftControl = true
         if (event.isMetaPressed) keyboardReport.leftGui = true
-    }
+    }*/
 
     fun sendNullKeys() {
         keyboardReport.bytes.fill(0)
@@ -46,8 +45,8 @@ open class KeyboardSender(
         }
     }
 
-    fun keyEventHandler(
-        keyEventCode: Int,
+    /*fun keyEventHandler(
+        keyEventCode: String,
         event: KeyEvent,
         modifier_checked_state: Int,
         keyCode: Int
@@ -70,12 +69,12 @@ open class KeyboardSender(
         }
 
 
-    }
+    }*/
 
 
-    fun sendKeyboard(keyCode: Int, event: KeyEvent, modifier_checked_state: Int): Boolean {
+    /*fun sendKeyboard(keyCode: Int, event: KeyEvent, modifier_checked_state: Int): Boolean {
         return keyEventHandler(event.keyCode, event, modifier_checked_state, keyCode)
-    }
+    }*/
 
     fun sendKeyOn(keyCode: Int?) {
         if (keyCode != null)

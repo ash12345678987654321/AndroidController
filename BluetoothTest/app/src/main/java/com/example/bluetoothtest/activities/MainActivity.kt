@@ -12,7 +12,9 @@ import android.widget.TextView.OnEditorActionListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.example.bluetoothtest.R
+import com.example.bluetoothtest.bluetooth.KeyboardSender
 import com.example.bluetoothtest.bluetooth.Main
+import com.example.bluetoothtest.bluetooth.Main.keyboard
 import com.example.bluetoothtest.bluetooth.Main.mouse
 import com.why.bluetoothtouchpad2.bluetooth.BluetoothController
 import com.why.bluetoothtouchpad2.bluetooth.MouseSender
@@ -401,11 +403,8 @@ class MainActivity : AppCompatActivity() {
 
             val mainHandler = Handler(this.mainLooper)
             mainHandler.post {
-                mouse =
-                        MouseSender(
-                                hid,
-                                device
-                        )
+                mouse = MouseSender(hid, device)
+                keyboard = KeyboardSender(hid,device)
                 m = Sender(mouse!!, hid, device)
                 Toast.makeText(applicationContext, "Bluetooth is connected!", Toast.LENGTH_LONG).show()
 

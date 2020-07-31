@@ -18,7 +18,7 @@ import com.example.bluetoothtest.R;
 import com.example.bluetoothtest.controllerData.Btn;
 import com.example.bluetoothtest.controllerData.Dpad;
 import com.example.bluetoothtest.controllerData.Macro;
-import com.example.bluetoothtest.networkingHandler.DataSender;
+import com.example.bluetoothtest.bluetooth.DataSender;
 import com.example.bluetoothtest.networkingHandler.Ping;
 
 import java.io.File;

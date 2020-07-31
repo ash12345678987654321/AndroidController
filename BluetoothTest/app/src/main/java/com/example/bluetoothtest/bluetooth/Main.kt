@@ -1,6 +1,5 @@
 package com.example.bluetoothtest.bluetooth
 
-import android.R
 import android.app.ActivityManager
 import android.content.Context
 import android.media.MediaPlayer
@@ -11,6 +10,7 @@ import com.why.bluetoothtouchpad2.bluetooth.MouseSender
 object Main {
     lateinit var c:Context
     var mouse: MouseSender?=null
+    var keyboard:KeyboardSender?=null
     var mp:MediaPlayer?=null
     var hasGyro=true
 
