@@ -1,6 +1,8 @@
 package com.why.controller.bluetooth
 
+import android.util.Log
 import com.why.controller.activities.ControllerActivity
+import java.util.*
 import java.util.regex.Pattern
 
 class DataSender : Thread() {
@@ -10,13 +12,15 @@ class DataSender : Thread() {
         while (true) {
             if (isInterrupted) return
             if (ControllerActivity.cmd.isNotEmpty()) {
-                //Log.d("ZZZ","Command: "+MainActivity.cmd);
-                command = ControllerActivity.cmd.toString().split("\\0")
-                for (i in command){
-                    control(i)
+                Log.d("ZZZ","Command: "+ControllerActivity.cmd);
+
+                synchronized (this) { //in case we send too many commands because of bad threading
+                    command = ControllerActivity.cmd.toString().split("\\0")
+                    for (i in command) {
+                        control(i)
+                    }
+                    ControllerActivity.cmd.setLength(0);
                 }
-
-
             }
         }
     }

@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.res.Resources
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -393,11 +394,10 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         Main.init(this.applicationContext)
+        Log.d("ZZZ","eoiugneoigrng")
         BluetoothController.getSender { hid, device ->
-            println("startBL")
+            Log.d("ZZZ","BL very good")
             Main.connected=true
-
-
 
             val mainHandler = Handler(this.mainLooper)
             mainHandler.post {

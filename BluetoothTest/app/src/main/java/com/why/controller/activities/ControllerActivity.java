@@ -20,7 +20,6 @@ import com.why.controller.controllerData.Btn;
 import com.why.controller.controllerData.Dpad;
 import com.why.controller.controllerData.Macro;
 import com.why.controller.bluetooth.DataSender;
-import com.why.controller.networkingHandler.Ping;
 
 import java.io.File;
 import java.util.Scanner;
@@ -44,46 +43,14 @@ public class ControllerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_controller);
 
-        //set up TCP with computer to check if it exists
-        SharedPreferences sharedPreferences =
-                PreferenceManager.getDefaultSharedPreferences(this);
-
-
-        //check if client exists
-
-        ip = sharedPreferences.getString("ip", "");
-
+        //fuck you
+        /*
         if (!Main.connected) {
             Toast.makeText(this, "Not connected to bluetooth yet", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
-        /*try {
-            String port_raw = sharedPreferences.getString("port", "2764");
-            port = Integer.parseInt(port_raw);
-        } catch (NumberFormatException e) {
-            Toast.makeText(this, "port must be an integer", Toast.LENGTH_SHORT).show();
-            finish();
-            return;
-        }
-
-        Ping ping = new Ping();
-        long start = System.currentTimeMillis();
-        ping.start();
-
-        while (true) {
-            long end = System.currentTimeMillis();
-            if (!ping.isAlive()) {
-                Toast.makeText(this, "Connection succesful. ping: " + (end - start) + "ms", Toast.LENGTH_SHORT).show();
-                break; //ok now the port and ip is good
-            } else if (end - start > 1000) { //is 1 seconds enough time?
-                ping.interrupt();
-                Toast.makeText(this, "network error or computer not responding", Toast.LENGTH_SHORT).show();
-                finish();
-                return;
-            }
-        }
-*/
+        */
 
         layout = findViewById(R.id.layout_controller_tag);
 
