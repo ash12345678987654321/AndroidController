@@ -45,13 +45,13 @@ public class ControllerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_controller);
 
         //set up TCP with computer to check if it exists
-        SharedPreferences sharedPreferences =
-                PreferenceManager.getDefaultSharedPreferences(this);
+        //SharedPreferences sharedPreferences =
+        //        PreferenceManager.getDefaultSharedPreferences(this);
 
 
         //check if client exists
 
-        ip = sharedPreferences.getString("ip", "");
+        //ip = sharedPreferences.getString("ip", "");
 
         if (!Main.connected) {
             Toast.makeText(this, "Not connected to bluetooth yet", Toast.LENGTH_SHORT).show();
