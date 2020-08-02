@@ -1,20 +1,31 @@
 package com.why.controller.bluetooth
 
+import android.util.Log
 import com.why.controller.activities.ControllerActivity
+import com.why.controller.activities.MainActivity
 import java.util.regex.Pattern
+
 
 class DataSender : Thread() {
     lateinit var command:List<String>
 
     override fun run() {
+        println("datasender running")
+
         while (true) {
-            if (isInterrupted) return
+            if (isInterrupted){
+                println("interrupted")
+                return
+            }
+            //println(ControllerActivity.cmd.toString())
             if (ControllerActivity.cmd.isNotEmpty()) {
-                //Log.d("ZZZ","Command: "+MainActivity.cmd);
+                //Log.d("ZZZ","Command: "+ ControllerActivity.cmd);
                 command = ControllerActivity.cmd.toString().split("\\0")
                 for (i in command){
-                    control(i)
+                    control(i.dropLast(1))
+                    println("not ded")
                 }
+                ControllerActivity.cmd.setLength(0);
 
 
             }
@@ -22,9 +33,11 @@ class DataSender : Thread() {
     }
 
     fun control(cmd:String){
-        val cmmd = cmd.split(Pattern.compile(""),1)
+        val cmmd = arrayOf(cmd[0].toString(),cmd.drop(1))
+
         when(cmmd[0]){
             "D"->{
+                println(cmmd[0]+cmmd[1])
                 keyDown(cmmd[1])
             }
             "U"->{
@@ -37,6 +50,7 @@ class DataSender : Thread() {
     }
 
     fun keyDown(cmd:String){
+        println(cmd)
         when(cmd){
             "m1"->{
                 Main.mouse?.sendLeftClickOn()
@@ -57,7 +71,11 @@ class DataSender : Thread() {
                 Main.keyboard?.keyboardReport?.rightControl=true
             }
             else->{
-                Main.keyboard?.sendKeyOn(KeyboardReport.KeyEventMap[cmd])
+                print("'")
+                print(cmd)
+                println("'")
+                println(KeyboardReport.KeyEventMap[cmd])
+                Main.keyboard?.sendKeyOn(KeyboardReport.KeyEventMap[cmd.drop(1)])
             }
         }
     }

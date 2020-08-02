@@ -58,6 +58,11 @@ public class ControllerActivity extends AppCompatActivity {
             finish();
             return;
         }
+
+
+        ds = new DataSender();
+        ds.start();
+        System.out.println("datasender started");
         /*try {
             String port_raw = sharedPreferences.getString("port", "2764");
             port = Integer.parseInt(port_raw);

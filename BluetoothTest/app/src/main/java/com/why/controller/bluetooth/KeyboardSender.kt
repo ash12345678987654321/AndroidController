@@ -79,6 +79,7 @@ open class KeyboardSender(
         if (keyCode != null)
             keyboardReport.key1 = keyCode.toByte()
         sendKeys()
+        print(keyCode)
     }
 
     fun sendKeyOff() {
