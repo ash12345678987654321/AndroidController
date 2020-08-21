@@ -17,6 +17,7 @@ import com.why.controller.bluetooth.DataSender;
 import com.why.controller.bluetooth.Main;
 import com.why.controller.controllerData.Btn;
 import com.why.controller.controllerData.Dpad;
+import com.why.controller.controllerData.JoyStick;
 import com.why.controller.controllerData.Macro;
 
 import java.io.File;
@@ -41,47 +42,11 @@ public class ControllerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_controller);
 
-        //set up TCP with computer to check if it exists
-        //SharedPreferences sharedPreferences =
-        //        PreferenceManager.getDefaultSharedPreferences(this);
-
-
-        //check if client exists
-
-        //ip = sharedPreferences.getString("ip", "");
-
         if (!Main.connected) {
             Toast.makeText(this, "Not connected to bluetooth yet", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
-
-        /*try {
-            String port_raw = sharedPreferences.getString("port", "2764");
-            port = Integer.parseInt(port_raw);
-        } catch (NumberFormatException e) {
-            Toast.makeText(this, "port must be an integer", Toast.LENGTH_SHORT).show();
-            finish();
-            return;
-        }
-
-        Ping ping = new Ping();
-        long start = System.currentTimeMillis();
-        ping.start();
-
-        while (true) {
-            long end = System.currentTimeMillis();
-            if (!ping.isAlive()) {
-                Toast.makeText(this, "Connection succesful. ping: " + (end - start) + "ms", Toast.LENGTH_SHORT).show();
-                break; //ok now the port and ip is good
-            } else if (end - start > 1000) { //is 1 seconds enough time?
-                ping.interrupt();
-                Toast.makeText(this, "network error or computer not responding", Toast.LENGTH_SHORT).show();
-                finish();
-                return;
-            }
-        }
-*/
 
         layout = findViewById(R.id.layout_controller_tag);
 
@@ -105,6 +70,10 @@ public class ControllerActivity extends AppCompatActivity {
 
                     case "Macro":
                         Macro(args[1], new Macro(args[2], Boolean.parseBoolean(args[3])), Integer.parseInt(args[4]), Integer.parseInt(args[5]), Integer.parseInt(args[6]), Integer.parseInt(args[7]));
+                        break;
+
+                    case "JoyStick":
+                        JoyStick(new JoyStick(Double.parseDouble(args[1])), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]));
                         break;
                 }
             }
@@ -341,6 +310,71 @@ public class ControllerActivity extends AppCompatActivity {
                     output.setToggle(false);
                     v.setBackgroundResource(R.drawable.button_up);
                     ((Button) v).setTextColor(getResources().getColor(R.color.colorPrimary));
+                }
+                return true;
+            }
+        });
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void JoyStick(final JoyStick output, final int diameter, final int marginTop, final int marginLeft) { //TODO shall i put another fucking todo here
+        Button btn = new Button(this);
+        final Button pointer = new Button(this);
+
+        pointer.setHeight(diameter / 4);
+        pointer.setWidth(diameter / 4);
+        pointer.setMinimumHeight(0);
+        pointer.setMinimumWidth(0);
+
+        btn.setTag(output);
+
+        pointer.setBackgroundResource(R.drawable.dpad_pointer);
+
+        layout.addView(pointer);
+
+        layoutParams = (RelativeLayout.LayoutParams) pointer.getLayoutParams();
+        layoutParams.leftMargin = marginLeft + (diameter - diameter / 4) / 2;
+        layoutParams.topMargin = marginTop + (diameter - diameter / 4) / 2;
+        pointer.setLayoutParams(layoutParams);
+
+        btn.setHeight(diameter);
+        btn.setWidth(diameter);
+        btn.setMinimumHeight(0);
+        btn.setMinimumWidth(0);
+
+        btn.setBackgroundResource(R.drawable.dpad);
+
+        layout.addView(btn);
+
+        layoutParams = (RelativeLayout.LayoutParams) btn.getLayoutParams();
+        layoutParams.leftMargin = marginLeft;
+        layoutParams.topMargin = marginTop;
+        btn.setLayoutParams(layoutParams);
+
+        btn.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
+                    double x = event.getX() - (double) diameter / 2, y = event.getY() - (double) diameter / 2;
+                    double dist = Math.sqrt(x * x + y * y);
+                    x /= dist;
+                    y /= dist;
+
+                    dist = min(dist, (double) diameter / 3);
+
+                    layoutParams = (RelativeLayout.LayoutParams) pointer.getLayoutParams();
+                    layoutParams.leftMargin = (int) (marginLeft + x * dist) + (diameter - diameter / 4) / 2;
+                    layoutParams.topMargin = (int) (marginTop + y * dist) + (diameter - diameter / 4) / 2;
+                    pointer.setLayoutParams(layoutParams);
+
+                    cmd.append(output.setPos(x, y));
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    cmd.append(output.setPos(0, 0));
+
+                    layoutParams = (RelativeLayout.LayoutParams) pointer.getLayoutParams();
+                    layoutParams.leftMargin = marginLeft + (diameter - diameter / 4) / 2;
+                    layoutParams.topMargin = marginTop + (diameter - diameter / 4) / 2;
+                    pointer.setLayoutParams(layoutParams);
                 }
                 return true;
             }

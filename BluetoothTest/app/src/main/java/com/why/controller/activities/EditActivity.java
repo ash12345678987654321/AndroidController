@@ -25,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.why.controller.R;
 import com.why.controller.controllerData.Btn;
 import com.why.controller.controllerData.Dpad;
+import com.why.controller.controllerData.JoyStick;
 import com.why.controller.controllerData.KeyCode;
 import com.why.controller.controllerData.Macro;
 
@@ -76,6 +77,11 @@ public class EditActivity extends AppCompatActivity {
                     case "Macro":
                         Macro(args[1], new Macro(args[2], Boolean.parseBoolean(args[3])), Integer.parseInt(args[4]), Integer.parseInt(args[5]), Integer.parseInt(args[6]), Integer.parseInt(args[7]));
                         break;
+
+                    case "JoyStick":
+                        JoyStick(new JoyStick(Double.parseDouble(args[1])), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]));
+                        break;
+
                 }
             }
 
@@ -155,6 +161,8 @@ public class EditActivity extends AppCompatActivity {
                     pw.println("Dpad\0" + ((Dpad) args).getOutput() + "\0" + v.getHeight() + "\0" + layoutParams.topMargin + "\0" + layoutParams.leftMargin);
                 } else if (args instanceof Macro) {
                     pw.println("Macro\0" + v.getText().toString() + "\0" + ((Macro) args).getOutput() + "\0" + v.getHeight() + "\0" + v.getWidth() + "\0" + layoutParams.topMargin + "\0" + layoutParams.leftMargin);
+                } else if (args instanceof JoyStick){
+                    pw.println("JoyStick\0" + ((JoyStick) args).getOutput() + "\0" + v.getHeight() + "\0" + layoutParams.topMargin + "\0" + layoutParams.leftMargin);
                 }
             }
 
@@ -195,6 +203,10 @@ public class EditActivity extends AppCompatActivity {
 
     public void add_macro(View view) {
         Macro("", new Macro("", true), 300, 300, Resources.getSystem().getDisplayMetrics().heightPixels / 2 - 150, Resources.getSystem().getDisplayMetrics().widthPixels / 2 - 150);
+    }
+
+    public void add_joystick(View view) {
+        JoyStick(new JoyStick(50.0), 300, Resources.getSystem().getDisplayMetrics().heightPixels / 2 - 150, Resources.getSystem().getDisplayMetrics().widthPixels / 2 - 150);
     }
 
     //controller setups (adding them programmically)
@@ -380,6 +392,66 @@ public class EditActivity extends AppCompatActivity {
         });
     }
 
+    private void JoyStick(JoyStick tag, int diameter, int marginTop, int marginLeft) {
+        Button btn = new Button(this);
+
+        btn.setHeight(diameter);
+        btn.setWidth(diameter);
+        btn.setMinimumHeight(0);
+        btn.setMinimumWidth(0);
+
+        btn.setTag(tag);
+
+        btn.setBackgroundResource(R.drawable.dpad); //TODO: for now it will share the same texture as dpad, dpad texture change later
+
+        layout.addView(btn);
+
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) btn.getLayoutParams();
+        layoutParams.leftMargin = marginLeft;
+        layoutParams.topMargin = marginTop;
+        btn.setLayoutParams(layoutParams);
+
+        final ScaleGestureDetector scaleDetector = new ScaleGestureDetector(this, new ScaleListener(btn, diameter, diameter));
+        final GestureDetector doubleDetector = new GestureDetector(this, new GestureListener(btn));
+        final double[] prev_pos = new double[2];
+        final int[] active_pointer = {-1};
+        btn.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                scaleDetector.onTouchEvent(event);
+                doubleDetector.onTouchEvent(event);
+
+                if (popupWindow.isShowing()) return true;
+
+                if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
+                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
+
+                    int index = event.findPointerIndex(event.getPointerId(0));
+                    double x = layoutParams.leftMargin + event.getX(index), y = layoutParams.topMargin + event.getY(index);
+
+                    //Log.d("ZZZ","active poitner: "+index+";pos: "+x+" "+y);
+
+                    if (event.getPointerId(0) == active_pointer[0]) {
+                        layoutParams.leftMargin += x - prev_pos[0];
+                        layoutParams.topMargin += y - prev_pos[1];
+                    }
+
+                    active_pointer[0] = event.getPointerId(0);
+                    prev_pos[0] = x;
+                    prev_pos[1] = y;
+
+                    //make sure view stays inside
+                    layoutParams.leftMargin = Math.max(0, Math.min(Resources.getSystem().getDisplayMetrics().widthPixels - v.getWidth(), layoutParams.leftMargin));
+                    layoutParams.topMargin = Math.max(0, Math.min(Resources.getSystem().getDisplayMetrics().heightPixels - v.getHeight(), layoutParams.topMargin));
+                    v.setLayoutParams(layoutParams);
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    active_pointer[0] = -1;
+                }
+                return true;
+            }
+        });
+    }
+
     //magic code to allow for resizing stuff
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
         private double scaleFactor = 1;
@@ -421,7 +493,7 @@ public class EditActivity extends AppCompatActivity {
     }
 
     //show edit menu when double click happens
-    private class GestureListener extends GestureDetector.SimpleOnGestureListener {
+    private class GestureListener extends GestureDetector.SimpleOnGestureListener {//TODO add listener for joysticks
         private Button btn;
 
         private GestureListener(Button btn) {

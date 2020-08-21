@@ -49,6 +49,13 @@
                 android:adjustViewBounds="false"
                 android:onClick="add_macro" />
 
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_marginVertical="25dp"
+                android:background="@drawable/dpad"
+                android:onClick="add_joystick" />
 
         </LinearLayout>
 

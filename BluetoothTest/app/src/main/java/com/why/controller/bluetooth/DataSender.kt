@@ -33,8 +33,6 @@ class DataSender : Thread() {
     fun control(cmd: String) {
         val cmmd = cmd.split(" ", limit = 2)
 
-        Log.d("ZZZ", "loli hunter " + cmmd.toString() + " ; " + cmd)
-
         when (cmmd[0]) {
             "D" -> {
                 Log.d("ZZZ", "Pressing down " + cmmd[1])
@@ -45,6 +43,12 @@ class DataSender : Thread() {
             }
             "T" -> {
                 keyPress(cmmd[1])
+            }
+            "J" -> {
+                val temp=cmmd[1].split(" ")
+                Log.d("ZZZ",temp.toString())
+
+                mouseVelocity(temp[0].toInt(),temp[1].toInt())
             }
         }
     }
@@ -112,6 +116,11 @@ class DataSender : Thread() {
             Main.keyboard?.sendKeyOff()
             //Thread.sleep(1) //uncomment if latency screws stuff up
         }
+    }
+
+    fun mouseVelocity(dx: Int,dy: Int){
+        Log.d("ZZZ",""+dx+" "+dy)
+        Main.mouse?.sendMouseMove(dx,dy)
     }
 }
 

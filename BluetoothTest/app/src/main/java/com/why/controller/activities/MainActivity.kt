@@ -24,6 +24,8 @@ import java.io.PrintWriter
 import java.util.*
 
 //TODO allow for no selection available
+
+//TODO remove setttings
 class MainActivity : AppCompatActivity() {
     private var editText: EditText? = null
     private var oldName: String? = null
@@ -279,6 +281,7 @@ class MainActivity : AppCompatActivity() {
                     "Btn" -> Btn(args[3].toInt(), args[4].toInt(), args[5].toInt(), args[6].toInt())
                     "Dpad" -> Dpad(args[5].toInt(), args[6].toInt(), args[7].toInt())
                     "Macro" -> Macro(args[4].toInt(), args[5].toInt(), args[6].toInt(), args[7].toInt())
+                    "JoyStick" -> JoyStick(args[2].toInt(), args[3].toInt(), args[4].toInt())
                 }
             }
             scanner.close()
@@ -349,6 +352,26 @@ class MainActivity : AppCompatActivity() {
         btn.setImageResource(R.drawable.ic_m)
         btn.scaleType = ImageView.ScaleType.FIT_CENTER
         btn.adjustViewBounds = false
+        relativeLayout!!.addView(btn)
+        val layoutParams = btn.layoutParams as RelativeLayout.LayoutParams
+        layoutParams.leftMargin = marginLeft
+        layoutParams.topMargin = marginTop
+        btn.layoutParams = layoutParams
+    }
+
+    private fun JoyStick(diameter: Int, marginTop: Int, marginLeft: Int) {
+        var diameter = diameter
+        var marginTop = marginTop
+        var marginLeft = marginLeft
+        diameter /= 2
+        marginTop /= 2
+        marginLeft /= 2
+        val btn = Button(this)
+        btn.height = diameter
+        btn.width = diameter
+        btn.minimumHeight = 0
+        btn.minimumWidth = 0
+        btn.setBackgroundResource(R.drawable.dpad)
         relativeLayout!!.addView(btn)
         val layoutParams = btn.layoutParams as RelativeLayout.LayoutParams
         layoutParams.leftMargin = marginLeft
