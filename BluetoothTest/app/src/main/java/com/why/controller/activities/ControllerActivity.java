@@ -20,7 +20,6 @@ import com.why.controller.controllerData.Btn;
 import com.why.controller.controllerData.Dpad;
 import com.why.controller.controllerData.Macro;
 import com.why.controller.bluetooth.DataSender;
-import com.why.controller.networkingHandler.Ping;
 
 import java.io.File;
 import java.util.Scanner;
