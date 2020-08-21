@@ -3,21 +3,19 @@ package com.why.bluetoothtouchpad2.bluetooth
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothHidDevice
 import android.util.Log
-import com.why.bluetoothtouchpad2.bluetooth.MouseReport
 import java.nio.ByteBuffer
 import java.util.*
 import kotlin.concurrent.schedule
-import kotlin.math.roundToInt
 
 @Suppress("MemberVisibilityCanBePrivate")
 open class MouseSender(
-    val hidDevice: BluetoothHidDevice,
-    val host: BluetoothDevice
+        val hidDevice: BluetoothHidDevice,
+        val host: BluetoothDevice
 
 ) {
     val mouseReport = MouseReport()
-    var previousvscroll :Int=0
-    var previoushscroll :Int =0
+    var previousvscroll: Int = 0
+    var previoushscroll: Int = 0
 
 
     protected open fun sendMouse() {
@@ -26,7 +24,7 @@ open class MouseSender(
         }
     }
 
-    fun sendMouseMove(dxInt:Int,dyInt:Int) {
+    fun sendMouseMove(dxInt: Int, dyInt: Int) {
 
         var bytesArrX = ByteArray(2) { 0 }
         var buffX: ByteBuffer = ByteBuffer.wrap(bytesArrX)
@@ -46,29 +44,29 @@ open class MouseSender(
         //println("Mouse Moving")
     }
 
-    var toggleLeftMouse=true
-    fun toggleLeftMouse(){
+    var toggleLeftMouse = true
+    fun toggleLeftMouse() {
         println("hi i am no")
-        if(toggleLeftMouse){
-            mouseReport.leftButton=true
-            toggleLeftMouse=!toggleLeftMouse
+        if (toggleLeftMouse) {
+            mouseReport.leftButton = true
+            toggleLeftMouse = !toggleLeftMouse
             sendMouse()
-        }else{
-            mouseReport.leftButton=false
-            toggleLeftMouse=!toggleLeftMouse
+        } else {
+            mouseReport.leftButton = false
+            toggleLeftMouse = !toggleLeftMouse
             sendMouse()
         }
     }
 
-    var toggleRightMouse=true
-    fun toggleRightMouse(){
-        if(toggleRightMouse){
-            mouseReport.leftButton=true
-            toggleRightMouse=!toggleRightMouse
+    var toggleRightMouse = true
+    fun toggleRightMouse() {
+        if (toggleRightMouse) {
+            mouseReport.leftButton = true
+            toggleRightMouse = !toggleRightMouse
             sendMouse()
-        }else{
-            mouseReport.leftButton=false
-            toggleRightMouse=!toggleRightMouse
+        } else {
+            mouseReport.leftButton = false
+            toggleRightMouse = !toggleRightMouse
             sendMouse()
         }
     }
@@ -77,6 +75,7 @@ open class MouseSender(
         sendLeftClickOn()
         sendLeftClickOff()
     }
+
     fun sendDoubleTapClick() {
         mouseReport.leftButton = true
         sendMouse()
@@ -92,12 +91,9 @@ open class MouseSender(
                 }
 
 
-
-
             }
         }
     }
-
 
 
     fun sendLeftClickOn() {
@@ -106,53 +102,53 @@ open class MouseSender(
 
 
     }
+
     fun sendLeftClickOff() {
         mouseReport.leftButton = false
         sendMouse()
 
     }
+
     fun sendRightClickOn() {
         mouseReport.rightButton = true
         sendMouse()
 
     }
+
     fun sendRightClickOff() {
         mouseReport.rightButton = false
         sendMouse()
 
     }
-    fun sendRightClick(){
+
+    fun sendRightClick() {
         sendRightClickOn()
         sendRightClickOff()
     }
 
-    fun sendScroll(vscroll:Int,hscroll:Int){
+    fun sendScroll(vscroll: Int, hscroll: Int) {
 
-        var hscrollmutable=0
-        var vscrollmutable =0
+        var hscrollmutable = 0
+        var vscrollmutable = 0
 
-        hscrollmutable=hscroll
-        vscrollmutable= vscroll
+        hscrollmutable = hscroll
+        vscrollmutable = vscroll
 
-        var vs:Int =(vscrollmutable)
-        var hs:Int =(hscrollmutable)
-        Log.i("vscroll ",vscroll.toString())
-        Log.i("vs ",vs.toString())
-        Log.i("hscroll ",hscroll.toString())
-        Log.i("hs ",hs.toString())
+        var vs: Int = (vscrollmutable)
+        var hs: Int = (hscrollmutable)
+        Log.i("vscroll ", vscroll.toString())
+        Log.i("vs ", vs.toString())
+        Log.i("hscroll ", hscroll.toString())
+        Log.i("hs ", hs.toString())
 
 
-        mouseReport.vScroll=vs.toByte()
-        mouseReport.hScroll= hs.toByte()
+        mouseReport.vScroll = vs.toByte()
+        mouseReport.hScroll = hs.toByte()
 
         sendMouse()
 
 
     }
-
-
-
-
 
 
 }

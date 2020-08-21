@@ -4,8 +4,8 @@ import kotlin.experimental.and
 import kotlin.experimental.or
 
 @Suppress("EXPERIMENTAL_FEATURE_WARNING")
-inline class KeyboardReport (
-    val bytes: ByteArray = ByteArray(3) {0}
+inline class KeyboardReport(
+        val bytes: ByteArray = ByteArray(3) { 0 }
 ) {
 
 
@@ -81,8 +81,9 @@ inline class KeyboardReport (
 
     var key1: Byte
         get() = bytes[2]
-        set(value) { bytes[2] = value }
-
+        set(value) {
+            bytes[2] = value
+        }
 
 
     fun reset() = bytes.fill(0)
@@ -90,7 +91,7 @@ inline class KeyboardReport (
     companion object {
         const val ID = 8
 
-        val KeyEventMap = mapOf<String,Int>(
+        val KeyEventMap = mapOf<String, Int>(
                 "a" to 4,
                 "b" to 5,
                 "c" to 6,

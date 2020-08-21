@@ -4,8 +4,8 @@ import kotlin.experimental.and
 import kotlin.experimental.or
 
 @Suppress("EXPERIMENTAL_FEATURE_WARNING")
-inline class FeatureReport (
-    val bytes: ByteArray = ByteArray(1) {0}
+inline class FeatureReport(
+        val bytes: ByteArray = ByteArray(1) { 0 }
 ) {
 
 
@@ -26,8 +26,6 @@ inline class FeatureReport (
             else
                 bytes[0] and 0b1011
         }
-
-
 
 
     fun reset() = bytes.fill(0)

@@ -3,6 +3,7 @@ package com.why.controller.activities;
 import android.animation.ObjectAnimator;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Pair;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -79,7 +81,7 @@ public class EditActivity extends AppCompatActivity {
                         break;
 
                     case "JoyStick":
-                        JoyStick(new JoyStick(Double.parseDouble(args[1])), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]));
+                        JoyStick(new JoyStick(Integer.parseInt(args[1])), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]));
                         break;
 
                 }
@@ -161,7 +163,7 @@ public class EditActivity extends AppCompatActivity {
                     pw.println("Dpad\0" + ((Dpad) args).getOutput() + "\0" + v.getHeight() + "\0" + layoutParams.topMargin + "\0" + layoutParams.leftMargin);
                 } else if (args instanceof Macro) {
                     pw.println("Macro\0" + v.getText().toString() + "\0" + ((Macro) args).getOutput() + "\0" + v.getHeight() + "\0" + v.getWidth() + "\0" + layoutParams.topMargin + "\0" + layoutParams.leftMargin);
-                } else if (args instanceof JoyStick){
+                } else if (args instanceof JoyStick) {
                     pw.println("JoyStick\0" + ((JoyStick) args).getOutput() + "\0" + v.getHeight() + "\0" + layoutParams.topMargin + "\0" + layoutParams.leftMargin);
                 }
             }
@@ -206,7 +208,7 @@ public class EditActivity extends AppCompatActivity {
     }
 
     public void add_joystick(View view) {
-        JoyStick(new JoyStick(50.0), 300, Resources.getSystem().getDisplayMetrics().heightPixels / 2 - 150, Resources.getSystem().getDisplayMetrics().widthPixels / 2 - 150);
+        JoyStick(new JoyStick(500), 300, Resources.getSystem().getDisplayMetrics().heightPixels / 2 - 150, Resources.getSystem().getDisplayMetrics().widthPixels / 2 - 150);
     }
 
     //controller setups (adding them programmically)
@@ -493,7 +495,7 @@ public class EditActivity extends AppCompatActivity {
     }
 
     //show edit menu when double click happens
-    private class GestureListener extends GestureDetector.SimpleOnGestureListener {//TODO add listener for joysticks
+    private class GestureListener extends GestureDetector.SimpleOnGestureListener {
         private Button btn;
 
         private GestureListener(Button btn) {
@@ -674,6 +676,42 @@ public class EditActivity extends AppCompatActivity {
                         btn.setText(((EditText) popupWindow.getContentView().findViewById(R.id.label)).getText().toString());
                         args.setFileName(fileName.get(txtView.getText().toString()));
                         args.setOnce(((CheckBox) popupView.findViewById(R.id.checkbox)).isChecked());
+                        popupWindow.dismiss();
+                    }
+                });
+
+                popupView.findViewById(R.id.del).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        layout.removeView(btn);
+                        popupWindow.dismiss();
+                    }
+                });
+            } else if (btn.getTag() instanceof JoyStick) {
+                final JoyStick args = (JoyStick) btn.getTag();
+
+                LayoutInflater layoutInflater
+                        = (LayoutInflater) getBaseContext()
+                        .getSystemService(LAYOUT_INFLATER_SERVICE);
+                View popupView = layoutInflater.inflate(R.layout.popup_joystick, null);
+
+
+                popupWindow = new PopupWindow(
+                        popupView,
+                        Resources.getSystem().getDisplayMetrics().widthPixels / 2,
+                        (int) (Resources.getSystem().getDisplayMetrics().heightPixels / 3));
+
+                popupWindow.setFocusable(true);
+                popupWindow.update();
+                popupWindow.showAsDropDown(btn, 50, -400);
+
+                ((SeekBar) popupView.findViewById(R.id.seekbar)).setProgress(args.getSensitivity());
+
+                popupView.findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        args.setSensitivity(((SeekBar) popupWindow.getContentView().findViewById(R.id.seekbar)).getProgress());
+                        Log.d("ZZZ", "Current sensitivity " + args.getSensitivity());
                         popupWindow.dismiss();
                     }
                 });

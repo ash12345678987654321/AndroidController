@@ -73,7 +73,7 @@ public class ControllerActivity extends AppCompatActivity {
                         break;
 
                     case "JoyStick":
-                        JoyStick(new JoyStick(Double.parseDouble(args[1])), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]));
+                        JoyStick(new JoyStick(Integer.parseInt(args[1])), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]));
                         break;
                 }
             }

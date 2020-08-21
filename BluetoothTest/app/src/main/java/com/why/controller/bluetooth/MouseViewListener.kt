@@ -2,18 +2,16 @@ package com.why.bluetoothtouchpad2.bluetooth
 
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothHidDevice
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import java.nio.ByteBuffer
 import kotlin.math.roundToInt
 
 @ExperimentalUnsignedTypes
-class MouseViewListener(val hidDevice: BluetoothHidDevice, val host: BluetoothDevice, val rMouseSender : MouseSender):  View.OnTouchListener{
+class MouseViewListener(val hidDevice: BluetoothHidDevice, val host: BluetoothDevice, val rMouseSender: MouseSender) : View.OnTouchListener {
 
     private var previousX: Float = 0f
     private var previousY: Float = 0f
-    private var pointerMotionStopFlag :Int =0
+    private var pointerMotionStopFlag: Int = 0
 
 
     override fun onTouch(v: View, event: MotionEvent): Boolean {
@@ -25,11 +23,11 @@ class MouseViewListener(val hidDevice: BluetoothHidDevice, val host: BluetoothDe
 
 
                 //Log.d("pointerCount_is",event.pointerCount.toString())
-                if(event.pointerCount==1) {
-                    if(pointerMotionStopFlag==1) pointerMotionStopFlag=0
+                if (event.pointerCount == 1) {
+                    if (pointerMotionStopFlag == 1) pointerMotionStopFlag = 0
                     //Log.d("is this working",event.pointerCount.toString())
                     val dx: Float = x - previousX
-                    var dxInt: Int = (dx/1.5).roundToInt()
+                    var dxInt: Int = (dx / 1.5).roundToInt()
 
 
                     if (dxInt > 2047) dxInt = 2047
@@ -37,13 +35,13 @@ class MouseViewListener(val hidDevice: BluetoothHidDevice, val host: BluetoothDe
                     if (dxInt < -2047) dxInt = -2047
 
                     val dy: Float = y - previousY
-                    var dyInt: Int = (dy/1.5).roundToInt()
+                    var dyInt: Int = (dy / 1.5).roundToInt()
                     if (dyInt > 2047) dyInt = 2047
 
 
                     if (dyInt < -2047) dyInt = -2047
 
-                    rMouseSender.sendMouseMove(dxInt,dyInt)
+                    rMouseSender.sendMouseMove(dxInt, dyInt)
                     /*
                     var bytesArrX = ByteArray(2) { 0 }
                     var buffX: ByteBuffer = ByteBuffer.wrap(bytesArrX)
@@ -68,18 +66,17 @@ class MouseViewListener(val hidDevice: BluetoothHidDevice, val host: BluetoothDe
                     hidDevice.sendReport(this.host, 4, rMouseSender.mouseReport.bytes)*/
 
 
-                }
-                else {
-                    if(pointerMotionStopFlag==0) {
-                        rMouseSender.sendMouseMove(0,0)
+                } else {
+                    if (pointerMotionStopFlag == 0) {
+                        rMouseSender.sendMouseMove(0, 0)
                     }
-                    pointerMotionStopFlag=1
+                    pointerMotionStopFlag = 1
 
                 }
 
             }
-            MotionEvent.ACTION_UP->{
-                rMouseSender.sendMouseMove(0,0)
+            MotionEvent.ACTION_UP -> {
+                rMouseSender.sendMouseMove(0, 0)
                 /*
                 rMouseSender.mouseReport.dxMsb =0
                 rMouseSender.mouseReport.dxLsb = 0
@@ -99,10 +96,6 @@ class MouseViewListener(val hidDevice: BluetoothHidDevice, val host: BluetoothDe
         return true
 
     }
-
-
-
-
 
 
 }

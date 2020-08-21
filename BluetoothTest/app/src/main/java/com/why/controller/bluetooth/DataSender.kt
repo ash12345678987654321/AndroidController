@@ -17,7 +17,7 @@ class DataSender : Thread() {
             }
             //println(ControllerActivity.cmd.toString())
             if (ControllerActivity.cmd.isNotEmpty()) {
-                Log.d("ZZZ", "Command: " + ControllerActivity.cmd)
+                //Log.d("ZZZ", "Command: " + ControllerActivity.cmd)
                 command = ControllerActivity.cmd.toString().split("\u0000") //this is escape character in kotlin because kotlin is fucking good
 
                 for (i in command.dropLast(1)) {
@@ -35,7 +35,6 @@ class DataSender : Thread() {
 
         when (cmmd[0]) {
             "D" -> {
-                Log.d("ZZZ", "Pressing down " + cmmd[1])
                 keyDown(cmmd[1])
             }
             "U" -> {
@@ -45,10 +44,8 @@ class DataSender : Thread() {
                 keyPress(cmmd[1])
             }
             "J" -> {
-                val temp=cmmd[1].split(" ")
-                Log.d("ZZZ",temp.toString())
-
-                mouseVelocity(temp[0].toInt(),temp[1].toInt())
+                val temp = cmmd[1].split(" ")
+                mouseVelocity(temp[0].toInt(), temp[1].toInt())
             }
         }
     }
@@ -118,9 +115,8 @@ class DataSender : Thread() {
         }
     }
 
-    fun mouseVelocity(dx: Int,dy: Int){
-        Log.d("ZZZ",""+dx+" "+dy)
-        Main.mouse?.sendMouseMove(dx,dy)
+    fun mouseVelocity(dx: Int, dy: Int) {
+        Main.mouse?.sendMouseMove(dx, dy)
     }
 }
 
