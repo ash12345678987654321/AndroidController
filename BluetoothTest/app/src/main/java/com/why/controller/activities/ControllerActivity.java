@@ -369,12 +369,14 @@ public class ControllerActivity extends AppCompatActivity {
 
                     cmd.append(output.setPos(x, y));
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    cmd.append(output.setPos(0, 0));
-
+                    Log.d("ZZZ","released");
                     layoutParams = (RelativeLayout.LayoutParams) pointer.getLayoutParams();
                     layoutParams.leftMargin = marginLeft + (diameter - diameter / 4) / 2;
                     layoutParams.topMargin = marginTop + (diameter - diameter / 4) / 2;
                     pointer.setLayoutParams(layoutParams);
+
+                    cmd.append(output.setPos(0, 0));
+                    Log.d("ZZZ",cmd.toString());
                 }
                 return true;
             }
