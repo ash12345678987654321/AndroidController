@@ -11,14 +11,14 @@ import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.why.bluetoothtouchpad2.bluetooth.BluetoothController
+import com.why.bluetoothtouchpad2.bluetooth.MouseSender
+import com.why.bluetoothtouchpad2.bluetooth.Sender
 import com.why.controller.R
 import com.why.controller.bluetooth.KeyboardSender
 import com.why.controller.bluetooth.Main
 import com.why.controller.bluetooth.Main.keyboard
 import com.why.controller.bluetooth.Main.mouse
-import com.why.bluetoothtouchpad2.bluetooth.BluetoothController
-import com.why.bluetoothtouchpad2.bluetooth.MouseSender
-import com.why.bluetoothtouchpad2.bluetooth.Sender
 import java.io.File
 import java.io.PrintWriter
 import java.util.*
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         if (!path.exists()) {
             path.mkdir()
         }
-        if (path.listFiles().isNullOrEmpty()){
+        if (path.listFiles().isNullOrEmpty()) {
             createMacros()
         }
         path = File("$filesDir/layouts/")
@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         if (!path.exists()) {
             path.mkdir()
         }
-        if (path.listFiles().isNullOrEmpty()){
+        if (path.listFiles().isNullOrEmpty()) {
             createLayouts()
         }
         for (i in path.listFiles()!!) {
@@ -394,15 +394,15 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         Main.init(this.applicationContext)
-        Log.d("ZZZ","eoiugneoigrng")
+        Log.d("ZZZ", "eoiugneoigrng")
         BluetoothController.getSender { hid, device ->
-            Log.d("ZZZ","BL very good")
-            Main.connected=true
+            Log.d("ZZZ", "BL very good")
+            Main.connected = true
 
             val mainHandler = Handler(this.mainLooper)
             mainHandler.post {
                 mouse = MouseSender(hid, device)
-                keyboard = KeyboardSender(hid,device)
+                keyboard = KeyboardSender(hid, device)
                 m = Sender(mouse!!, hid, device)
                 Toast.makeText(applicationContext, "Bluetooth is connected!", Toast.LENGTH_LONG).show()
 
@@ -412,11 +412,11 @@ class MainActivity : AppCompatActivity() {
 
         BluetoothController.getDisconnector {
             val mainHandler = Handler(this.mainLooper)
-            mainHandler.post { println("byebyebye")
-                Main.connected=false
+            mainHandler.post {
+                println("byebyebye")
+                Main.connected = false
             }
         }
-
 
 
     }

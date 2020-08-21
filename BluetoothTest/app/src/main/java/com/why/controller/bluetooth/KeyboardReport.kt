@@ -144,6 +144,7 @@ inline class KeyboardReport (
                 "backspace" to 42,
                 "tab" to 43,
                 "space" to 44,
+                " " to 44, //肏你妈
                 "-" to 45,
                 "=" to 46,
                 "(" to 47,

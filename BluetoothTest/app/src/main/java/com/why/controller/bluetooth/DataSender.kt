@@ -2,111 +2,116 @@ package com.why.controller.bluetooth
 
 import android.util.Log
 import com.why.controller.activities.ControllerActivity
-import com.why.controller.activities.MainActivity
-import java.util.regex.Pattern
 
 
 class DataSender : Thread() {
-    lateinit var command:List<String>
+    lateinit var command: List<String>
 
     override fun run() {
         println("datasender running")
 
         while (true) {
-           if (isInterrupted){
-                Log.d("ZZZ","interrupted I am dead now "+hashCode());
+            if (isInterrupted) {
+                Log.d("ZZZ", "interrupted I am dead now " + hashCode())
                 return
             }
             //println(ControllerActivity.cmd.toString())
             if (ControllerActivity.cmd.isNotEmpty()) {
-                Log.d("ZZZ","Command: "+ ControllerActivity.cmd);
+                Log.d("ZZZ", "Command: " + ControllerActivity.cmd)
                 command = ControllerActivity.cmd.toString().split("\u0000") //this is escape character in kotlin because kotlin is fucking good
-                for (i in command){
+
+                for (i in command.dropLast(1)) {
                     control(i)
                 }
-                ControllerActivity.cmd.setLength(0);
+                ControllerActivity.cmd.setLength(0)
 
 
             }
         }
     }
 
-    fun control(cmd:String){
-        val cmmd=cmd.split(" ")
+    fun control(cmd: String) {
+        val cmmd = cmd.split(" ", limit = 2)
 
-        when(cmmd[0]){
-            "D"->{
-                Log.d("ZZZ", "Pressing down "+cmmd[1])
+        Log.d("ZZZ", "loli hunter " + cmmd.toString() + " ; " + cmd)
+
+        when (cmmd[0]) {
+            "D" -> {
+                Log.d("ZZZ", "Pressing down " + cmmd[1])
                 keyDown(cmmd[1])
             }
-            "U"->{
+            "U" -> {
                 keyUp(cmmd[1])
             }
-            "T"->{
+            "T" -> {
                 keyPress(cmmd[1])
             }
         }
     }
 
-    fun keyDown(cmd:String){
+    fun keyDown(cmd: String) {
         println(cmd)
-        when(cmd){
-            "m1"->{
+        when (cmd) {
+            "m1" -> {
                 Main.mouse?.sendLeftClickOn()
             }
-            "m2"->{
+            "m2" -> {
                 Main.mouse?.sendRightClickOn()
             }
-            "m3"->{
+            "m3" -> {
                 //TODO: middle click in HID ident and send data
             }
-            "alt"->{
-                Main.keyboard?.keyboardReport?.rightAlt=true
+            "alt" -> {
+                Main.keyboard?.keyboardReport?.rightAlt = true
             }
-            "shift"->{
-                Main.keyboard?.keyboardReport?.rightShift=true
+            "shift" -> {
+                Main.keyboard?.keyboardReport?.rightShift = true
             }
-            "ctrl"->{
-                Main.keyboard?.keyboardReport?.rightControl=true
+            "ctrl" -> {
+                Main.keyboard?.keyboardReport?.rightControl = true
             }
-            else->{
-                Log.d("ZZZ",cmd)
+            else -> {
+                Log.d("ZZZ", cmd)
                 Log.d("ZZZ", KeyboardReport.KeyEventMap[cmd].toString())
                 Main.keyboard?.sendKeyOn(KeyboardReport.KeyEventMap[cmd])
             }
         }
     }
 
-    fun keyUp(cmd:String){
-        when(cmd){
-            "m1"->{
+    fun keyUp(cmd: String) {
+        when (cmd) {
+            "m1" -> {
                 Main.mouse?.sendLeftClickOff()
             }
-            "m2"->{
+            "m2" -> {
                 Main.mouse?.sendRightClickOff()
             }
-            "m3"->{
+            "m3" -> {
                 //TODO: middle click in HID ident and send data
             }
-            "alt"->{
-                Main.keyboard?.keyboardReport?.rightAlt=false
+            "alt" -> {
+                Main.keyboard?.keyboardReport?.rightAlt = false
             }
-            "shift"->{
-                Main.keyboard?.keyboardReport?.rightShift=false
+            "shift" -> {
+                Main.keyboard?.keyboardReport?.rightShift = false
             }
-            "ctrl"->{
-                Main.keyboard?.keyboardReport?.rightControl=false
+            "ctrl" -> {
+                Main.keyboard?.keyboardReport?.rightControl = false
             }
-            else->{
+            else -> {
                 Main.keyboard?.sendKeyOff()
             }
         }
     }
 
-    fun keyPress(cmd:String){
-        Main.keyboard?.sendKeyOn(KeyboardReport.KeyEventMap[cmd])
-        //Thread.sleep(1) //uncomment if latency screws stuff up
-        Main.keyboard?.sendKeyOff()
+    fun keyPress(cmd: String) {
+        Log.d("ZZZ", cmd)
+
+        for (x in 0 until cmd.length) {
+            Main.keyboard?.sendKeyOn(KeyboardReport.KeyEventMap[cmd[x].toString()])
+            Main.keyboard?.sendKeyOff()
+            //Thread.sleep(1) //uncomment if latency screws stuff up
+        }
     }
 }
 

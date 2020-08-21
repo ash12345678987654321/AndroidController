@@ -1,7 +1,6 @@
 package com.why.controller.activities;
 
 import android.annotation.SuppressLint;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -12,14 +11,13 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.preference.PreferenceManager;
 
 import com.why.controller.R;
+import com.why.controller.bluetooth.DataSender;
 import com.why.controller.bluetooth.Main;
 import com.why.controller.controllerData.Btn;
 import com.why.controller.controllerData.Dpad;
 import com.why.controller.controllerData.Macro;
-import com.why.controller.bluetooth.DataSender;
 
 import java.io.File;
 import java.util.Scanner;
@@ -158,7 +156,7 @@ public class ControllerActivity extends AppCompatActivity {
         ds = new DataSender();
         ds.start();
 
-        Log.d("ZZZ","Data being sent");
+        Log.d("ZZZ", "Data being sent");
     }
 
     @Override
@@ -173,7 +171,7 @@ public class ControllerActivity extends AppCompatActivity {
         }
 
         ds.interrupt(); //stop the app from sending anything when not running
-        Log.d("ZZZ","Data stoppped being sent");
+        Log.d("ZZZ", "Data stoppped being sent");
     }
 
     @Override
