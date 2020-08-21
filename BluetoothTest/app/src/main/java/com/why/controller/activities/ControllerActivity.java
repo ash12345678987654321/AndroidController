@@ -58,10 +58,6 @@ public class ControllerActivity extends AppCompatActivity {
             return;
         }
 
-
-        ds = new DataSender();
-        ds.start();
-        System.out.println("datasender started");
         /*try {
             String port_raw = sharedPreferences.getString("port", "2764");
             port = Integer.parseInt(port_raw);
@@ -162,7 +158,7 @@ public class ControllerActivity extends AppCompatActivity {
         ds = new DataSender();
         ds.start();
 
-        //Log.d("ZZZ","Data being sent");
+        Log.d("ZZZ","Data being sent");
     }
 
     @Override
@@ -177,7 +173,7 @@ public class ControllerActivity extends AppCompatActivity {
         }
 
         ds.interrupt(); //stop the app from sending anything when not running
-        //Log.d("ZZZ","Data stoppped being sent");
+        Log.d("ZZZ","Data stoppped being sent");
     }
 
     @Override

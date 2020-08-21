@@ -13,17 +13,16 @@ class DataSender : Thread() {
         println("datasender running")
 
         while (true) {
-            if (isInterrupted){
-                println("interrupted")
+           if (isInterrupted){
+                Log.d("ZZZ","interrupted I am dead now "+hashCode());
                 return
             }
             //println(ControllerActivity.cmd.toString())
             if (ControllerActivity.cmd.isNotEmpty()) {
-                //Log.d("ZZZ","Command: "+ ControllerActivity.cmd);
-                command = ControllerActivity.cmd.toString().split("\\0")
+                Log.d("ZZZ","Command: "+ ControllerActivity.cmd);
+                command = ControllerActivity.cmd.toString().split("\u0000") //this is escape character in kotlin because kotlin is fucking good
                 for (i in command){
-                    control(i.dropLast(1))
-                    println("not ded")
+                    control(i)
                 }
                 ControllerActivity.cmd.setLength(0);
 
@@ -33,11 +32,11 @@ class DataSender : Thread() {
     }
 
     fun control(cmd:String){
-        val cmmd = arrayOf(cmd[0].toString(),cmd.drop(1))
+        val cmmd=cmd.split(" ")
 
         when(cmmd[0]){
             "D"->{
-                println(cmmd[0]+cmmd[1])
+                Log.d("ZZZ", "Pressing down "+cmmd[1])
                 keyDown(cmmd[1])
             }
             "U"->{
@@ -71,11 +70,9 @@ class DataSender : Thread() {
                 Main.keyboard?.keyboardReport?.rightControl=true
             }
             else->{
-                print("'")
-                print(cmd)
-                println("'")
-                println(KeyboardReport.KeyEventMap[cmd])
-                Main.keyboard?.sendKeyOn(KeyboardReport.KeyEventMap[cmd.drop(1)])
+                Log.d("ZZZ",cmd)
+                Log.d("ZZZ", KeyboardReport.KeyEventMap[cmd].toString())
+                Main.keyboard?.sendKeyOn(KeyboardReport.KeyEventMap[cmd])
             }
         }
     }
