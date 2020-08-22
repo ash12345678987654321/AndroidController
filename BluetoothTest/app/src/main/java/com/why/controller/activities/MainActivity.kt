@@ -325,7 +325,7 @@ class MainActivity : AppCompatActivity() {
         btn.width = diameter
         btn.minimumHeight = 0
         btn.minimumWidth = 0
-        btn.setBackgroundResource(R.drawable.dpad)
+        btn.setBackgroundResource(R.drawable.dpad_cross)
         relativeLayout!!.addView(btn)
         val layoutParams = btn.layoutParams as RelativeLayout.LayoutParams
         layoutParams.leftMargin = marginLeft

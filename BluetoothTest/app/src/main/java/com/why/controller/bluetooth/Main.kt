@@ -9,6 +9,8 @@ import com.why.bluetoothtouchpad2.bluetooth.MouseSender
 
 object Main {
     lateinit var c: Context
+
+    @JvmField //this is actually fucked
     var mouse: MouseSender? = null
     var keyboard: KeyboardSender? = null
     var mp: MediaPlayer? = null

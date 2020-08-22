@@ -366,17 +366,14 @@ public class ControllerActivity extends AppCompatActivity {
                     layoutParams.leftMargin = (int) (marginLeft + x * dist) + (diameter - diameter / 4) / 2;
                     layoutParams.topMargin = (int) (marginTop + y * dist) + (diameter - diameter / 4) / 2;
                     pointer.setLayoutParams(layoutParams);
-
-                    cmd.append(output.setPos(x, y));
+                    output.setPos(x, y);
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    Log.d("ZZZ","released");
                     layoutParams = (RelativeLayout.LayoutParams) pointer.getLayoutParams();
                     layoutParams.leftMargin = marginLeft + (diameter - diameter / 4) / 2;
                     layoutParams.topMargin = marginTop + (diameter - diameter / 4) / 2;
                     pointer.setLayoutParams(layoutParams);
 
-                    cmd.append(output.setPos(0, 0));
-                    Log.d("ZZZ",cmd.toString());
+                    output.setPos(0, 0);
                 }
                 return true;
             }

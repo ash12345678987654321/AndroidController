@@ -283,7 +283,7 @@ public class EditActivity extends AppCompatActivity {
 
         btn.setTag(tag);
 
-        btn.setBackgroundResource(R.drawable.dpad);
+        btn.setBackgroundResource(R.drawable.dpad_cross);
 
         layout.addView(btn);
 

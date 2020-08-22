@@ -17,20 +17,15 @@ class DataSender : Thread() {
             }
             //println(ControllerActivity.cmd.toString())
             if (ControllerActivity.cmd.isNotEmpty()) {
-                proc()
+                Log.d("ZZZ", "Command: " + ControllerActivity.cmd)
+                command = ControllerActivity.cmd.toString().split("\u0000") //this is escape character in kotlin because kotlin is fucking good
+
+                for (i in command.dropLast(1)) {
+                    control(i)
+                }
+                ControllerActivity.cmd.setLength(0)
             }
         }
-    }
-
-    @Synchronized
-    fun proc(){
-        Log.d("ZZZ", "Command: " + ControllerActivity.cmd)
-        command = ControllerActivity.cmd.toString().split("\u0000") //this is escape character in kotlin because kotlin is fucking good
-
-        for (i in command.dropLast(1)) {
-            control(i)
-        }
-        ControllerActivity.cmd.setLength(0)
     }
 
     fun control(cmd: String) {
@@ -45,10 +40,6 @@ class DataSender : Thread() {
             }
             "T" -> {
                 keyPress(cmmd[1])
-            }
-            "J" -> {
-                val temp = cmmd[1].split(" ")
-                mouseVelocity(temp[0].toInt(), temp[1].toInt())
             }
         }
     }
